@@ -2612,7 +2612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -16
+  newOrthographicSize: 10
   newYPosition: 31
 --- !u!4 &111143265
 Transform:
@@ -9962,7 +9962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -100
+  newOrthographicSize: 10
   newYPosition: 4
 --- !u!4 &439262815
 Transform:
@@ -11953,7 +11953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -17
+  newOrthographicSize: 10
   newYPosition: 9
 --- !u!4 &537277474
 Transform:
@@ -13307,7 +13307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -15
+  newOrthographicSize: 10
   newYPosition: 3
 --- !u!4 &651010945
 Transform:
@@ -13959,7 +13959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -20
+  newOrthographicSize: 10
   newYPosition: 17
 --- !u!4 &672596008
 Transform:
@@ -21307,6 +21307,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194230}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -21423,6 +21424,18 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8feb042385c2e5941a405017f5a5be27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &963846021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22948,7 +22961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -17
+  newOrthographicSize: 10
   newYPosition: 4
 --- !u!4 &1048979816
 Transform:
@@ -23016,7 +23029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -13
+  newOrthographicSize: 10
   newYPosition: 3
 --- !u!4 &1049132321
 Transform:
@@ -24093,7 +24106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -20
+  newOrthographicSize: 10
   newYPosition: 24
 --- !u!4 &1098795733
 Transform:
@@ -27423,8 +27436,8 @@ MonoBehaviour:
   fogColorStart: {r: 0.6981132, g: 0.57019186, b: 0.43796724, a: 1}
   fogColorEnd: {r: 1.7169812, g: 1.0209006, b: 0.62362045, a: 1}
   fogColorDuo: 1
-  fogDistanceStart: 13.3
-  fogDistanceEnd: 31.8
+  fogDistanceStart: 30
+  fogDistanceEnd: 100
   fogDistanceFalloff: 1
   fogHeightStart: 0
   fogHeightEnd: 15
@@ -29939,7 +29952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -13
+  newOrthographicSize: 10
   newYPosition: 4
 --- !u!4 &1379071894
 Transform:
@@ -30861,7 +30874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc414b6405d5df749802404d116bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newOffsetZ: -17
+  newOrthographicSize: 10
   newYPosition: 9
 --- !u!4 &1412620884
 Transform:
