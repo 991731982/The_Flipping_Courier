@@ -180,8 +180,53 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 79f44e7835a6c82478d0723cea0b7349, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8641601862247512933}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 79f44e7835a6c82478d0723cea0b7349, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6994036260340317404}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 79f44e7835a6c82478d0723cea0b7349, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1977507885360077005}
   m_SourcePrefab: {fileID: 100100000, guid: 79f44e7835a6c82478d0723cea0b7349, type: 3}
+--- !u!1 &3659405699204864244 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 79f44e7835a6c82478d0723cea0b7349, type: 3}
+  m_PrefabInstance: {fileID: 4470310580093740453}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &-6994036260340317404
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3659405699204864244}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1473956402711506593, guid: 79f44e7835a6c82478d0723cea0b7349, type: 3}
+--- !u!114 &1977507885360077005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3659405699204864244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c6c5f4da50c19c418cb932c560ec24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4144159057660674638 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 79f44e7835a6c82478d0723cea0b7349, type: 3}
