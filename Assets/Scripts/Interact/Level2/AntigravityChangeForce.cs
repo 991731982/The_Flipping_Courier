@@ -43,7 +43,7 @@ public class AntigravityChangeForce : MonoBehaviour
         rb.useGravity = false;
 
         // 設置速度為 0，防止物體隨機亂飄
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
 
         // 施加增強的反重力
         if (gravityController.gravityFlipped)

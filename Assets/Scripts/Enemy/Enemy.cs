@@ -66,10 +66,10 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
 
         // Preserve the current Y (vertical) velocity for gravity
-        Vector3 velocity = new Vector3(direction.x * moveSpeed, rb.velocity.y, direction.z * moveSpeed);
+        Vector3 velocity = new Vector3(direction.x * moveSpeed, rb.linearVelocity.y, direction.z * moveSpeed);
 
         // Apply velocity to the Rigidbody to move the enemy horizontally while maintaining gravity
-        rb.velocity = velocity;
+        rb.linearVelocity = velocity;
     }
 
     private void OnCollisionEnter(Collision collision)

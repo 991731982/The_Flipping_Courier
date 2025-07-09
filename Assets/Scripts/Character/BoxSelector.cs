@@ -4,29 +4,29 @@ using TMPro;
 
 public class BoxSelector : MonoBehaviour
 {
-    public TextMeshProUGUI countdownText;// ÒýÓÃµ¹¼ÆÊ±µÄ TextMeshProUGUI ×é¼þ
+    public TextMeshProUGUI countdownText;// ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ê±ï¿½ï¿½ TextMeshProUGUI ï¿½ï¿½ï¿½
     private GameObject selectedObject;
     private bool isSelecting = false;
-    private float countdownTime = 6f; // µ¹¼ÆÊ±Ê±¼ä
+    private float countdownTime = 6f; // ï¿½ï¿½ï¿½ï¿½Ê±Ê±ï¿½ï¿½
 
     void Update()
     {
-        // µ±°´ÏÂ C ¼üÊ±¿ªÊ¼Ñ¡Ôñ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ C ï¿½ï¿½Ê±ï¿½ï¿½Ê¼Ñ¡ï¿½ï¿½
         if (Input.GetKeyDown(KeyCode.C))
         {
             isSelecting = true;
-            countdownTime = 6f; // ÖØÖÃµ¹¼ÆÊ±Ê±¼ä
-            countdownText.gameObject.SetActive(true); // ÏÔÊ¾µ¹¼ÆÊ±ÎÄ±¾
-            StartCoroutine(CountdownCoroutine()); // Æô¶¯µ¹¼ÆÊ±Ð­³Ì
+            countdownTime = 6f; // ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ê±Ê±ï¿½ï¿½
+            countdownText.gameObject.SetActive(true); // ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ä±ï¿½
+            StartCoroutine(CountdownCoroutine()); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ð­ï¿½ï¿½
         }
 
-        // Èç¹ûÕýÔÚÑ¡ÔñÇÒ°´×¡ C ¼ü£¬Ñ¡Ôñ×î½üµÄ box
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ò°ï¿½×¡ C ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ box
         if (isSelecting && Input.GetKey(KeyCode.C))
         {
             SelectBox();
         }
 
-        // ËÉ¿ª C ¼üÊ±£¬Í£Ö¹Ñ¡ÖÐÎïÌå 6 Ãëºó»Ö¸´ÖØÁ¦
+        // ï¿½É¿ï¿½ C ï¿½ï¿½Ê±ï¿½ï¿½Í£Ö¹Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6 ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½
         if (isSelecting && Input.GetKeyUp(KeyCode.C) && selectedObject != null)
         {
             StartCoroutine(StopSelectedObjectTemporarily());
@@ -39,7 +39,7 @@ public class BoxSelector : MonoBehaviour
 
     void SelectBox()
     {
-        // ²éÕÒ³¡¾°ÖÐËùÓÐ´øÓÐ "box" ±êÇ©µÄÎïÌå
+        // ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ "box" ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         GameObject[] boxes = GameObject.FindGameObjectsWithTag("float");
         float closestDistance = Mathf.Infinity;
 
@@ -53,7 +53,7 @@ public class BoxSelector : MonoBehaviour
             }
         }
 
-        // ¿ÉÑ¡£º¸ßÁÁÏÔÊ¾Ñ¡ÖÐµÄÎïÌå
+        // ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Ñ¡ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
         if (selectedObject != null)
         {
             selectedObject.GetComponent<Renderer>().material.color = Color.red;
@@ -67,15 +67,15 @@ public class BoxSelector : MonoBehaviour
             Rigidbody rb = selectedObject.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                // ÔÝÊ±¾²Ö¹ÎïÌå
-                rb.velocity = Vector3.zero;
+                // ï¿½ï¿½Ê±ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½
+                rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
                 rb.isKinematic = true;
 
-                // µÈ´ý 6 Ãë
+                // ï¿½È´ï¿½ 6 ï¿½ï¿½
                 yield return new WaitForSeconds(6f);
 
-                // »Ö¸´ÖØÁ¦
+                // ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½
                 rb.isKinematic = false;
             }
         }
@@ -90,7 +90,7 @@ public class BoxSelector : MonoBehaviour
             yield return null;
         }
 
-        // µ¹¼ÆÊ±½áÊøºóÒþ²ØÎÄ±¾
+        // ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½
         countdownText.gameObject.SetActive(false);
     }
 }
