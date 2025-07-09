@@ -65,6 +65,6 @@ public class PlayerShooting : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
 
         rb.useGravity = false; // 关闭子弹重力
-        rb.velocity = shootingPoint.right * bulletSpeed; // 沿X-Y轴方向发射
+        rb.linearVelocity = shootingPoint.right * bulletSpeed; // 沿X-Y轴方向发射
     }
 }

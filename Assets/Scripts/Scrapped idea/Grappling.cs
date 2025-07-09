@@ -101,7 +101,7 @@ public class GrapplingMechanic : MonoBehaviour
         joint.yMotion = ConfigurableJointMotion.Limited;
         joint.zMotion = ConfigurableJointMotion.Limited;
 
-        rb.drag = airDrag;
+        rb.linearDamping = airDrag;
     }
 
     private void HandleSwingingInput()
@@ -178,7 +178,7 @@ public class GrapplingMechanic : MonoBehaviour
         }
 
         isSwinging = false;
-        rb.drag = 0f;
+        rb.linearDamping = 0f;
     }
 
     private void OnDrawGizmosSelected()

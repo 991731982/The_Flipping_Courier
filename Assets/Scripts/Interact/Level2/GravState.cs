@@ -30,7 +30,7 @@ public class GravState : MonoBehaviour
         if (rb != null)
         {
             originalMass = rb.mass;
-            originalDrag = rb.drag;
+            originalDrag = rb.linearDamping;
             currentState = originalState;  // 初始狀態
 
             UnityEngine.Debug.Log($"{gameObject.name} 初始质量: {originalMass}, 初始阻力: {originalDrag}");
@@ -60,17 +60,17 @@ public class GravState : MonoBehaviour
         {
             currentState = Bullet.BulletType.Heavy;
             rb.mass = originalMass * heavyMultiplier;
-            rb.drag = 0f;
+            rb.linearDamping = 0f;
             rb.useGravity = true;
-            UnityEngine.Debug.Log($"{gameObject.name} 变成 Heavy, mass={rb.mass}, drag={rb.drag}");
+            UnityEngine.Debug.Log($"{gameObject.name} 变成 Heavy, mass={rb.mass}, drag={rb.linearDamping}");
         }
         else // bulletType == Bullet.BulletType.Light
         {
             currentState = Bullet.BulletType.Light;
             rb.mass = originalMass * 0.5f;
-            rb.drag = lightDrag;
+            rb.linearDamping = lightDrag;
             rb.useGravity = true;
-            UnityEngine.Debug.Log($"{gameObject.name} 变成 Light, mass={rb.mass}, drag={rb.drag}");
+            UnityEngine.Debug.Log($"{gameObject.name} 变成 Light, mass={rb.mass}, drag={rb.linearDamping}");
         }
 
         StopAllCoroutines();  // 防止效果疊加
@@ -82,10 +82,10 @@ public class GravState : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         rb.mass = originalMass;
-        rb.drag = originalDrag;
+        rb.linearDamping = originalDrag;
         currentState = originalState;  // 恢复初始状态
 
-        UnityEngine.Debug.Log($"{gameObject.name} 效果结束，恢复原始状态: mass={rb.mass}, drag={rb.drag}");
+        UnityEngine.Debug.Log($"{gameObject.name} 效果结束，恢复原始状态: mass={rb.mass}, drag={rb.linearDamping}");
     }
 
     void FixedUpdate()

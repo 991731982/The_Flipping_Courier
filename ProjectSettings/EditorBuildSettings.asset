@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Protected/MainMenu.unity
     guid: 988d81298d1551b4e9b7578142ee6606
   - enabled: 1
-    path: Assets/ChoosePlanetMenu/PanelMenu.unity
+    path: Assets/Scenes/Protected/PanelMenu.unity
     guid: 0bfc69b0009a5fe4d838b199d4f82ff2
   - enabled: 1
     path: Assets/Scenes/Protected/Protect-Level1.unity
@@ -21,3 +21,4 @@ EditorBuildSettings:
     path: Assets/Scenes/Test/Map.unity
     guid: e4cf37beaac3dcf4c9b4c83eb53fad9b
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

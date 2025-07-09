@@ -53,7 +53,7 @@ public class CubeCharacterController : MonoBehaviour
         }
 
         // Cap horizontal movement speed
-        rb.velocity = new Vector3(moveDirection.x, rb.velocity.y, rb.velocity.z);
+        rb.linearVelocity = new Vector3(moveDirection.x, rb.linearVelocity.y, rb.linearVelocity.z);
 
         // 如果有移动方向，则更新角色朝向
         if (moveDirection.x != 0)

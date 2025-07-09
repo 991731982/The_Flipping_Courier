@@ -8,32 +8,32 @@ public class ResettableObject : MonoBehaviour
 
     void Start()
     {
-        // ¼ÇÂ¼³õÊ¼Î»ÖÃºÍĞı×ª
+        // ï¿½ï¿½Â¼ï¿½ï¿½Ê¼Î»ï¿½Ãºï¿½ï¿½ï¿½×ª
         originalPosition = transform.position;
         originalRotation = transform.rotation;
 
-        // »ñÈ¡¸ÕÌå×é¼ş£¨Èç¹ûÓĞ£©
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½
         rb = GetComponent<Rigidbody>();
     }
 
-    // ÖØÖÃÎïÌåÎ»ÖÃºÍĞı×ª£¨ºöÂÔ´øÓĞ Enemy ±êÇ©µÄÎïÌå£©
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ãºï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ Enemy ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ï¿½å£©
     public void ResetPosition()
     {
-        // ¼ì²éÊÇ·ñÎª Enemy ±êÇ©
+        // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îª Enemy ï¿½ï¿½Ç©
         if (CompareTag("Enemy"))
         {
-            // Èç¹ûÊÇ Enemy£¬Ö±½Ó·µ»Ø£¬²»½øĞĞÖØÖÃ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ Enemyï¿½ï¿½Ö±ï¿½Ó·ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             return;
         }
 
-        // ÖØÖÃÎ»ÖÃºÍĞı×ª
+        // ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ãºï¿½ï¿½ï¿½×ª
         transform.position = originalPosition;
         transform.rotation = originalRotation;
 
-        // ÖØÖÃ¸ÕÌåËÙ¶È
+        // ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
         if (rb != null)
         {
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
     }

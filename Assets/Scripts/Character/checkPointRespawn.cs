@@ -51,7 +51,7 @@ public class checkPointRespawn : MonoBehaviour
 
         // Set the player's position to the new respawn position with the offset
         transform.position = respawnPosition;
-        rb.velocity = Vector3.zero; // Reset the player's velocity
+        rb.linearVelocity = Vector3.zero; // Reset the player's velocity
         gravityController.gravityFlipped = false;  // Set gravity state back to normal
         Physics.gravity = new Vector3(0, -20f, 0);  // Set gravity to default direction (downward)
 
