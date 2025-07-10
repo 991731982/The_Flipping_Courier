@@ -74,9 +74,14 @@ public class CubeCharacterController : MonoBehaviour
         if (isGrounded && moveDirection.x != 0)
         {
             float direction = moveDirection.x > 0 ? 1f : -1f;
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Abs(scale.x) * direction;
-            transform.localScale = scale;
+
+            // Rotate to face direction
+            Quaternion targetRotation = Quaternion.LookRotation(
+                new Vector3(-direction, 0f, 0f),  // Forward (face left or right)
+                gravityController.gravityFlipped ? Vector3.down : Vector3.up // Up direction based on gravity
+            );
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
 
         // Adjust up direction for gravity flip

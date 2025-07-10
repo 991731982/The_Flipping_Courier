@@ -4,35 +4,37 @@ using UnityEngine;
 public class GravityController : MonoBehaviour
 {
     private Rigidbody rb;
-    public bool gravityFlipped = false;
-    public float rotationSpeed = 2.0f; // 旋转过渡速度
+    public bool gravityFlipped = false; // True = gravity up, False = gravity down
+    public float rotationSpeed = 2.0f; // Rotation smoothing speed
 
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !gravityFlipped && CanFlipGravity())
         {
-            if (CanFlipGravity())
-            {
-                FlipGravity();
-                Debug.Log("Gravity flipped successfully.");
-            }
+            FlipGravity(true); // Flip up
+            Debug.Log("Gravity flipped up.");
+        }
+
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) && gravityFlipped && CanFlipGravity())
+        {
+            FlipGravity(false); // Flip down
+            Debug.Log("Gravity flipped down.");
         }
     }
 
-    public void FlipGravity()
+    public void FlipGravity(bool flipUp)
     {
-        // 反转重力状态
-        gravityFlipped = !gravityFlipped;
+        gravityFlipped = flipUp;
 
-        // 更新重力方向
+        // Set gravity direction
         Physics.gravity = gravityFlipped ? new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
 
-        // 启动旋转过渡动画
+        // Start smooth rotation
         float targetZRotation = gravityFlipped ? 180f : 0f;
         StartCoroutine(SmoothRotateZ(targetZRotation));
     }
@@ -41,7 +43,7 @@ public class GravityController : MonoBehaviour
     {
         float currentZRotation = transform.rotation.eulerAngles.z;
 
-        // 修正角度以避免180度跳变
+        // Adjust angles to prevent snap between 0 and 180
         if (currentZRotation > 180f && targetZRotation == 0f)
         {
             currentZRotation -= 360f;
@@ -51,22 +53,29 @@ public class GravityController : MonoBehaviour
             targetZRotation -= 360f;
         }
 
-        // 平滑插值到目标角度，仅修改 Z 轴
+        // Smoothly interpolate to target Z angle
         while (Mathf.Abs(currentZRotation - targetZRotation) > 0.1f)
         {
             currentZRotation = Mathf.Lerp(currentZRotation, targetZRotation, Time.deltaTime * rotationSpeed);
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, currentZRotation);
+            transform.rotation = Quaternion.Euler(
+                transform.rotation.eulerAngles.x,
+                transform.rotation.eulerAngles.y,
+                currentZRotation
+            );
             yield return null;
         }
 
-        // 强制校准，避免误差
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, targetZRotation);
+        // Snap exactly to the target at the end
+        transform.rotation = Quaternion.Euler(
+            transform.rotation.eulerAngles.x,
+            transform.rotation.eulerAngles.y,
+            targetZRotation
+        );
     }
-
 
     bool CanFlipGravity()
     {
-        // 只有在竖直速度很小（接近静止）时才能反转重力
+        // Only flip if vertical velocity is near zero
         bool canFlip = Mathf.Abs(rb.linearVelocity.y) < 0.1f;
         Debug.Log("CanFlipGravity() = " + canFlip);
         return canFlip;
