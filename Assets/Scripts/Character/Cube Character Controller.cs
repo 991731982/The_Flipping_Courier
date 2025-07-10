@@ -10,6 +10,16 @@ public class CubeCharacterController : MonoBehaviour
     public int movementspeed = 5;
     private GravityController gravityController;
 
+    // Jump cooldown
+    private float lastJumpTime = 0f;
+    private float jumpCooldown = 0.25f; // seconds
+
+    // Movement smoothing
+    public float movementSmoothing = 10f;
+
+    // Input toggle
+    private bool inputEnabled = true;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,7 +32,7 @@ public class CubeCharacterController : MonoBehaviour
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-            // Detect ground or roof based on gravity and ignore side contacts
+            // Grounded detection based on contact normal and gravity direction
             if ((!gravityController.gravityFlipped && contact.normal.y > 0.5f) ||
                 (gravityController.gravityFlipped && contact.normal.y < -0.5f))
             {
@@ -33,62 +43,75 @@ public class CubeCharacterController : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
-        // When exiting collision, set grounded to false
+        // Reset grounded flag on collision exit
         isGrounded = false;
     }
 
     void Update()
     {
+        if (!inputEnabled) return; // Skip all movement input if disabled
+
         Vector3 moveDirection = Vector3.zero;
 
-        // Movement input
-        if (Input.GetKey(KeyCode.A))
+        // Read horizontal input
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            moveDirection += Vector3.left * movementspeed;
+            moveDirection += Vector3.left;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            moveDirection += Vector3.right * movementspeed;
+            moveDirection += Vector3.right;
         }
 
-        // Cap horizontal movement speed
-        rb.linearVelocity = new Vector3(moveDirection.x, rb.linearVelocity.y, rb.linearVelocity.z);
+        // Target horizontal velocity
+        Vector3 targetVelocity = new Vector3(moveDirection.x * movementspeed, rb.linearVelocity.y, rb.linearVelocity.z);
 
-        // 如果有移动方向，则更新角色朝向
-        if (moveDirection.x != 0)
+        // Smoothly interpolate to target velocity
+        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.deltaTime * movementSmoothing);
+
+        // Only rotate character while grounded and moving
+        if (isGrounded && moveDirection.x != 0)
         {
-            Vector3 targetForward = gravityController.gravityFlipped
-                ? new Vector3(-moveDirection.x, 0, 0)
-                : new Vector3(-moveDirection.x, 0, 0);
-            Quaternion targetRotation = Quaternion.LookRotation(targetForward, transform.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            float direction = moveDirection.x > 0 ? 1f : -1f;
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Abs(scale.x) * direction;
+            transform.localScale = scale;
         }
 
-
-        // 修正角色的上下方向
+        // Adjust up direction for gravity flip
         FixCharacterUpDirection();
 
-        // Jump input
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        // Jump with cooldown and grounded check
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time - lastJumpTime > jumpCooldown)
         {
             Vector3 jumpDirection = gravityController.gravityFlipped ? roofjump : groundjump;
             rb.AddForce(jumpDirection * jumpForce, ForceMode.Impulse);
-            isGrounded = false; // Prevent further jumps until grounded again
+            isGrounded = false;
+            lastJumpTime = Time.time;
         }
     }
 
-
     private void FixCharacterUpDirection()
     {
-        // 根据重力状态修正角色的上下方向，但保持左右方向
+        // Set the "up" direction depending on gravity flipped state
         Vector3 targetUp = gravityController.gravityFlipped ? Vector3.down : Vector3.up;
+        Vector3 targetForward = transform.forward;
 
-        // 计算修正后的方向，同时保留当前左右方向（通过forward方向）
-        Vector3 targetForward = transform.forward; // 保留当前朝向
+        // Apply smooth orientation fix
         Quaternion targetRotation = Quaternion.LookRotation(targetForward, targetUp);
-
-        // 立即或平滑设置角色的旋转
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+    }
+
+    // Public input toggle methods
+    public void EnableInput()
+    {
+        inputEnabled = true;
+    }
+
+    public void DisableInput()
+    {
+        inputEnabled = false;
+        rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z); // Stop movement when frozen
     }
 }

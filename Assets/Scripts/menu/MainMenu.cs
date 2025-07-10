@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MainMenu : MonoBehaviour
@@ -7,19 +8,20 @@ public class MainMenu : MonoBehaviour
     public string mainMenuScene = "MainMenu";
     public string gameScene = "Protect-Level1";
 
-    public AudioClip startGameSound; // 遊戲開始音效
-    public AudioClip backgroundMusic; // 背景音樂
+    public GameObject mainMenuUI;
+    public AudioClip startGameSound;
+    public AudioClip backgroundMusic;
+    public UIPanelManager panelManager;
+
     private AudioSource audioSource;
 
     private void Start()
     {
-        // 添加 AudioSource
         audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.loop = true; // 讓背景音樂循環播放
-        audioSource.playOnAwake = false; // 不讓 Unity 自動播放
-        audioSource.volume = 0.5f; // 設定音量大小
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
+        audioSource.volume = 0.5f;
 
-        // 播放背景音樂
         if (backgroundMusic != null)
         {
             audioSource.clip = backgroundMusic;
@@ -29,57 +31,70 @@ public class MainMenu : MonoBehaviour
 
     public void LoadGameScene()
     {
-        StartCoroutine(PlayClickAndLoadScene());
+        StartCoroutine(BeginPanelSequence());
     }
 
-    private IEnumerator PlayClickAndLoadScene()
+    private IEnumerator BeginPanelSequence()
     {
-        // 播放點擊音效
-        if (startGameSound != null && audioSource != null)
+        // Optional: play button click SFX
+        if (startGameSound != null)
         {
             audioSource.PlayOneShot(startGameSound);
+            yield return new WaitForSeconds(0.5f); // Wait for SFX
         }
 
-        // 等待音效播放完（假設音效 0.5 秒）
-        yield return new WaitForSeconds(0.5f);
+        // Hide main menu visuals
+        if (mainMenuUI != null)
+            mainMenuUI.SetActive(false);
 
-        // 停止背景音樂
+        // Stop background music
         if (audioSource.isPlaying)
-        {
             audioSource.Stop();
-        }
 
-        // 註冊場景加載回調
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // Hook scene loading to panel completion
+        panelManager.onStoryboardComplete.AddListener(() =>
+        {
+            StartCoroutine(LoadSceneAfterPanels());
+        });
 
-        // 加載遊戲場景
-        SceneManager.LoadScene(gameScene, LoadSceneMode.Additive);
+        // Start panel sequence
+        panelManager.StartStoryboard();
     }
 
+    private IEnumerator LoadSceneAfterPanels()
+    {
+        // Optional fade-out, loading screen, etc. can go here
+
+        // Begin additive scene load
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.LoadScene(gameScene, LoadSceneMode.Additive);
+
+        yield return null; // Wait one frame
+    }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == gameScene)
         {
-            // 设置 SampleScene 为活动场景
+            // Make new scene the active one
             SceneManager.SetActiveScene(scene);
 
-            // 卸载主菜单场景
+            // Unload the main menu scene
             SceneManager.UnloadSceneAsync(mainMenuScene);
 
-            // 更新 Lighting 数据（重要）
+            // Update lighting for baked GI (optional)
             DynamicGI.UpdateEnvironment();
 
-            // 取消回调
+            // Cleanup callback
             SceneManager.sceneLoaded -= OnSceneLoaded;
 
-            UnityEngine.Debug.Log("SampleScene loaded, main menu unloaded, and lighting updated.");
+            Debug.Log("Game scene loaded and main menu scene unloaded.");
         }
     }
 
     public void QuitGame()
     {
-        UnityEngine.Debug.Log("Game is exiting.");
-        UnityEngine.Application.Quit();
+        Debug.Log("Game is exiting.");
+        Application.Quit();
     }
 }
