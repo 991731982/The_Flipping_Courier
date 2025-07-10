@@ -41,7 +41,7 @@ public class Antigravity : MonoBehaviour
         rb.useGravity = false;
 
         // Reset any existing velocity to prevent unwanted movement
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
 
         // If gravity is flipped, apply a downward force; otherwise, apply an upward force
         if (gravityController.gravityFlipped)

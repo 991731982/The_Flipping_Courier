@@ -47,7 +47,7 @@ public class Drag : MonoBehaviour
                 // Start dragging and determine initial side
                 isDragging = true;
                 rb.useGravity = false; // Disable gravity while dragging
-                rb.velocity = Vector3.zero; // Stop any existing velocity
+                rb.linearVelocity = Vector3.zero; // Stop any existing velocity
                 isOnRightSide = transform.position.x >= player.position.x; // Set side based on initial position
             }
         }
@@ -89,7 +89,7 @@ public class Drag : MonoBehaviour
         if (other.transform == player)
         {
             isCollidingWithPlayer = true;
-            rb.velocity = Vector3.zero; // Stop velocity to avoid pushing the player
+            rb.linearVelocity = Vector3.zero; // Stop velocity to avoid pushing the player
             Debug.Log("Object is in contact with the player, movement stopped.");
         }
     }
@@ -111,7 +111,7 @@ public class Drag : MonoBehaviour
         {
             isDragging = false;
             rb.useGravity = true; // Re-enable gravity
-            rb.velocity = Vector3.zero; // Stop all movement
+            rb.linearVelocity = Vector3.zero; // Stop all movement
             Debug.Log("Object collided with another object, dragging stopped.");
         }
     }

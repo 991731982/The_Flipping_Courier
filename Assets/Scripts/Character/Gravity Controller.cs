@@ -67,7 +67,7 @@ public class GravityController : MonoBehaviour
     bool CanFlipGravity()
     {
         // 只有在竖直速度很小（接近静止）时才能反转重力
-        bool canFlip = Mathf.Abs(rb.velocity.y) < 0.1f;
+        bool canFlip = Mathf.Abs(rb.linearVelocity.y) < 0.1f;
         Debug.Log("CanFlipGravity() = " + canFlip);
         return canFlip;
     }
