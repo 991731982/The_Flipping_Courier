@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 
 public class LockOnCollision : MonoBehaviour
 {
@@ -30,25 +30,26 @@ public class LockOnCollision : MonoBehaviour
     void LockObject()
     {
         isLocked = true;
-
-        // 记住当前锁定位置
         lockedPosition = transform.position;
 
-        // 停止物理行为
+        // 停止刚体运动
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
+        // 关闭物理影响
         rb.useGravity = false;
         rb.isKinematic = true;
 
-        // 可选：禁用其他控制脚本，比如拖拽等
-        // GetComponent<YourDragScript>()?.enabled = false;
+
     }
 
-    void LateUpdate()
+    void Update()
     {
-        if (isLocked && transform.position != lockedPosition)
+        if (isLocked)
         {
+            // 强制每帧锁住位置，防止任何代码篡改
             transform.position = lockedPosition;
         }
     }
 }
+*/
