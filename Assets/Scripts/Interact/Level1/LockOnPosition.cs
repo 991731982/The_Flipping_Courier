@@ -1,4 +1,4 @@
-﻿/*using UnityEngine;
+﻿using UnityEngine;
 
 public class LockOnCollision : MonoBehaviour
 {
@@ -52,4 +52,3 @@ public class LockOnCollision : MonoBehaviour
         }
     }
 }
-*/
