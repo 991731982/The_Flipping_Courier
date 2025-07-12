@@ -1,118 +1,128 @@
 ﻿using UnityEngine;
 
-public class Drag : MonoBehaviour
+public class DragObject : MonoBehaviour
 {
-    public Transform player;               // Reference to the player
-    public float dragDistance = 5f;        // Maximum distance to start dragging
-    public float followSpeed = 5f;         // Speed factor for the object to follow the player
-    public Vector3 dragOffset = new Vector3(1f, 0, 1f); // Offset from player position to prevent pushing
-    public float yOffset = 1.5f;           // Adjustable height offset for floating
-    public float gravityOffset = 1.5f;     // Offset applied when gravity is flipped
-    public LayerMask groundLayer;          // Layer mask for the ground
+    public Transform player;
+    public float dragDistance = 5f;
+    public float followSpeed = 5f;
+    public Vector3 dragOffset = new Vector3(1f, 0, 1f); // X:左右偏移, Z:前后偏移
+    public float yOffset = 1.5f;
+    public float gravityOffset = 1.5f;
 
-    private bool isDragging = false;
-    private bool isCollidingWithPlayer = false; // Flag to stop movement if in contact with player
+    [Header("碰撞检测")]
+    public LayerMask collisionMask;
+    public Vector3 checkBoxSize = new Vector3(1f, 1f, 1f); // 拖动过程中检测碰撞的盒子大小
+
     private Rigidbody rb;
-    private bool isOnRightSide = true;     // Tracks if object was initially on the right side of the player
+    private bool isDragging = false;
+    private bool isOnRightSide = true;
     private GravityController gravityController;
+    private GravState gravState;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.interpolation = RigidbodyInterpolation.Interpolate; // Smooth movement
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous; // Prevent passing through objects
+          rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
-        // 获取重力控制器脚本引用
         gravityController = player.GetComponent<GravityController>();
         if (gravityController == null)
         {
-            Debug.LogError("GravityController script not found on player!");
+            Debug.LogWarning("GravityController not found on player. Gravity flip may not work.");
+        }
+
+        gravState = GetComponent<GravState>();
+        if (gravState == null)
+        {
+            Debug.LogWarning("GravState not found on object!");
         }
     }
 
     void Update()
     {
-        // Check if player is within dragDistance and press 'T' to toggle dragging
         if (Input.GetKeyDown(KeyCode.T))
         {
+            if (gravState != null && gravState.CurrentState == Bullet.BulletType.Heavy)
+            {
+                Debug.Log("Cannot drag object: it's in HEAVY state.");
+                return;
+            }
+
+            float dist = Vector3.Distance(transform.position, player.position);
+
             if (isDragging)
             {
-                // Release the object and re-enable gravity
-                isDragging = false;
-                rb.useGravity = true; // Re-enable gravity
-                Debug.Log("Object released.");
+                StopDragging();
             }
-            else if (Vector3.Distance(transform.position, player.position) <= dragDistance)
+            else if (dist <= dragDistance)
             {
-                // Start dragging and determine initial side
-                isDragging = true;
-                rb.useGravity = false; // Disable gravity while dragging
-                rb.linearVelocity = Vector3.zero; // Stop any existing velocity
-                isOnRightSide = transform.position.x >= player.position.x; // Set side based on initial position
+                StartDragging();
             }
         }
     }
 
     void FixedUpdate()
     {
-        // Stop dragging if the object is out of range
-        if (isDragging && Vector3.Distance(transform.position, player.position) > dragDistance)
+        if (isDragging)
         {
-            isDragging = false;
-            rb.useGravity = true; // Re-enable gravity
-            Debug.Log("Dragging stopped due to distance.");
-            return;
-        }
-
-        // If dragging and not colliding with the player, move the object smoothly
-        if (isDragging && !isCollidingWithPlayer)
-        {
-            // Apply offset based on initial side
-            Vector3 sideOffset = dragOffset;
-            if (!isOnRightSide)
+            if (Vector3.Distance(transform.position, player.position) > dragDistance)
             {
-                sideOffset.x = -Mathf.Abs(dragOffset.x); // Flip offset to keep object on left
+                StopDragging();
+                return;
             }
 
-            // Set target position with adjustable height and gravity-based offset
-            Vector3 targetPosition = player.position + sideOffset;
-            targetPosition.y += gravityController.gravityFlipped ? -gravityOffset : yOffset;
+            Vector3 sideOffset = dragOffset;
+            sideOffset.x = isOnRightSide ? Mathf.Abs(dragOffset.x) : -Mathf.Abs(dragOffset.x);
+            Vector3 targetPos = player.position + sideOffset;
+            targetPos.y += gravityController != null && gravityController.gravityFlipped ? -gravityOffset : yOffset;
 
-            Vector3 newPosition = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.fixedDeltaTime);
-            rb.MovePosition(newPosition); // Use MovePosition to smoothly move the object with collision detection
+            // ✅ 检测障碍，如果碰到墙，就停下来
+            if (Physics.CheckBox(targetPos, checkBoxSize * 0.5f, Quaternion.identity, collisionMask))
+            {
+                Debug.Log("Dragging blocked by collision. Releasing.");
+                StopDragging();
+                return;
+            }
+
+            // ✅ 保留物理移动方式（不会穿墙）
+            Vector3 smoothedPos = Vector3.Lerp(rb.position, targetPos, followSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(smoothedPos);
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void StartDragging()
     {
-        // If the object collides with the player, stop moving
-        if (other.transform == player)
-        {
-            isCollidingWithPlayer = true;
-            rb.linearVelocity = Vector3.zero; // Stop velocity to avoid pushing the player
-            Debug.Log("Object is in contact with the player, movement stopped.");
-        }
+        isDragging = true;
+        isOnRightSide = transform.position.x >= player.position.x;
+
+        // ✅ 保持碰撞参与，去掉 isKinematic
+        rb.useGravity = false;
+        rb.isKinematic = false; // ✅ 让它保持受物理控制，这样才有碰撞！
+
+        Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponent<Collider>(), true);
+        Debug.Log("Started dragging.");
     }
 
-    void OnTriggerExit(Collider other)
+    void StopDragging()
     {
-        // If the object exits collision with the player, resume movement
-        if (other.transform == player)
-        {
-            isCollidingWithPlayer = false;
-            Debug.Log("Object is no longer in contact with the player, movement resumed.");
-        }
+        isDragging = false;
+        rb.useGravity = true;
+        rb.isKinematic = false;
+
+        Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponent<Collider>(), false);
+        Debug.Log("Stopped dragging.");
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnDrawGizmosSelected()
     {
-        // If the object collides with any other object (not the player or ground), stop dragging
-        if (collision.transform != player && (groundLayer.value & (1 << collision.gameObject.layer)) == 0)
-        {
-            isDragging = false;
-            rb.useGravity = true; // Re-enable gravity
-            rb.linearVelocity = Vector3.zero; // Stop all movement
-            Debug.Log("Object collided with another object, dragging stopped.");
-        }
+        if (!Application.isPlaying || !isDragging) return;
+
+        Vector3 sideOffset = dragOffset;
+        sideOffset.x = isOnRightSide ? Mathf.Abs(dragOffset.x) : -Mathf.Abs(dragOffset.x);
+        Vector3 targetPos = player.position + sideOffset;
+        targetPos.y += gravityController != null && gravityController.gravityFlipped ? -gravityOffset : yOffset;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(targetPos, checkBoxSize);
     }
 }
