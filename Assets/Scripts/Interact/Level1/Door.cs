@@ -4,35 +4,45 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public Box box; // Reference to the Box script
-    public Vector3 moveDirection = new Vector3(0, 5, 0); // Direction the door will move when opened
-    public float moveSpeed = 2.0f; // Speed at which the door moves
-    private bool doorOpened = false; // Track if the door has already opened
+    [Header("Eyeball Reference")]
+    public EyeballMovement eyeball;          // Eyeball movement script
 
-    void Update()
+    [Header("Door Movement")]
+    public Vector3 moveDirection = new Vector3(0f, 5f, 0f); // How far / which way to move
+    public float moveSpeed = 2f;                      // Slide speed
+    public float triggerRange = 0.02f;                   // Distance considered "arrived"
+
+    private bool doorOpened = false;                        // Ensures one time open
+
+    private void Update()
     {
-        // Check if the box has been hit enough times and the door has not yet opened
-        if (box.currentHits >= box.hitsToDestroy && !doorOpened)
+        if (doorOpened || eyeball == null)
+            return;
+
+        // When eyeball is close enough to its end socket, open door
+        if (Vector3.Distance(eyeball.transform.position, eyeball.endPoint.position) <= triggerRange)
         {
             StartCoroutine(OpenDoor());
-            doorOpened = true; // Ensure this only happens once
+            doorOpened = true;
         }
     }
 
     private IEnumerator OpenDoor()
     {
-        // Calculate the target position the door will move to
-        Vector3 targetPosition = transform.position + moveDirection;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = startPos + moveDirection;
 
-        // Move the door towards the target position
-        while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
+        while (Vector3.Distance(transform.position, targetPos) > 0.01f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-            yield return null; // Wait until the next frame
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                targetPos,
+                moveSpeed * Time.deltaTime
+            );
+            yield return null; // wait for next frame
         }
 
-        // Ensure final position
-        transform.position = targetPosition;
+        transform.position = targetPos; // snap exactly
         Debug.Log("Door opened!");
     }
 }

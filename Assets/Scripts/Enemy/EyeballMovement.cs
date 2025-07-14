@@ -3,63 +3,62 @@ using UnityEngine;
 public class EyeballMovement : MonoBehaviour
 {
     [Header("Movement Targets")]
-    public Transform startPoint;      // Inside the crate
-    public Transform endPoint;        // Eye socket
+    public Transform startPoint;          // Inside the crate
+    public Transform endPoint;            // Eye socket
 
     [Header("Slither Settings")]
-    public float moveSpeed = 2f;
-    public float slitherAmplitude = 0.2f;   // How far it bobs up & down
-    public float slitherFrequency = 5f;     // How fast it bobs
+    public float moveSpeed = 0.01f;           // Linear travel speed
+    public float slitherAmplitude = 0.01f;    // Bob size (Y axis)
+    public float slitherFrequency = 5f;       // Bob speed
+    public float stopThreshold = 0.02f;       // How close is "close enough" (in meters)
 
     private bool isMoving = false;
-    private float moveProgress = 0f;       
-    private Vector3 pathDir;                // Normalized direction crate ? socket
+    private float moveProgress = 0f;          // From 0 to 1
+    private Vector3 pathDir;                  // Normalized direction from start to end
 
-    void Start()
+    private void Start()
     {
-        // Start inside the crate
-        if (startPoint != null) transform.position = startPoint.position;
+        // Start at the hidden position inside the crate
+        if (startPoint != null)
+            transform.position = startPoint.position;
 
         if (startPoint != null && endPoint != null)
             pathDir = (endPoint.position - startPoint.position).normalized;
     }
 
-    void Update()
+    private void Update()
     {
-        // press L to test the slither
-        if (Input.GetKeyDown(KeyCode.L)) 
-            BeginSlither();
-
-        if (!isMoving || startPoint == null || endPoint == null) 
+        if (!isMoving || startPoint == null || endPoint == null)
             return;
 
-        // Advance along the straight path
+        // Progress along the straight line
         moveProgress += Time.deltaTime * moveSpeed;
         moveProgress = Mathf.Clamp01(moveProgress);
 
         Vector3 straightPos = Vector3.Lerp(startPoint.position, endPoint.position, moveProgress);
 
-        // Add vertical bob (world?space Y) on top of forward motion
+        // Add vertical bobbing motion
         float bobOffset = Mathf.Sin(Time.time * slitherFrequency) * slitherAmplitude;
         Vector3 slitherPos = straightPos + Vector3.up * bobOffset;
 
         transform.position = slitherPos;
 
-        // Optional: face the direction of travel (purely cosmetic)
-        //transform.forward = pathDir;
+        // Optional: Face travel direction
+        // transform.forward = pathDir;
 
-        // Stop when we’ve reached (or exceeded)
-        if (moveProgress >= 1f)
+        // Stop if close enough or reached the end
+        if (moveProgress >= 1f || Vector3.Distance(transform.position, endPoint.position) <= stopThreshold)
         {
-            transform.position = endPoint.position; // snap exactly
+            transform.position = endPoint.position;
             isMoving = false;
         }
     }
 
-    //External trigger – call when crate is destroyed.
+    // Call this externally (e.g., from Box script) to start the slither
     public void BeginSlither()
     {
-        if (startPoint == null || endPoint == null) return;
+        if (startPoint == null || endPoint == null)
+            return;
 
         isMoving = true;
         moveProgress = 0f;

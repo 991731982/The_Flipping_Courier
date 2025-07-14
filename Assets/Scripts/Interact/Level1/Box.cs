@@ -26,6 +26,28 @@ public class Box : MonoBehaviour
         rb.isKinematic = true;
     }
 
+    // This will now be called by the BoxTopTrigger script
+    public void BreakBox()
+    {
+        TriggerEyeballSlither();
+        DisableColliders();
+        Destroy(gameObject);
+    }
+
+    private void TriggerEyeballSlither()
+    {
+        if (eyeball == null) return;
+
+        EyeballMovement mover = eyeball.GetComponent<EyeballMovement>();
+        if (mover != null)
+        {
+            mover.BeginSlither();
+            Debug.Log("Eyeball slither started!");
+        }
+    }
+
+    /*
+    // Original full-body collision logic (now disabled)
     private void OnCollisionEnter(Collision collision)
     {
         if (!canRegisterHit || !collision.gameObject.CompareTag("Weight"))
@@ -50,62 +72,7 @@ public class Box : MonoBehaviour
             StartCoroutine(HitCooldown());
         }
     }
-    /*private void OnCollisionEnter(Collision collision)
-{
-    if (!canRegisterHit || !collision.gameObject.CompareTag("Weight"))
-        return;
-
-    bool validTopHit = false;
-
-    foreach (ContactPoint contact in collision.contacts)
-    {
-        float dot = Vector3.Dot(contact.normal, transform.up);
-        Debug.Log($"Contact normal: {contact.normal}, Dot: {dot}, Relative velocity Y: {collision.relativeVelocity.y}");
-
-        // Confirm it's a top-down hit
-        if (collision.relativeVelocity.y < 0 && dot > 0.5f)
-        {
-            validTopHit = true;
-            break;
-        }
-    }
-
-    if (validTopHit)
-    {
-        currentHits++;
-        Debug.Log("Top hit registered! Current hits: " + currentHits);
-
-        // Visually sink the box slightly to indicate damage
-        transform.position -= new Vector3(0, fallAmount, 0);
-
-        if (currentHits >= hitsToDestroy)
-        {
-            TriggerEyeballSlither();
-            // SpawnSmallCube(); // Disabled for now
-            DisableColliders();
-            Destroy(gameObject);
-        }
-        else
-        {
-            StartCoroutine(HitCooldown());
-        }
-    }
-    else
-    {
-        Debug.Log("Hit ignored — not from the top.");
-    }
-}*/
-    private void TriggerEyeballSlither()
-    {
-        if (eyeball == null) return;
-
-        EyeballMovement mover = eyeball.GetComponent<EyeballMovement>();
-        if (mover != null)
-        {
-            mover.BeginSlither();
-            Debug.Log("Eyeball slither started!");
-        }
-    }
+    */
 
     /*
     private void SpawnSmallCube()
