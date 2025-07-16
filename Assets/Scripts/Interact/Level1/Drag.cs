@@ -76,7 +76,7 @@ public class DragObject : MonoBehaviour
             Vector3 targetPos = player.position + sideOffset;
             targetPos.y += gravityController != null && gravityController.gravityFlipped ? -gravityOffset : yOffset;
 
-            // ✅ 检测障碍，如果碰到墙，就停下来
+           
             if (Physics.CheckBox(targetPos, checkBoxSize * 0.5f, Quaternion.identity, collisionMask))
             {
                 Debug.Log("Dragging blocked by collision. Releasing.");
@@ -84,7 +84,7 @@ public class DragObject : MonoBehaviour
                 return;
             }
 
-            // ✅ 保留物理移动方式（不会穿墙）
+         
             Vector3 smoothedPos = Vector3.Lerp(rb.position, targetPos, followSpeed * Time.fixedDeltaTime);
             rb.MovePosition(smoothedPos);
         }
@@ -95,9 +95,9 @@ public class DragObject : MonoBehaviour
         isDragging = true;
         isOnRightSide = transform.position.x >= player.position.x;
 
-        // ✅ 保持碰撞参与，去掉 isKinematic
+      
         rb.useGravity = false;
-        rb.isKinematic = false; // ✅ 让它保持受物理控制，这样才有碰撞！
+        rb.isKinematic = false; 
 
         Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponent<Collider>(), true);
         Debug.Log("Started dragging.");
