@@ -22,8 +22,13 @@ public class CubeCharacterController : MonoBehaviour
     // Input toggle
     private bool inputEnabled = true;
 
-    // Target Y rotation for horizontal facing
+    // Rotation
     private float targetYRotation;
+
+    // Slope handling
+    [Header("Slope Handling")]
+    public float maxSlopeAngle = 45f; // Maximum walkable slope angle
+    private Vector3 surfaceNormal = Vector3.up;
 
     void Start()
     {
@@ -31,8 +36,6 @@ public class CubeCharacterController : MonoBehaviour
         gravityController = GetComponent<GravityController>();
         groundjump = new Vector3(0.0f, 2.0f, 0.0f);
         roofjump = new Vector3(0.0f, -2.0f, 0.0f);
-
-        // Default facing direction
         targetYRotation = transform.eulerAngles.y;
     }
 
@@ -59,14 +62,13 @@ public class CubeCharacterController : MonoBehaviour
             shouldJump = true;
         }
 
-        // Set target Y rotation based on direction
+        // Determine facing direction
         if (moveDirection.x != 0)
         {
             float direction = moveDirection.x > 0 ? 1f : -1f;
             targetYRotation = direction > 0 ? 270f : 90f; // Right = 270, Left = 90
         }
 
-        // Apply smooth combined rotation
         ApplyCombinedRotation();
     }
 
@@ -74,9 +76,21 @@ public class CubeCharacterController : MonoBehaviour
     {
         if (!inputEnabled) return;
 
-        // Apply smoothed movement
-        Vector3 targetVelocity = new Vector3(moveDirection.x * movementspeed, rb.linearVelocity.y, rb.linearVelocity.z);
-        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.fixedDeltaTime * movementSmoothing);
+        float slopeAngle = Vector3.Angle(surfaceNormal, gravityController.gravityFlipped ? Vector3.down : Vector3.up);
+        bool canMoveOnSlope = slopeAngle <= maxSlopeAngle;
+
+        if (canMoveOnSlope && moveDirection != Vector3.zero)
+        {
+            Vector3 slopeDirection = Vector3.ProjectOnPlane(Vector3.right * moveDirection.x, surfaceNormal).normalized;
+            Vector3 targetVelocity = new Vector3(slopeDirection.x * movementspeed, rb.linearVelocity.y, rb.linearVelocity.z);
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.fixedDeltaTime * movementSmoothing);
+        }
+        else
+        {
+            // Prevent movement on steep slope
+            Vector3 targetVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.fixedDeltaTime * movementSmoothing);
+        }
 
         // Perform jump
         if (shouldJump)
@@ -97,6 +111,7 @@ public class CubeCharacterController : MonoBehaviour
                 (gravityController.gravityFlipped && contact.normal.y < -0.5f))
             {
                 isGrounded = true;
+                surfaceNormal = contact.normal; // Store normal for slope handling
             }
         }
     }
@@ -104,6 +119,7 @@ public class CubeCharacterController : MonoBehaviour
     void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
+        surfaceNormal = gravityController.gravityFlipped ? Vector3.down : Vector3.up; // Reset normal
     }
 
     private void ApplyCombinedRotation()
@@ -112,7 +128,6 @@ public class CubeCharacterController : MonoBehaviour
         float currentZ = transform.eulerAngles.z;
         float targetZ = gravityController.CurrentZRotation;
 
-        // Smoothly blend both rotations
         float smoothY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * 10f);
         float smoothZ = Mathf.LerpAngle(currentZ, targetZ, Time.deltaTime * 10f);
 

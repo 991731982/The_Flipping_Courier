@@ -8,7 +8,10 @@ public class GravityController : MonoBehaviour
     public float rotationSpeed = 2.0f;            // Rotation smoothing speed
 
     private bool canFlipAgain = true;             // Prevent multiple flips in mid-air
+
+    [HideInInspector]
     public float CurrentZRotation => transform.eulerAngles.z;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
