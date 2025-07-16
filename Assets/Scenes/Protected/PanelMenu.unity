@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f99ed3477806644d98c8c2a01d5a791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: Protect-Level2
+  targetSceneName: Level2-AddArt
 --- !u!1 &398121386
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,7 +1575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f99ed3477806644d98c8c2a01d5a791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSceneName: Protect-Level1
+  targetSceneName: TestAssets
 --- !u!1 &1277501532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 126364, guid: 26e950ddae2da3a4581a7692739c06fc, type: 3}
