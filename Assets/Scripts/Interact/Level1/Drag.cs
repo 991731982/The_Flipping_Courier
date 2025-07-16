@@ -3,113 +3,108 @@
 public class DragObject : MonoBehaviour
 {
     public Transform player;
-    public float dragDistance = 5f;
-    public float followSpeed = 5f;
-    public Vector3 dragOffset = new Vector3(1f, 0, 1f); // X:左右偏移, Z:前后偏移
-    public float yOffset = 1.5f;
-    public float gravityOffset = 1.5f;
+    public Vector3 localDragOffset = new Vector3(1f, 0.5f, 1f); // Base offset relative to player
 
-    [Header("碰撞检测")]
+    [Header("Sway Settings")]
+    public float swayAmount = 0.1f;
+    public float swayFrequency = 4f;
+
+    [Header("Drag Settings")]
+    public float dragDistance = 5f;
     public LayerMask collisionMask;
-    public Vector3 checkBoxSize = new Vector3(1f, 1f, 1f); // 拖动过程中检测碰撞的盒子大小
+    public Vector3 checkBoxSize = new Vector3(1f, 1f, 1f);
 
     private Rigidbody rb;
+    private Collider col;
     private bool isDragging = false;
-    private bool isOnRightSide = true;
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+    private Transform originalParent;
+
     private GravityController gravityController;
     private GravState gravState;
-
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-          rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        col = GetComponent<Collider>();
 
         gravityController = player.GetComponent<GravityController>();
-        if (gravityController == null)
-        {
-            Debug.LogWarning("GravityController not found on player. Gravity flip may not work.");
-        }
-
         gravState = GetComponent<GravState>();
-        if (gravState == null)
-        {
-            Debug.LogWarning("GravState not found on object!");
-        }
+
+        if (!rb || !col || !player)
+            Debug.LogError("Missing references!");
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (gravState != null && gravState.CurrentState == Bullet.BulletType.Heavy)
             {
-                Debug.Log("Cannot drag object: it's in HEAVY state.");
+                Debug.Log("Can't drag — object is heavy.");
                 return;
             }
 
-            float dist = Vector3.Distance(transform.position, player.position);
-
+            float distance = Vector3.Distance(transform.position, player.position);
             if (isDragging)
             {
                 StopDragging();
             }
-            else if (dist <= dragDistance)
+            else if (distance <= dragDistance)
             {
                 StartDragging();
             }
         }
-    }
 
-    void FixedUpdate()
-    {
         if (isDragging)
         {
-            if (Vector3.Distance(transform.position, player.position) > dragDistance)
-            {
-                StopDragging();
-                return;
-            }
+            // Apply 2D sway (X and Y)
+            float swayX = Mathf.Cos(Time.time * swayFrequency) * swayAmount;
+            float swayY = Mathf.Sin(Time.time * swayFrequency) * swayAmount;
 
-            Vector3 sideOffset = dragOffset;
-            sideOffset.x = isOnRightSide ? Mathf.Abs(dragOffset.x) : -Mathf.Abs(dragOffset.x);
-            Vector3 targetPos = player.position + sideOffset;
-            targetPos.y += gravityController != null && gravityController.gravityFlipped ? -gravityOffset : yOffset;
-
-           
-            if (Physics.CheckBox(targetPos, checkBoxSize * 0.5f, Quaternion.identity, collisionMask))
-            {
-                Debug.Log("Dragging blocked by collision. Releasing.");
-                StopDragging();
-                return;
-            }
-
-         
-            Vector3 smoothedPos = Vector3.Lerp(rb.position, targetPos, followSpeed * Time.fixedDeltaTime);
-            rb.MovePosition(smoothedPos);
+            Vector3 swayOffset = new Vector3(swayX, swayY, 0f);
+            transform.localPosition = localDragOffset + swayOffset;
         }
     }
 
     void StartDragging()
     {
         isDragging = true;
-        isOnRightSide = transform.position.x >= player.position.x;
 
-      
+        originalParent = transform.parent;
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
+
         rb.useGravity = false;
-        rb.isKinematic = false; 
+        rb.isKinematic = true;
 
-        Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponent<Collider>(), true);
+        Physics.IgnoreCollision(col, player.GetComponent<Collider>(), true);
+
+        transform.SetParent(player);
+
+        // Flip offset based on side
+        if (transform.position.x < player.position.x)
+            localDragOffset.x = -Mathf.Abs(localDragOffset.x);
+        else
+            localDragOffset.x = Mathf.Abs(localDragOffset.x);
+
+        transform.localPosition = localDragOffset;
+        transform.localRotation = Quaternion.identity;
+
         Debug.Log("Started dragging.");
     }
 
     void StopDragging()
     {
         isDragging = false;
+
+        transform.SetParent(originalParent);
         rb.useGravity = true;
         rb.isKinematic = false;
 
-        Physics.IgnoreCollision(GetComponent<Collider>(), player.GetComponent<Collider>(), false);
+        Physics.IgnoreCollision(col, player.GetComponent<Collider>(), false);
+
         Debug.Log("Stopped dragging.");
     }
 
@@ -117,12 +112,8 @@ public class DragObject : MonoBehaviour
     {
         if (!Application.isPlaying || !isDragging) return;
 
-        Vector3 sideOffset = dragOffset;
-        sideOffset.x = isOnRightSide ? Mathf.Abs(dragOffset.x) : -Mathf.Abs(dragOffset.x);
-        Vector3 targetPos = player.position + sideOffset;
-        targetPos.y += gravityController != null && gravityController.gravityFlipped ? -gravityOffset : yOffset;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(targetPos, checkBoxSize);
+        Gizmos.color = Color.cyan;
+        Vector3 worldTargetPos = player.TransformPoint(localDragOffset);
+        Gizmos.DrawWireCube(worldTargetPos, checkBoxSize);
     }
 }

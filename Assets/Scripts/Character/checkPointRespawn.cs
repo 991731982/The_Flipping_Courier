@@ -33,7 +33,7 @@ public class checkPointRespawn : MonoBehaviour
     void Update()
     {
         // For testing: press R to respawn
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             // Record grounded state at time of death
             wasGroundedOnDeath = playerController != null && playerController.isGrounded;
