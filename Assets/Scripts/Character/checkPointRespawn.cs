@@ -4,63 +4,86 @@ using UnityEngine;
 
 public class checkPointRespawn : MonoBehaviour
 {
-    private Vector3 checkpointPosition;  // Variable to store the checkpoint position
-    public Vector3 respawnOffset = new Vector3(0, 2, 0);  // The offset for respawn position
+    private Vector3 checkpointPosition;
+    private float storedZRotation = 0f;
+    private bool wasGroundedAtCheckpoint = true;
+    private bool wasGroundedOnDeath = true; // NEW: Track grounded state at time of death
+
+    public Vector3 respawnOffset = new Vector3(0, 2, 0);
     private GravityController gravityController;
     private Rigidbody rb;
-    private PlayerHealthDisplay playerHealth;  // Reference to the player's health management
+    private PlayerHealthDisplay playerHealth;
+    private CubeCharacterController playerController;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         gravityController = GetComponent<GravityController>();
         playerHealth = GetComponent<PlayerHealthDisplay>();
+        playerController = GetComponent<CubeCharacterController>();
 
         if (playerHealth == null)
-        {
-            Debug.LogError("PlayerHealthDisplay component not found on player!");
-        }
+            Debug.LogError("PlayerHealthDisplay component not found!");
 
-        // Set the initial checkpoint to the player's starting position
         checkpointPosition = transform.position;
-        Debug.Log("Starting position set as checkpoint: " + checkpointPosition);
+        storedZRotation = transform.eulerAngles.z;
+        wasGroundedAtCheckpoint = true;
     }
 
     void Update()
     {
-        // Restart or respawn at checkpoint when "R" is pressed
+        // For testing: press R to respawn
         if (Input.GetKeyDown(KeyCode.R))
         {
+            // Record grounded state at time of death
+            wasGroundedOnDeath = playerController != null && playerController.isGrounded;
             RespawnAtCheckpoint();
         }
     }
 
-    // Set the checkpoint position when the player reaches it
     public void SetCheckpoint(Vector3 newCheckpointPosition)
     {
         checkpointPosition = newCheckpointPosition;
-        Debug.Log("Checkpoint position set to: " + checkpointPosition);
+
+        // If grounded, record Z rotation
+        if (playerController != null && playerController.isGrounded)
+        {
+            storedZRotation = transform.eulerAngles.z;
+            wasGroundedAtCheckpoint = true;
+            Debug.Log($"Checkpoint set: Grounded, Z = {storedZRotation}");
+        }
+        else
+        {
+            storedZRotation = 0f;
+            wasGroundedAtCheckpoint = false;
+            Debug.Log($"Checkpoint set: In air, Z reset to 0");
+        }
     }
 
-    // Respawn the player at the last checkpoint with an offset
     public void RespawnAtCheckpoint()
     {
-        Debug.Log("Respawning at checkpoint...");
-        // Add the respawnOffset to the checkpointPosition
         Vector3 respawnPosition = checkpointPosition + respawnOffset;
-
-        // Set the player's position to the new respawn position with the offset
         transform.position = respawnPosition;
-        rb.linearVelocity = Vector3.zero; // Reset the player's velocity
-        gravityController.gravityFlipped = false;  // Set gravity state back to normal
-        Physics.gravity = new Vector3(0, -20f, 0);  // Set gravity to default direction (downward)
+        rb.linearVelocity = Vector3.zero;
 
-        // Restore player's health to maximum
+        float currentY = transform.eulerAngles.y;
+
+        if (!wasGroundedOnDeath)
+        {
+            // Fully cancel flip and rotation
+            gravityController.ForceResetGravityDown();
+        }
+        else
+        {
+            float targetZ = wasGroundedAtCheckpoint ? storedZRotation : 0f;
+            transform.rotation = Quaternion.Euler(0f, currentY, targetZ);
+        }
+
         if (playerHealth != null)
         {
             playerHealth.RestoreFullHealth();
         }
 
-        Debug.Log("Gravity has been reset to normal, and health restored to max.");
+        Debug.Log($"Respawned at {respawnPosition}, GroundedOnDeath: {wasGroundedOnDeath}");
     }
 }

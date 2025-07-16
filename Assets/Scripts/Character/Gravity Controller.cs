@@ -84,7 +84,20 @@ public class GravityController : MonoBehaviour
         // Only flip if vertical velocity is low
         return Mathf.Abs(rb.linearVelocity.y) < 0.1f;
     }
+    public void ForceResetGravityDown()
+    {
+        gravityFlipped = false;
+        Physics.gravity = new Vector3(0, -20f, 0);
 
+        // Cancel any active flip rotation coroutine
+        StopAllCoroutines();
+
+        // Force Z rotation to 0 immediately
+        Vector3 currentRotation = transform.eulerAngles;
+        transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
+
+        Debug.Log("Forcefully reset gravity and rotation to normal.");
+    }
     private void OnCollisionEnter(Collision collision)
     {
         // Confirm the player landed on the floor or ceiling before enabling flip again
