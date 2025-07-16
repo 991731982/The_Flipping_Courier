@@ -12,13 +12,18 @@ public class CubeCharacterController : MonoBehaviour
 
     // Jump cooldown
     private float lastJumpTime = 0f;
-    private float jumpCooldown = 0.25f; // seconds
+    private float jumpCooldown = 0.25f;
 
     // Movement smoothing
     public float movementSmoothing = 10f;
+    private Vector3 moveDirection = Vector3.zero;
+    private bool shouldJump = false;
 
     // Input toggle
     private bool inputEnabled = true;
+
+    // Target Y rotation for horizontal facing
+    private float targetYRotation;
 
     void Start()
     {
@@ -26,32 +31,16 @@ public class CubeCharacterController : MonoBehaviour
         gravityController = GetComponent<GravityController>();
         groundjump = new Vector3(0.0f, 2.0f, 0.0f);
         roofjump = new Vector3(0.0f, -2.0f, 0.0f);
-    }
 
-    void OnCollisionStay(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            // Grounded detection based on contact normal and gravity direction
-            if ((!gravityController.gravityFlipped && contact.normal.y > 0.5f) ||
-                (gravityController.gravityFlipped && contact.normal.y < -0.5f))
-            {
-                isGrounded = true;
-            }
-        }
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        // Reset grounded flag on collision exit
-        isGrounded = false;
+        // Default facing direction
+        targetYRotation = transform.eulerAngles.y;
     }
 
     void Update()
     {
-        if (!inputEnabled) return; // Skip all movement input if disabled
+        if (!inputEnabled) return;
 
-        Vector3 moveDirection = Vector3.zero;
+        moveDirection = Vector3.zero;
 
         // Read horizontal input
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
@@ -64,51 +53,72 @@ public class CubeCharacterController : MonoBehaviour
             moveDirection += Vector3.right;
         }
 
-        // Target horizontal velocity
-        Vector3 targetVelocity = new Vector3(moveDirection.x * movementspeed, rb.linearVelocity.y, rb.linearVelocity.z);
-
-        // Smoothly interpolate to target velocity
-        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.deltaTime * movementSmoothing);
-
-        // Only rotate character while grounded and moving
-        if (isGrounded && moveDirection.x != 0)
+        // Handle jump request
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time - lastJumpTime > jumpCooldown)
         {
-            float direction = moveDirection.x > 0 ? 1f : -1f;
-
-            // Rotate to face direction
-            Quaternion targetRotation = Quaternion.LookRotation(
-                new Vector3(-direction, 0f, 0f),  // Forward (face left or right)
-                gravityController.gravityFlipped ? Vector3.down : Vector3.up // Up direction based on gravity
-            );
-
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            shouldJump = true;
         }
 
-        // Adjust up direction for gravity flip
-        FixCharacterUpDirection();
+        // Set target Y rotation based on direction
+        if (moveDirection.x != 0)
+        {
+            float direction = moveDirection.x > 0 ? 1f : -1f;
+            targetYRotation = direction > 0 ? 270f : 90f; // Right = 270, Left = 90
+        }
 
-        // Jump with cooldown and grounded check
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time - lastJumpTime > jumpCooldown)
+        // Apply smooth combined rotation
+        ApplyCombinedRotation();
+    }
+
+    void FixedUpdate()
+    {
+        if (!inputEnabled) return;
+
+        // Apply smoothed movement
+        Vector3 targetVelocity = new Vector3(moveDirection.x * movementspeed, rb.linearVelocity.y, rb.linearVelocity.z);
+        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.fixedDeltaTime * movementSmoothing);
+
+        // Perform jump
+        if (shouldJump)
         {
             Vector3 jumpDirection = gravityController.gravityFlipped ? roofjump : groundjump;
             rb.AddForce(jumpDirection * jumpForce, ForceMode.Impulse);
             isGrounded = false;
             lastJumpTime = Time.time;
+            shouldJump = false;
         }
     }
 
-    private void FixCharacterUpDirection()
+    void OnCollisionStay(Collision collision)
     {
-        // Set the "up" direction depending on gravity flipped state
-        Vector3 targetUp = gravityController.gravityFlipped ? Vector3.down : Vector3.up;
-        Vector3 targetForward = transform.forward;
-
-        // Apply smooth orientation fix
-        Quaternion targetRotation = Quaternion.LookRotation(targetForward, targetUp);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            if ((!gravityController.gravityFlipped && contact.normal.y > 0.5f) ||
+                (gravityController.gravityFlipped && contact.normal.y < -0.5f))
+            {
+                isGrounded = true;
+            }
+        }
     }
 
-    // Public input toggle methods
+    void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
+    }
+
+    private void ApplyCombinedRotation()
+    {
+        float currentY = transform.eulerAngles.y;
+        float currentZ = transform.eulerAngles.z;
+        float targetZ = gravityController.CurrentZRotation;
+
+        // Smoothly blend both rotations
+        float smoothY = Mathf.LerpAngle(currentY, targetYRotation, Time.deltaTime * 10f);
+        float smoothZ = Mathf.LerpAngle(currentZ, targetZ, Time.deltaTime * 10f);
+
+        transform.rotation = Quaternion.Euler(0f, smoothY, smoothZ);
+    }
+
     public void EnableInput()
     {
         inputEnabled = true;
@@ -117,6 +127,6 @@ public class CubeCharacterController : MonoBehaviour
     public void DisableInput()
     {
         inputEnabled = false;
-        rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z); // Stop movement when frozen
+        rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
     }
 }
