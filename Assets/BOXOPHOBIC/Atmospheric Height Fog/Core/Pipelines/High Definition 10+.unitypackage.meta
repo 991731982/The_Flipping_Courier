@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/BOXOPHOBIC/Atmospheric Height Fog/Core/Pipelines/High Definition 10+.unitypackage.meta
 guid: 49d5bcbbd4cbd754b98cf3200197b0f1
+========
+guid: 8872e3fee09f0504199440faf610ab17
+>>>>>>>> 1e3a548c3bdc77cb232523185f21bc4a4a8736a1:Assets/BOXOPHOBIC/Atmospheric Height Fog/Core/Editor/HeightFogHubAutorun.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

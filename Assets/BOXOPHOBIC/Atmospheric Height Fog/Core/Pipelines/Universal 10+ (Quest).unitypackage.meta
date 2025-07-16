@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/BOXOPHOBIC/Atmospheric Height Fog/Core/Pipelines/Universal 10+ (Quest).unitypackage.meta
 guid: d59aeece1d054cc4ba595325bdc0caeb
+========
+guid: 1782b72cd0e99a54fac09382c482e3db
+>>>>>>>> 1e3a548c3bdc77cb232523185f21bc4a4a8736a1:Assets/BOXOPHOBIC/Atmospheric Height Fog/Core/Pipelines/Built-in Pipeline.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
