@@ -15,6 +15,10 @@ TagManager:
   - DroppedItem
   - Item
   - StopZone
+  - Bullet
+  - ClickBlock
+  - FxTemporaire
+  - particleEffect
   layers:
   - Default
   - TransparentFX
@@ -25,8 +29,8 @@ TagManager:
   - Enemy
   - glowobj
   - box
-  - 
-  - 
+  - particleEffect
+  - background
   - 
   - 
   - 
