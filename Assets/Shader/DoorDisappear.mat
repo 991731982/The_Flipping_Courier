@@ -57,14 +57,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AxisHeight: 0.27
+    - _AxisHeight: 0.4
     - _GlowingEdgeProcess: 0
-    - _TextureBrightness: 0.39
-    - _WholeBrightness: 0.442
+    - _TextureBrightness: 0
+    - _WholeBrightness: 0
     - __dirty: 0
     m_Colors:
+    - _BrightEdgeSpeed: {r: 1.43, g: 0, b: 0, a: 0}
     - _Color0: {r: 0.8742138, g: 0.67352945, b: 0.67352945, a: 0}
     - _Glowingedge: {r: 22669.7, g: 21453.725, b: 8483.313, a: 0}
-    - _MeltingColor: {r: 236.4516, g: 81.04784, b: 81.04784, a: 0}
+    - _MainSpeed: {r: 1, g: 0, b: 0, a: 0}
+    - _MeltingColor: {r: 0.97442365, g: 0.91122985, b: 0.60212034, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

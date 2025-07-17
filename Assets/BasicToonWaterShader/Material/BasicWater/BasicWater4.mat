@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BasicWater4
-  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 805c7ee04b94d7b41a346925498e1d2f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -231,7 +231,7 @@ Material:
     - _WaveFrequency: 1
     - _WaveLength: 1.54
     - _WaveNormalStrength: 0.376
-    - _WaveSpeed: 0.4
+    - _WaveSpeed: 3
     - _WaveStrength: 0.1
     - _WindQuality: 0
     - _ZWrite: 1
