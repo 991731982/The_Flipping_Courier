@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class LockOnCollision : MonoBehaviour
 {
     private Rigidbody rb;
     private bool isLocked = false;
     private Vector3 lockedPosition;
+    public MMF_Player LockBoxButtonFeedback;
 
     void Start()
     {
@@ -30,6 +32,7 @@ public class LockOnCollision : MonoBehaviour
     void LockObject()
     {
         isLocked = true;
+        LockBoxButtonFeedback.PlayFeedbacks();
         lockedPosition = transform.position;
 
         // 停止刚体运动
@@ -39,6 +42,8 @@ public class LockOnCollision : MonoBehaviour
         // 关闭物理影响
         rb.useGravity = false;
         rb.isKinematic = true;
+
+        
 
 
     }
