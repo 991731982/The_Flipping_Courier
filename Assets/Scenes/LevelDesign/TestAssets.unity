@@ -7139,7 +7139,7 @@ MonoBehaviour:
   panelManager: {fileID: 473345761}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: 458b90e5d94d92a49b01b2afc38271be, type: 3}
-    displayTime: 4
+    displayTime: 8
 --- !u!65 &298805497
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8848,7 +8848,7 @@ MonoBehaviour:
   panelManager: {fileID: 473345761}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: ffbf7be7a964ab545aea58cbd7670732, type: 3}
-    displayTime: 4
+    displayTime: 8
 --- !u!65 &365079283
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12934,7 +12934,7 @@ MonoBehaviour:
   panelManager: {fileID: 473345761}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: beb19740c2f1a4b48a549dff3b712368, type: 3}
-    displayTime: 4
+    displayTime: 8
 --- !u!65 &516150275
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21900,7 +21900,7 @@ MonoBehaviour:
   panelManager: {fileID: 473345761}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: 235c679f059b5af4393483b10098d5fa, type: 3}
-    displayTime: 4
+    displayTime: 8
 --- !u!65 &814059515
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22331,7 +22331,7 @@ MonoBehaviour:
   panelManager: {fileID: 473345761}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: 3211d5dbce64614488d6e820c7887c6f, type: 3}
-    displayTime: 4
+    displayTime: 8
 --- !u!65 &820395583
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24020,7 +24020,7 @@ MonoBehaviour:
   panelManager: {fileID: 473345761}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: beb19740c2f1a4b48a549dff3b712368, type: 3}
-    displayTime: 4
+    displayTime: 8
 --- !u!65 &864580749
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30359,7 +30359,7 @@ MonoBehaviour:
   panelManager: {fileID: 473345761}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: 10a1cba0af6ad14499a1df42f2f7bae5, type: 3}
-    displayTime: 4
+    displayTime: 8
 --- !u!65 &1078732945
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30429,7 +30429,7 @@ MonoBehaviour:
   panelManager: {fileID: 473345761}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: 89517036698f5c74b8388ae5180db691, type: 3}
-    displayTime: 4
+    displayTime: 8
 --- !u!65 &1079615328
 BoxCollider:
   m_ObjectHideFlags: 0

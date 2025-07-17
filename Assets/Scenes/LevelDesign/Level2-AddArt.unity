@@ -44855,7 +44855,7 @@ MonoBehaviour:
   panelManager: {fileID: 1516750990}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: 083f306d654bf2e42a45c3af32ed395a, type: 3}
-    displayTime: 2
+    displayTime: 8
 --- !u!65 &955803147
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50126,7 +50126,7 @@ MonoBehaviour:
   panelManager: {fileID: 1516750990}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: 10f7aa81f276e4548bb264821bee9505, type: 3}
-    displayTime: 2
+    displayTime: 8
 --- !u!65 &1054891925
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67414,7 +67414,7 @@ MonoBehaviour:
   panelManager: {fileID: 1516750990}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: 8cf454d969fb22342a584af6cb00c6cf, type: 3}
-    displayTime: 2
+    displayTime: 8
 --- !u!65 &1405954490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -96212,7 +96212,7 @@ MonoBehaviour:
   panelManager: {fileID: 1516750990}
   panelSequence:
   - panelImage: {fileID: 21300000, guid: ffbf7be7a964ab545aea58cbd7670732, type: 3}
-    displayTime: 2
+    displayTime: 8
 --- !u!65 &2061469736
 BoxCollider:
   m_ObjectHideFlags: 0
