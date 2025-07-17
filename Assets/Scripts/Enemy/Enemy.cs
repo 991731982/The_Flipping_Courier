@@ -76,22 +76,12 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerHealthDisplay playerHealth = collision.gameObject.GetComponent<PlayerHealthDisplay>();
-
-            if (playerHealth != null)
+            // Instantly respawn the player on contact
+            checkPointRespawn playerRespawn = collision.gameObject.GetComponent<checkPointRespawn>();
+            if (playerRespawn != null)
             {
-                // Reduce player health
-                playerHealth.TakeDamage(10);
-
-                if (playerHealth.IsDead())
-                {
-                    // Player is dead, trigger respawn logic
-                    checkPointRespawn playerRespawn = collision.gameObject.GetComponent<checkPointRespawn>();
-                    if (playerRespawn != null)
-                    {
-                        playerRespawn.RespawnAtCheckpoint();
-                    }
-                }
+                playerRespawn.RespawnAtCheckpoint();
+                Debug.Log("Player instantly killed and respawned by enemy.");
             }
         }
     }
