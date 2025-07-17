@@ -31,61 +31,69 @@ public class MainMenu : MonoBehaviour
 
     public void LoadGameScene()
     {
-        StartCoroutine(BeginPanelSequence());
+        if (panelManager != null)
+        {
+           // StartCoroutine(BeginPanelSequence());
+        }
+        else
+        {
+            StartCoroutine(LoadSceneDirectly());
+        }
     }
 
-    private IEnumerator BeginPanelSequence()
+    /*private IEnumerator BeginPanelSequence()
     {
-        // Optional: play button click SFX
+        // Optional: play start sound
         if (startGameSound != null)
         {
             audioSource.PlayOneShot(startGameSound);
-            yield return new WaitForSeconds(0.5f); // Wait for SFX
+            yield return new WaitForSeconds(0.5f);
         }
 
-        // Hide main menu visuals
-        if (mainMenuUI != null)
-            mainMenuUI.SetActive(false);
+        // Stop music and hide UI
+        if (mainMenuUI != null) mainMenuUI.SetActive(false);
+        if (audioSource.isPlaying) audioSource.Stop();
 
-        // Stop background music
-        if (audioSource.isPlaying)
-            audioSource.Stop();
-
-        // Hook scene loading to panel completion
+        // Hook into panel finish event
+        panelManager.onStoryboardComplete.RemoveAllListeners(); // Avoid stacking listeners
         panelManager.onStoryboardComplete.AddListener(() =>
         {
-            StartCoroutine(LoadSceneAfterPanels());
+            StartCoroutine(LoadScene());
         });
 
-        // Start panel sequence
         panelManager.StartStoryboard();
+    }*/
+
+    private IEnumerator LoadSceneDirectly()
+    {
+        // Optional: play start sound
+        if (startGameSound != null)
+        {
+            //audioSource.PlayOneShot(startGameSound);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        if (audioSource.isPlaying) audioSource.Stop();
+
+        if (mainMenuUI != null) mainMenuUI.SetActive(false);
+
+        yield return LoadScene();
     }
 
-    private IEnumerator LoadSceneAfterPanels()
+    private IEnumerator LoadScene()
     {
-        // Optional fade-out, loading screen, etc. can go here
-
-        // Begin additive scene load
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.LoadScene(gameScene, LoadSceneMode.Additive);
-
-        yield return null; // Wait one frame
+        yield return null;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == gameScene)
         {
-            // Make new scene the active one
             SceneManager.SetActiveScene(scene);
-
-            // Unload the main menu scene
             SceneManager.UnloadSceneAsync(mainMenuScene);
-
-            // Update lighting for baked GI (optional)
             DynamicGI.UpdateEnvironment();
-
-            // Cleanup callback
             SceneManager.sceneLoaded -= OnSceneLoaded;
 
             Debug.Log("Game scene loaded and main menu scene unloaded.");
