@@ -25,7 +25,7 @@ Material:
     m_TexEnvs:
     - _DoorShader02:
         m_Texture: {fileID: 2800000, guid: c81e5c51fcb6ab54381a3b902a0f1886, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 4, y: 4}
         m_Offset: {x: 0, y: 0}
     - _Door_Door01_BaseMap:
         m_Texture: {fileID: 2800000, guid: a57489fbda1ab7b40b4d411819b530eb, type: 3}
@@ -45,7 +45,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: 9e05c035d0335eb4487471e6b81a62b1, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Scale: {x: 4, y: 4}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
@@ -57,14 +57,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AxisHeight: 0.1
+    - _AxisHeight: 0.27
     - _GlowingEdgeProcess: 0
-    - _TextureBrightness: 0.738
-    - _WholeBrightness: 0
+    - _TextureBrightness: 0.39
+    - _WholeBrightness: 0.442
     - __dirty: 0
     m_Colors:
     - _Color0: {r: 0.8742138, g: 0.67352945, b: 0.67352945, a: 0}
-    - _Glowingedge: {r: 24543.883, g: 23292.082, b: 11037.026, a: 0}
-    - _MeltingColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Glowingedge: {r: 22669.7, g: 21453.725, b: 8483.313, a: 0}
+    - _MeltingColor: {r: 236.4516, g: 81.04784, b: 81.04784, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
