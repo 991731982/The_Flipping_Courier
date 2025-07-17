@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bd4f33519698b734797f1c9076da8140
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Door_Door01_Normal: {fileID: 2800000, guid: aa6e7733ea80ee448832467dc3cb1fc0, type: 3}
+  - _Door_Door01_BaseMap: {fileID: 2800000, guid: a57489fbda1ab7b40b4d411819b530eb, type: 3}
+  - _Door_Door01_Emissive: {fileID: 2800000, guid: a9c89f60f9f8bc24aa0c8e30a9102c7d, type: 3}
+  - _TextureSample0: {fileID: 2800000, guid: 9e05c035d0335eb4487471e6b81a62b1, type: 3}
+  - _DoorShader02: {fileID: 2800000, guid: c81e5c51fcb6ab54381a3b902a0f1886, type: 3}
+  - _Door_Door01_MaskMap: {fileID: 2800000, guid: 692df5f7c20746148bb86e4155991a1c, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
