@@ -11,14 +11,20 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Protected/PanelMenu.unity
     guid: 0bfc69b0009a5fe4d838b199d4f82ff2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Protected/Protect-Level1.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Protected/Protect-level2.unity
     guid: f973730b6f0f44244b88c3e434f1b129
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test/Map.unity
     guid: e4cf37beaac3dcf4c9b4c83eb53fad9b
+  - enabled: 1
+    path: Assets/Scenes/LevelDesign/Level2-AddArt.unity
+    guid: 4f9327de71d21304b90aebe169138553
+  - enabled: 1
+    path: Assets/Scenes/LevelDesign/TestAssets.unity
+    guid: 23439b415ad9a5a468583023f4985201
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

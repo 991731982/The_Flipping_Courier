@@ -339,6 +339,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Storyboard
       objectReference: {fileID: 0}
+    - target: {fileID: 3019694180757424309, guid: 0af8eb16f071a324e940b4a8ff54bd3f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8136584557342826862, guid: 0af8eb16f071a324e940b4a8ff54bd3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
