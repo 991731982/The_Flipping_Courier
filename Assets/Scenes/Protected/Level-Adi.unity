@@ -575,6 +575,7 @@ MonoBehaviour:
   isGrounded: 0
   movementspeed: 9
   movementSmoothing: 10
+  maxSlopeAngle: 45
 --- !u!114 &10340400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9537,7 +9538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: c8a43022190c78a4da1cd8c3a5c465b5, type: 3}
       propertyPath: m_TagString
-      value: Weight
+      value: Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13679,11 +13680,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
+  localDragOffset: {x: 1, y: 1, z: 1}
+  swayAmount: 0.1
+  swayFrequency: 4
   dragDistance: 4
-  followSpeed: 5
-  dragOffset: {x: -2, y: 0, z: 1}
-  yOffset: 1.5
-  gravityOffset: 1.5
   collisionMask:
     serializedVersion: 2
     m_Bits: 0
@@ -21746,11 +21746,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
+  localDragOffset: {x: 1, y: 1, z: 1}
+  swayAmount: 0.1
+  swayFrequency: 4
   dragDistance: 8
-  followSpeed: 5
-  dragOffset: {x: 2.3, y: 0, z: 0}
-  yOffset: 1.5
-  gravityOffset: 1.5
   collisionMask:
     serializedVersion: 2
     m_Bits: 0
@@ -22335,11 +22334,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
+  localDragOffset: {x: 1, y: 1, z: 1}
+  swayAmount: 0.1
+  swayFrequency: 4
   dragDistance: 8
-  followSpeed: 5
-  dragOffset: {x: 6, y: 1, z: 0}
-  yOffset: 1.5
-  gravityOffset: 1.5
   collisionMask:
     serializedVersion: 2
     m_Bits: 0
@@ -31761,11 +31759,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
+  localDragOffset: {x: 1, y: 1, z: 1}
+  swayAmount: 0.1
+  swayFrequency: 4
   dragDistance: 5
-  followSpeed: 5
-  dragOffset: {x: 2.5, y: 0, z: 0}
-  yOffset: 1.5
-  gravityOffset: 1.5
   collisionMask:
     serializedVersion: 2
     m_Bits: 0
@@ -33665,11 +33662,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
+  localDragOffset: {x: 1, y: 1, z: 1}
+  swayAmount: 0.1
+  swayFrequency: 4
   dragDistance: 9
-  followSpeed: 5
-  dragOffset: {x: 2.75, y: 2, z: 0}
-  yOffset: -0.6
-  gravityOffset: 3
   collisionMask:
     serializedVersion: 2
     m_Bits: 0
@@ -36223,6 +36219,7 @@ MonoBehaviour:
   isGrounded: 0
   movementspeed: 5
   movementSmoothing: 10
+  maxSlopeAngle: 45
 --- !u!23 &1519928916
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -1,28 +1,32 @@
-using System.Diagnostics;
+ï»¿using System.Diagnostics;
 using UnityEngine;
 
 public class HeavyBoxTrigger : MonoBehaviour
 {
-    public float massThreshold = 400f; // ÔO¶¨Ù|Á¿éT™‘£¬´óì¶ß@‚€Öµ²ÅÓ|°lÏÂ½µ
-    public float dropDistance = 10f; // ÏÂ½µ¾àëx
-    public float dropSpeed = 5f; // ÏÂ½µËÙ¶È£¨¿ÉÕ{Õû£¬ÔOé 0 ×ƒË²égÏÂ½µ£©
+    public float massThreshold = 400f; // Ã”OÂ¶Â¨Ã™|ÃÂ¿Ã©Tâ„¢â€˜Â£Â¬Â´Ã³Ã¬Â¶ÃŸ@â€šâ‚¬Ã–ÂµÂ²Ã…Ã“|Â°lÃÃ‚Â½Âµ
+    public float dropDistance = 10f; // ÃÃ‚Â½ÂµÂ¾Ã Ã«x
+    public float dropSpeed = 5f; // ÃÃ‚Â½ÂµÃ‹Ã™Â¶ÃˆÂ£Â¨Â¿Ã‰Ã•{Ã•Ã»Â£Â¬Ã”OÅ¾Ã© 0 Ã—Æ’Ã‹Â²Ã©gÃÃ‚Â½ÂµÂ£Â©
+
+    private FracturedObject fracturedObject;
+
+    public Vector3 explodingObject;
 
     private bool shouldDrop = false;
     private Vector3 targetPosition;
 
     void Start()
     {
-        targetPosition = transform.position + Vector3.down * dropDistance; // Ó‹ËãÏÂ½µááµÄÎ»ÖÃ
+        targetPosition = transform.position + Vector3.down * dropDistance; // Ã“â€¹Ã‹Ã£ÃÃ‚Â½ÂµÃ¡Ã¡ÂµÃ„ÃÂ»Ã–Ãƒ
     }
 
     void OnCollisionEnter(Collision collision)
     {
         Rigidbody rb = collision.rigidbody;
 
-        // ™z²éÊÇ·ñÊÇ Box£¬KÇÒÆäÙ|Á¿ÊÇ·ñ³¬ß^éT™‘
+        // â„¢zÂ²Ã©ÃŠÃ‡Â·Ã±ÃŠÃ‡ BoxÂ£Â¬ÂKÃ‡Ã’Ã†Ã¤Ã™|ÃÂ¿ÃŠÃ‡Â·Ã±Â³Â¬ÃŸ^Ã©Tâ„¢â€˜
         if (collision.gameObject.CompareTag("Box") && rb != null && rb.mass >= massThreshold)
         {
-            UnityEngine.Debug.Log("ÖØÎï Box ×²“ô£¡°×É«ºĞ×Óé_Ê¼ÏÂ½µ£¡");
+            UnityEngine.Debug.Log("Ã–Ã˜ÃÃ¯ Box Ã—Â²â€œÃ´Â£Â¡Â°Ã—Ã‰Â«ÂºÃÃ—Ã“Ã©_ÃŠÂ¼ÃÃ‚Â½ÂµÂ£Â¡");
             shouldDrop = true;
         }
     }
@@ -31,14 +35,17 @@ public class HeavyBoxTrigger : MonoBehaviour
     {
         if (shouldDrop)
         {
-            // ×Œ°×É«ºĞ×Ó¾ÂıÏÂ½µ
+            // Ã—Å’Â°Ã—Ã‰Â«ÂºÃÃ—Ã“Â¾ÂÃ‚Ã½ÃÃ‚Â½Âµ
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, dropSpeed * Time.deltaTime);
 
-            // ™z²éÊÇ·ñµ½ß_Ä¿˜ËÎ»ÖÃ
+            // â„¢zÂ²Ã©ÃŠÃ‡Â·Ã±ÂµÂ½ÃŸ_Ã„Â¿ËœÃ‹ÃÂ»Ã–Ãƒ
             if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
             {
-                shouldDrop = false; // Í£Ö¹ÒÆ„Ó
+                shouldDrop = false; // ÃÂ£Ã–Â¹Ã’Ã†â€Ã“
             }
         }
+
+        fracturedObject.Explode(explodingObject,20);
     }
+
 }
