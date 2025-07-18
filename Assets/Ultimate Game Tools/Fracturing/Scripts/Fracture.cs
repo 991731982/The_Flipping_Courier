@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UltimateFracturing;
 
 #if !(UNITY_WINRT || UNITY_WINRT_8_1 || UNITY_WINRT_10_0) && UNITY_EDITOR
 using System.Threading;
