@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EdgeMelt
+  m_Shader: {fileID: 4800000, guid: 1a465d6919f82da49a7c585158c5b7b2, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DoorRamp:
+        m_Texture: {fileID: 2800000, guid: 3ad2c86c39f0eae48a608da70213d052, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: a57489fbda1ab7b40b4d411819b530eb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: c81e5c51fcb6ab54381a3b902a0f1886, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _DoorDisappear: 0
+    - _Doordisappear: 0
+    - _EdgeWidth: 0.5
+    - _Float2: 0
+    - _Maskrange: 1
+    m_Colors:
+    - _EdgeColor: {r: 8.3522, g: 9.368564, b: 32, a: 0}
+    - _MainColor: {r: 0.9779874, g: 0.97867036, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

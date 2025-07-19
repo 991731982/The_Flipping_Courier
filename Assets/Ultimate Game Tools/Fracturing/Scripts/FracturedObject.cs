@@ -392,7 +392,7 @@ public class FracturedObject : MonoBehaviour
 
         return listResult;
     }
-
+    //call this
     public void Explode(Vector3 v3ExplosionPosition, float fExplosionForce)
     {
         // Explodes all chunks
@@ -455,7 +455,7 @@ public class FracturedObject : MonoBehaviour
 
         m_bExploded = true;
     }
-
+    //finish
     public void Explode(Vector3 v3ExplosionPosition, float fExplosionForce, float fRadius, bool bPlayExplosionSound, bool bInstanceExplosionPrefabs, bool bAlsoExplodeFree, bool bCheckStructureIntegrityAfter)
     {
         // Explodes only chunks in a given radius

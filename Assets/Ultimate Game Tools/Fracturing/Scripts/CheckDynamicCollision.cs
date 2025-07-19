@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UltimateFracturing;
 
 /// <summary>
 /// This component will enable fracturable objects with dynamic properties

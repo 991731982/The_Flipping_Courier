@@ -1,29 +1,29 @@
 ﻿using UnityEngine;
-using TMPro; // 引入 TextMeshPro 的命名空间
+using TMPro; 
 
 public class ShootingMechanic : MonoBehaviour
 {
     [Header("Ammo Settings")]
-    public int maxAmmo = 99;            // 最大备弹量
-    private int currentAmmo;            // 当前剩余子弹量
+    public int maxAmmo = 99;            
+    private int currentAmmo;            
 
     [Header("UI Settings")]
-    public TextMeshProUGUI ammoText;    // TMP 文本，用于显示弹药数量
+    public TextMeshProUGUI ammoText;    
 
     void Start()
     {
-        currentAmmo = 10; // 初始化弹药数量
-        UpdateAmmoText(); // 初始化显示弹药数量
+        currentAmmo = 10; 
+        UpdateAmmoText(); 
     }
 
     public void AddAmmo(int amount)
     {
-        int previousAmmo = currentAmmo; // 记录修改前的值
+        int previousAmmo = currentAmmo; 
         currentAmmo += amount;
-        currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); // 确保弹药量在合理范围
+        currentAmmo = Mathf.Clamp(currentAmmo, 0, maxAmmo); 
 
         Debug.Log($"Ammo changed: {previousAmmo} -> {currentAmmo} (Max: {maxAmmo})");
-        UpdateAmmoText(); // 更新 UI
+        UpdateAmmoText(); 
     }
 
     private void UpdateAmmoText()
