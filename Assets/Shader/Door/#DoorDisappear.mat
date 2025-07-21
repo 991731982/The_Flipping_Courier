@@ -57,7 +57,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AxisHeight: 0.4
+    - _AxisHeight: 0.52
     - _GlowingEdgeProcess: 0
     - _TextureBrightness: 0
     - _WholeBrightness: 0
