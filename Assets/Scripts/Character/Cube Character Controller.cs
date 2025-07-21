@@ -30,6 +30,9 @@ public class CubeCharacterController : MonoBehaviour
     public float maxSlopeAngle = 45f; // Maximum walkable slope angle
     private Vector3 surfaceNormal = Vector3.up;
 
+    private float jumpBufferTime = 0.15f;
+    private float jumpBufferTimer = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -57,9 +60,21 @@ public class CubeCharacterController : MonoBehaviour
         }
 
         // Handle jump request
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time - lastJumpTime > jumpCooldown)
+        // Jump input buffering
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            shouldJump = true;
+            jumpBufferTimer = jumpBufferTime;
+        }
+
+        if (jumpBufferTimer > 0f)
+        {
+            jumpBufferTimer -= Time.deltaTime;
+
+            if (isGrounded && Time.time - lastJumpTime > jumpCooldown)
+            {
+                shouldJump = true;
+                jumpBufferTimer = 0f; // Consume buffer
+            }
         }
 
         // Determine facing direction

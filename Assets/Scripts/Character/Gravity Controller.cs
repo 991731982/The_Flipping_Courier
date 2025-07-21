@@ -22,7 +22,8 @@ public class GravityController : MonoBehaviour
         if (canFlipAgain)
         {
             // Flip upward (to ceiling)
-            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !gravityFlipped && CanFlipGravity())
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) &&
+    !gravityFlipped && CanFlipGravity() && HasSpaceToFlip(true))
             {
                 FlipGravity(true);
                 Debug.Log("Gravity flipped up.");
@@ -36,19 +37,28 @@ public class GravityController : MonoBehaviour
             }
         }
     }
-
+    bool HasSpaceToFlip(bool flipUp)
+    {
+        float checkDistance = 1.0f; // adjust based on player height
+        Vector3 direction = flipUp ? Vector3.up : Vector3.down;
+        return !Physics.Raycast(transform.position, direction, checkDistance, LayerMask.GetMask("Ground"));
+    }
     public void FlipGravity(bool flipUp)
     {
         gravityFlipped = flipUp;
-        canFlipAgain = false; // Prevent further flips until grounded
+        canFlipAgain = false;
 
-        // Set global gravity
+        // Set new gravity direction
         Physics.gravity = gravityFlipped ? new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
 
-        // Smooth visual rotation
+        // Preserve existing velocity exactly
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, rb.linearVelocity.z);
+
+        // Start smooth rotation coroutine
         float targetZRotation = gravityFlipped ? 180f : 0f;
         StartCoroutine(SmoothRotateZ(targetZRotation));
     }
+
 
     IEnumerator SmoothRotateZ(float targetZRotation)
     {
@@ -82,7 +92,7 @@ public class GravityController : MonoBehaviour
     bool CanFlipGravity()
     {
         // Only flip if vertical velocity is low
-        return Mathf.Abs(rb.linearVelocity.y) < 0.1f;
+        return Mathf.Abs(rb.linearVelocity.y) < 1.0f;
     }
     public void ForceResetGravityDown()
     {
