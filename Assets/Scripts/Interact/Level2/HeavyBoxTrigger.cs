@@ -45,7 +45,7 @@ public class HeavyBoxTrigger : MonoBehaviour
             }
         }
 
-        fracturedObject.Explode(explodingObject,20);
+        //fracturedObject.Explode(explodingObject,20);
     }
 
 }

@@ -6240,6 +6240,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 376331152}
     m_Modifications:
+    - target: {fileID: 7010266830869129258, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
+      propertyPath: m_Name
+      value: checkpoint
+      objectReference: {fileID: 0}
     - target: {fileID: 7638852803164123792, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 90.2
@@ -6279,10 +6283,6 @@ PrefabInstance:
     - target: {fileID: 7638852803164123792, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7010266830869129258, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
-      propertyPath: m_Name
-      value: checkpoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9797,9 +9797,6 @@ PrefabInstance:
       addedObject: {fileID: 1727868577}
     - targetCorrespondingSourceObject: {fileID: -3941570638884372276, guid: ecedfd549d2fc0549883ec4364406592, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1727868576}
-    - targetCorrespondingSourceObject: {fileID: -3941570638884372276, guid: ecedfd549d2fc0549883ec4364406592, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1727868575}
     - targetCorrespondingSourceObject: {fileID: -3941570638884372276, guid: ecedfd549d2fc0549883ec4364406592, type: 3}
       insertIndex: -1
@@ -11471,6 +11468,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 376331152}
     m_Modifications:
+    - target: {fileID: 7010266830869129258, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
+      propertyPath: m_Name
+      value: checkpoint (2)
+      objectReference: {fileID: 0}
     - target: {fileID: 7638852803164123792, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 148.43
@@ -11510,10 +11511,6 @@ PrefabInstance:
     - target: {fileID: 7638852803164123792, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7010266830869129258, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
-      propertyPath: m_Name
-      value: checkpoint (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -89453,9 +89450,6 @@ PrefabInstance:
       addedObject: {fileID: 2016053613}
     - targetCorrespondingSourceObject: {fileID: -3941570638884372276, guid: ecedfd549d2fc0549883ec4364406592, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2016053612}
-    - targetCorrespondingSourceObject: {fileID: -3941570638884372276, guid: ecedfd549d2fc0549883ec4364406592, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2016053611}
     - targetCorrespondingSourceObject: {fileID: -3941570638884372276, guid: ecedfd549d2fc0549883ec4364406592, type: 3}
       insertIndex: -1
@@ -92832,26 +92826,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69534afa9356ce8439b30d57932c01bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1727868576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727868572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409ecbe35fc2afd4b82ade0142839256, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StopMotionEnabled: 1
-  AnimationLayerID: 0
-  FramerateMode: 1
-  FramesPerSecond: 4
-  PollFrequency: 1
-  ManualTimeBetweenFrames: 0.125
-  ManualAnimatorSpeed: 2
-  timet: 0
 --- !u!114 &1727868577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99042,6 +99016,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 376331152}
     m_Modifications:
+    - target: {fileID: 7010266830869129258, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
+      propertyPath: m_Name
+      value: checkpoint (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 7638852803164123792, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -99081,10 +99059,6 @@ PrefabInstance:
     - target: {fileID: 7638852803164123792, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7010266830869129258, guid: 5a65fb6f7b336ee4b975040e98fc4dc0, type: 3}
-      propertyPath: m_Name
-      value: checkpoint (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -108202,26 +108176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69534afa9356ce8439b30d57932c01bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2016053612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016053608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409ecbe35fc2afd4b82ade0142839256, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StopMotionEnabled: 1
-  AnimationLayerID: 0
-  FramerateMode: 1
-  FramesPerSecond: 4
-  PollFrequency: 1
-  ManualTimeBetweenFrames: 0.125
-  ManualAnimatorSpeed: 2
-  timet: 0
 --- !u!114 &2016053613
 MonoBehaviour:
   m_ObjectHideFlags: 0
