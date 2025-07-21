@@ -19,6 +19,7 @@ TagManager:
   - ClickBlock
   - FxTemporaire
   - particleEffect
+  - Eyeball
   layers:
   - Default
   - TransparentFX

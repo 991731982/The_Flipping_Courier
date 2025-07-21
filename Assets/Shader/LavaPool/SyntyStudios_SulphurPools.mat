@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OutLine_blue
-  m_Shader: {fileID: 4800000, guid: d60717df9d6658c4ebd7a214259f2bc2, type: 3}
+  m_Name: SyntyStudios_SulphurPools
+  m_Shader: {fileID: 4800000, guid: b2ea0074f6d603d4ba77b2672663efb7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,15 +22,16 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: e5cd9046d860cea4ab4f3be8b54932db, type: 3}
-        m_Scale: {x: 2, y: 2}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _ColourFalloff: 0.3
+    - _Metallic: 0
+    - _Opacity: 0.946
+    - _Smoothness: 0.203
+    - __dirty: 0
     m_Colors:
-    - _Color0: {r: 0, g: 7393.4375, b: 196351.14, a: 1}
-    - _MainSpeed: {r: 0, g: 0.2, b: 0, a: 0}
+    - _DeepColor: {r: 0.61635214, g: 0.24724397, b: 0.17637739, a: 0}
+    - _ShallowColor: {r: 0.7924528, g: 0.5014761, b: 0.12210734, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
