@@ -3,7 +3,7 @@
 public class DragObject : MonoBehaviour
 {
     public Transform player;
-    public Vector3 localDragOffset = new Vector3(1f, 1f, 1f); // Base offset relative to player
+    public Vector3 localDragOffset = new Vector3(1f, 1.5f, -2f); // Base offset relative to player
 
     [Header("Sway Settings")]
     public float swayAmount = 0.1f;
