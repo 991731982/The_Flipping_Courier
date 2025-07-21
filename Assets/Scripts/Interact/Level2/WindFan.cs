@@ -18,9 +18,9 @@ public class WindFan : MonoBehaviour
         windEffect.transform.localScale = boxSize;
 
         // 設置透明材質
-        MeshRenderer renderer = windEffect.GetComponent<MeshRenderer>();
+       MeshRenderer renderer = windEffect.GetComponent<MeshRenderer>();
         Material transparentMaterial = new Material(Shader.Find("Standard"));
-        transparentMaterial.color = new Color(0f, 0.5f, 1f, 0.3f); // 半透明顏色
+        transparentMaterial.color = new Color(0f, 0f, 0f, 0f); // 半透明顏色
         transparentMaterial.SetFloat("_Mode", 3); // 設置為透明模式
         transparentMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         transparentMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
@@ -31,6 +31,7 @@ public class WindFan : MonoBehaviour
         transparentMaterial.renderQueue = 3000;
 
         renderer.material = transparentMaterial;
+    
     }
 
 
@@ -54,10 +55,10 @@ public class WindFan : MonoBehaviour
         windEffect.transform.rotation = transform.rotation;
     }
 
-    void OnDrawGizmos()
+   /*void OnDrawGizmos()
     {
-        Gizmos.color = new Color(0f, 0.5f, 1f, 0.3f);
+       // Gizmos.color = new Color(0f, 0.5f, 1f, 0.3f);
         Gizmos.matrix = Matrix4x4.TRS(transform.position + transform.right * (boxSize.x / 2), transform.rotation, Vector3.one);
         Gizmos.DrawWireCube(Vector3.zero, boxSize);
-    }
+    }*/
 }
