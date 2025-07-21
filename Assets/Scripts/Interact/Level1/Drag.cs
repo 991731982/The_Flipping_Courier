@@ -71,28 +71,27 @@ public class DragObject : MonoBehaviour
     void StartDragging()
     {
         isDragging = true;
-
         originalParent = transform.parent;
         originalPosition = transform.position;
         originalRotation = transform.rotation;
 
         rb.useGravity = false;
         rb.isKinematic = true;
-
         Physics.IgnoreCollision(col, player.GetComponent<Collider>(), true);
 
+        // Store world position before parenting
+        Vector3 worldPos = transform.position;
         transform.SetParent(player);
 
-        // Flip offset based on side
-        if (transform.position.x < player.position.x)
-            localDragOffset.x = -Mathf.Abs(localDragOffset.x);
-        else
-            localDragOffset.x = Mathf.Abs(localDragOffset.x);
+        // Calculate local offset based on player's right vector (not world space)
+        Vector3 offsetDirection = transform.position.x < player.position.x ?
+            -player.right : player.right;
 
-        transform.localPosition = localDragOffset;
-        transform.localRotation = Quaternion.identity;
+        Vector3 targetWorldPos = player.position + offsetDirection * 2f + Vector3.up * 1f;
+        transform.position = targetWorldPos;
 
-        Debug.Log("Started dragging.");
+        // Maintain original world rotation
+        transform.rotation = originalRotation;
     }
 
     void StopDragging()

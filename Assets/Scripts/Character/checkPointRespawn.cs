@@ -70,13 +70,17 @@ public class checkPointRespawn : MonoBehaviour
 
         if (!wasGroundedOnDeath)
         {
-            // Fully cancel flip and rotation
             gravityController.ForceResetGravityDown();
+            // Ensure visual rotation matches gravity state
+            transform.rotation = Quaternion.Euler(0f, currentY, 0f);
         }
         else
         {
-            float targetZ = wasGroundedAtCheckpoint ? storedZRotation : 0f;
-            transform.rotation = Quaternion.Euler(0f, currentY, targetZ);
+            // Restore both gravity state AND visual rotation
+            gravityController.gravityFlipped = (storedZRotation > 90f);
+            Physics.gravity = gravityController.gravityFlipped ?
+                new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
+            transform.rotation = Quaternion.Euler(0f, currentY, storedZRotation);
         }
 
         if (playerHealth != null)
