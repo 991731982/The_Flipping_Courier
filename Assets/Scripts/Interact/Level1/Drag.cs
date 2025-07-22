@@ -40,11 +40,11 @@ public class DragObject : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (gravState != null && gravState.CurrentState == Bullet.BulletType.Heavy)
+            /*if (gravState != null && gravState.CurrentState == Bullet.BulletType.Heavy)
             {
                 Debug.Log("Can't drag — object is heavy.");
                 return;
-            }
+            }*/
 
             float distance = Vector3.Distance(transform.position, player.position);
             if (isDragging)

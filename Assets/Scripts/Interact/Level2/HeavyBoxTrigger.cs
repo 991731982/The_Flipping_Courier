@@ -7,9 +7,9 @@ public class HeavyBoxTrigger : MonoBehaviour
     public float dropDistance = 10f; // ÏÂ½µ¾àëx
     public float dropSpeed = 5f; // ÏÂ½µËÙ¶È£¨¿ÉÕ{Õû£¬ÔOžé 0 ×ƒË²égÏÂ½µ£©
 
-    private FracturedObject fracturedObject;
+    //private FracturedObject fracturedObject;
 
-    public Vector3 explodingObject;
+    //public Vector3 explodingObject;
 
     private bool shouldDrop = false;
     private Vector3 targetPosition;
