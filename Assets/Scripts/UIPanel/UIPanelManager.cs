@@ -71,9 +71,9 @@ public class UIPanelManager : MonoBehaviour
 
         currentPanels = panelsToPlay;
 
-        playerController = FindAnyObjectByType<CubeCharacterController>();
+        /*playerController = FindAnyObjectByType<CubeCharacterController>();
         if (playerController != null)
-            playerController.DisableInput();
+            playerController.DisableInput();*/
 
         panelCanvas.SetActive(true);
         currentPanelIndex = 0;
@@ -107,8 +107,8 @@ public class UIPanelManager : MonoBehaviour
         isPlaying = false;
         panelCanvas.SetActive(false);
 
-        if (playerController != null)
-            playerController.EnableInput();
+        /*if (playerController != null)
+            playerController.EnableInput();*/
 
         if (!string.IsNullOrEmpty(sceneToLoad))
         {
