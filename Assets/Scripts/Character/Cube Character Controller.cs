@@ -27,16 +27,24 @@ public class CubeCharacterController : MonoBehaviour
 
     // Slope handling
     [Header("Slope Handling")]
-    public float maxSlopeAngle = 45f; // Maximum walkable slope angle
+    public float maxSlopeAngle = 45f;
     private Vector3 surfaceNormal = Vector3.up;
 
     private float jumpBufferTime = 0.15f;
     private float jumpBufferTimer = 0f;
 
+    // Animation
+    [Header("Animation")]
+    private Animator animator;
+    private float currentSpeed;
+    [SerializeField] private float speedThreshold = 0.5f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         gravityController = GetComponent<GravityController>();
+        animator = GetComponent<Animator>();
+
         groundjump = new Vector3(0.0f, 2.0f, 0.0f);
         roofjump = new Vector3(0.0f, -2.0f, 0.0f);
         targetYRotation = transform.eulerAngles.y;
@@ -60,7 +68,6 @@ public class CubeCharacterController : MonoBehaviour
         }
 
         // Handle jump request
-        // Jump input buffering
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpBufferTimer = jumpBufferTime;
@@ -73,7 +80,7 @@ public class CubeCharacterController : MonoBehaviour
             if (isGrounded && Time.time - lastJumpTime > jumpCooldown)
             {
                 shouldJump = true;
-                jumpBufferTimer = 0f; // Consume buffer
+                jumpBufferTimer = 0f;
             }
         }
 
@@ -81,10 +88,11 @@ public class CubeCharacterController : MonoBehaviour
         if (moveDirection.x != 0)
         {
             float direction = moveDirection.x > 0 ? 1f : -1f;
-            targetYRotation = direction > 0 ? 270f : 90f; // Right = 270, Left = 90
+            targetYRotation = direction > 0 ? 270f : 90f;
         }
 
         ApplyCombinedRotation();
+        UpdateAnimations();
     }
 
     void FixedUpdate()
@@ -102,7 +110,6 @@ public class CubeCharacterController : MonoBehaviour
         }
         else
         {
-            // Prevent movement on steep slope
             Vector3 targetVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
             rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.fixedDeltaTime * movementSmoothing);
         }
@@ -110,6 +117,12 @@ public class CubeCharacterController : MonoBehaviour
         // Perform jump
         if (shouldJump)
         {
+            // Trigger jump animation
+            if (animator != null)
+            {
+                animator.SetTrigger("jumpTrigger");
+            }
+
             Vector3 jumpDirection = gravityController.gravityFlipped ? roofjump : groundjump;
             rb.AddForce(jumpDirection * jumpForce, ForceMode.Impulse);
             isGrounded = false;
@@ -126,7 +139,7 @@ public class CubeCharacterController : MonoBehaviour
                 (gravityController.gravityFlipped && contact.normal.y < -0.5f))
             {
                 isGrounded = true;
-                surfaceNormal = contact.normal; // Store normal for slope handling
+                surfaceNormal = contact.normal;
             }
         }
     }
@@ -134,7 +147,7 @@ public class CubeCharacterController : MonoBehaviour
     void OnCollisionExit(Collision collision)
     {
         isGrounded = false;
-        surfaceNormal = gravityController.gravityFlipped ? Vector3.down : Vector3.up; // Reset normal
+        surfaceNormal = gravityController.gravityFlipped ? Vector3.down : Vector3.up;
     }
 
     private void ApplyCombinedRotation()
@@ -149,6 +162,18 @@ public class CubeCharacterController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, smoothY, smoothZ);
     }
 
+    private void UpdateAnimations()
+    {
+        if (animator == null) return;
+
+        // Calculate current horizontal speed
+        currentSpeed = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z).magnitude;
+
+        // Update animator parameters
+        animator.SetBool("isGrounded", isGrounded);
+        animator.SetFloat("speed", currentSpeed);
+    }
+
     public void EnableInput()
     {
         inputEnabled = true;
@@ -158,5 +183,30 @@ public class CubeCharacterController : MonoBehaviour
     {
         inputEnabled = false;
         rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, rb.linearVelocity.z);
+    }
+
+    // Public getter for other scripts that might need current speed
+    public float GetCurrentSpeed()
+    {
+        return currentSpeed;
+    }
+
+    // Debug information (optional - remove in final build)
+    void OnGUI()
+    {
+        if (animator != null && Application.isEditor)
+        {
+            GUILayout.BeginArea(new Rect(10, 10, 300, 100));
+            GUILayout.Label("Animation Debug:");
+            GUILayout.Label($"Speed: {currentSpeed:F2}");
+            GUILayout.Label($"Grounded: {isGrounded}");
+
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Cube_Idle")) GUILayout.Label("State: Idle");
+            else if (stateInfo.IsName("Cube_Run")) GUILayout.Label("State: Run");
+            else if (stateInfo.IsName("Cube_Jump")) GUILayout.Label("State: Jump");
+
+            GUILayout.EndArea();
+        }
     }
 }
