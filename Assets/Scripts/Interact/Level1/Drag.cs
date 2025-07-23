@@ -27,6 +27,12 @@ public class DragObject : MonoBehaviour
     public LayerMask collisionMask;
     public Vector3 checkBoxSize = new Vector3(1f, 1f, 1f);
 
+    [Header("UI Prompt")]
+    public GameObject promptSprite; // Assign your "E" button sprite here
+    public Vector3 promptOffset = new Vector3(-1f, 1f, 0); // Offset from object center (top-left)
+    public float jiggleAmount = 10f; // Rotation amount in degrees
+    public float jiggleSpeed = 3f; // How fast it jiggles
+
     private Rigidbody rb;
     private Collider col;
     private bool isDragging = false;
@@ -62,13 +68,45 @@ public class DragObject : MonoBehaviour
         {
             Debug.LogError("Constrained drag requires both start and end points!");
         }
+
+        // Make sure prompt starts hidden
+        if (promptSprite != null)
+        {
+            promptSprite.SetActive(false);
+        }
     }
 
     void Update()
     {
+        // Handle UI prompt visibility
+        float distance = Vector3.Distance(transform.position, player.position);
+        bool inRange = distance <= dragDistance;
+
+        if (promptSprite != null)
+        {
+            // Show prompt when in range and not dragging
+            if (inRange && !isDragging)
+            {
+                if (!promptSprite.activeInHierarchy)
+                {
+                    promptSprite.SetActive(true);
+                }
+                // Update prompt position to follow this object
+                promptSprite.transform.position = transform.position + promptOffset;
+
+                // Add smooth rotation jiggle
+                float jiggleRotation = Mathf.Sin(Time.time * jiggleSpeed) * jiggleAmount;
+                promptSprite.transform.rotation = Quaternion.Euler(0, 0, jiggleRotation);
+            }
+            // Hide prompt when out of range or dragging
+            else if (promptSprite.activeInHierarchy)
+            {
+                promptSprite.SetActive(false);
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
-            float distance = Vector3.Distance(transform.position, player.position);
             if (isDragging)
             {
                 StopDragging();
@@ -240,7 +278,6 @@ public class DragObject : MonoBehaviour
             // Draw progress indicator
             Gizmos.color = Color.white;
             Vector3 labelPos = currentPos + Vector3.up * 0.5f;
-            // Note: DrawGUI doesn't exist, but this shows the concept
         }
 
         // Draw drag distance
