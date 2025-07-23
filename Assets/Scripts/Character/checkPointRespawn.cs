@@ -7,7 +7,7 @@ public class checkPointRespawn : MonoBehaviour
     private Vector3 checkpointPosition;
     private float storedZRotation = 0f;
     private bool wasGroundedAtCheckpoint = true;
-    private bool wasGroundedOnDeath = true; // NEW: Track grounded state at time of death
+    private bool wasGroundedOnDeath = true; // Track grounded state at time of death
 
     public Vector3 respawnOffset = new Vector3(0, 2, 0);
     private GravityController gravityController;
@@ -22,9 +22,6 @@ public class checkPointRespawn : MonoBehaviour
         playerHealth = GetComponent<PlayerHealthDisplay>();
         playerController = GetComponent<CubeCharacterController>();
 
-        if (playerHealth == null)
-            Debug.LogError("PlayerHealthDisplay component not found!");
-
         checkpointPosition = transform.position;
         storedZRotation = transform.eulerAngles.z;
         wasGroundedAtCheckpoint = true;
@@ -32,7 +29,7 @@ public class checkPointRespawn : MonoBehaviour
 
     void Update()
     {
-        // For testing: press R to respawn
+        // For testing: press T to respawn
         if (Input.GetKeyDown(KeyCode.T))
         {
             // Record grounded state at time of death
@@ -50,13 +47,13 @@ public class checkPointRespawn : MonoBehaviour
         {
             storedZRotation = transform.eulerAngles.z;
             wasGroundedAtCheckpoint = true;
-            Debug.Log($"Checkpoint set: Grounded, Z = {storedZRotation}");
+            //Debug.Log($"Checkpoint set: Grounded, Z = {storedZRotation}");
         }
         else
         {
             storedZRotation = 0f;
             wasGroundedAtCheckpoint = false;
-            Debug.Log($"Checkpoint set: In air, Z reset to 0");
+            //Debug.Log($"Checkpoint set: In air, Z reset to 0");
         }
     }
 
@@ -68,18 +65,23 @@ public class checkPointRespawn : MonoBehaviour
 
         float currentY = transform.eulerAngles.y;
 
+        // Stop any ongoing rotation coroutines in GravityController
+        gravityController.StopAllCoroutines();
+
         if (!wasGroundedOnDeath)
         {
+            // Player died in air - force reset to normal gravity
             gravityController.ForceResetGravityDown();
-            // Ensure visual rotation matches gravity state
+            // Ensure visual rotation matches the reset gravity state (normal/unflipped)
             transform.rotation = Quaternion.Euler(0f, currentY, 0f);
         }
         else
         {
-            // Restore both gravity state AND visual rotation
+            // Player died while grounded - restore checkpoint state
             gravityController.gravityFlipped = (storedZRotation > 90f);
             Physics.gravity = gravityController.gravityFlipped ?
                 new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
+            // Set rotation to match the gravity state
             transform.rotation = Quaternion.Euler(0f, currentY, storedZRotation);
         }
 
@@ -88,6 +90,6 @@ public class checkPointRespawn : MonoBehaviour
             playerHealth.RestoreFullHealth();
         }
 
-        Debug.Log($"Respawned at {respawnPosition}, GroundedOnDeath: {wasGroundedOnDeath}");
+        //Debug.Log($"Respawned at {respawnPosition}, GroundedOnDeath: {wasGroundedOnDeath}, GravityFlipped: {gravityController.gravityFlipped}, ZRotation: {transform.eulerAngles.z}");
     }
 }

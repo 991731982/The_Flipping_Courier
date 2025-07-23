@@ -36,12 +36,12 @@ public class GravityController : MonoBehaviour
                 if (flipUp && HasSpaceToFlip(true))
                 {
                     FlipGravity(true);
-                    Debug.Log("Gravity flipped up (toggle mode).");
+                    //Debug.Log("Gravity flipped up (toggle mode).");
                 }
                 else if (!flipUp && HasSpaceToFlip(false))
                 {
                     FlipGravity(false);
-                    Debug.Log("Gravity flipped down (toggle mode).");
+                    //Debug.Log("Gravity flipped down (toggle mode).");
                 }
             }
         }
@@ -52,14 +52,14 @@ public class GravityController : MonoBehaviour
                 !gravityFlipped && HasSpaceToFlip(true))
             {
                 FlipGravity(true);
-                Debug.Log("Gravity flipped up.");
+                //Debug.Log("Gravity flipped up.");
             }
 
             if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) &&
                 gravityFlipped && HasSpaceToFlip(false))
             {
                 FlipGravity(false);
-                Debug.Log("Gravity flipped down.");
+                //Debug.Log("Gravity flipped down.");
             }
         }
     }
@@ -126,7 +126,7 @@ public class GravityController : MonoBehaviour
         Vector3 currentRotation = transform.eulerAngles;
         transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
 
-        Debug.Log("Forcefully reset gravity and rotation to normal.");
+        //Debug.Log("Forcefully reset gravity and rotation to normal.");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -137,7 +137,7 @@ public class GravityController : MonoBehaviour
                 (gravityFlipped && contact.normal.y < -0.5f))
             {
                 canFlipAgain = true;
-                Debug.Log("Player landed — flip re-enabled.");
+                //Debug.Log("Player landed — flip re-enabled.");
                 break;
             }
         }

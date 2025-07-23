@@ -190,23 +190,4 @@ public class CubeCharacterController : MonoBehaviour
     {
         return currentSpeed;
     }
-
-    // Debug information (optional - remove in final build)
-    void OnGUI()
-    {
-        if (animator != null && Application.isEditor)
-        {
-            GUILayout.BeginArea(new Rect(10, 10, 300, 100));
-            GUILayout.Label("Animation Debug:");
-            GUILayout.Label($"Speed: {currentSpeed:F2}");
-            GUILayout.Label($"Grounded: {isGrounded}");
-
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (stateInfo.IsName("Cube_Idle")) GUILayout.Label("State: Idle");
-            else if (stateInfo.IsName("Cube_Run")) GUILayout.Label("State: Run");
-            else if (stateInfo.IsName("Cube_Jump")) GUILayout.Label("State: Jump");
-
-            GUILayout.EndArea();
-        }
-    }
 }
