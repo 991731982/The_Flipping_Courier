@@ -236,13 +236,13 @@ Material:
     - _WindQuality: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.44014022, b: 0.41037738, a: 1}
+    - _Color: {r: 1, g: 0.90556604, b: 0.9009434, a: 1}
     - _DeepColor: {r: 0.4762816, g: 0.7215106, b: 0.7264151, a: 0}
     - _DirectionalColor: {r: 1, g: 0.7793103, b: 0.5, a: 1}
     - _DirectionalDir: {r: 0, g: 0, b: 0, a: 0}
-    - _EdgeColor: {r: 0.5896226, g: 0.8974057, b: 1, a: 1}
+    - _EdgeColor: {r: 0.4811321, g: 0.12514754, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 0.38679248, g: 0.21346566, b: 0.21346566, a: 1}
     - _FogAxisOption: {r: 0, g: 1, b: 0, a: 0}
     - _FogColorEnd: {r: 0.8862745, g: 1.443137, b: 2, a: 1}
     - _FogColorStart: {r: 0.4411765, g: 0.722515, b: 1, a: 1}

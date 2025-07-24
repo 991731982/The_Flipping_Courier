@@ -3,6 +3,9 @@ using System.Collections;
 
 public class GravState : MonoBehaviour
 {
+    [Header("Effect Follow Target")]
+    public Transform effectFollowTarget; 
+
     public enum GravityState { Normal, Heavy, Light }
 
     [Header("Physics Settings")]
@@ -263,9 +266,17 @@ public class GravState : MonoBehaviour
     {
         if (stateChangeEffect != null)
         {
-            GameObject effect = Instantiate(stateChangeEffect, transform.position, Quaternion.identity);
+            // 创建空对象用于跟随目标
+            Transform parent = effectFollowTarget != null ? effectFollowTarget : transform;
 
-            // Color the effect based on new state
+            // 实例化粒子作为目标的子物体
+            GameObject effect = Instantiate(stateChangeEffect, parent.position, Quaternion.identity, parent);
+
+            // 居中放置并保持缩放正常
+            effect.transform.localPosition = Vector3.zero;
+            effect.transform.localScale = Vector3.one;
+
+            // 设置粒子颜色
             ParticleSystem ps = effect.GetComponent<ParticleSystem>();
             if (ps != null)
             {
@@ -284,10 +295,11 @@ public class GravState : MonoBehaviour
                 }
             }
 
-            // Auto destroy effect after a short time
+            // 自动销毁粒子
             Destroy(effect, 2f);
         }
     }
+
 
     IEnumerator RevertToNormalAfterTime(float duration)
     {

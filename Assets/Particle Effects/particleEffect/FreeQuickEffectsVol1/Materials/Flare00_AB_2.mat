@@ -26,7 +26,9 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHABLEND_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _CFXR_DITHERED_SHADOWS_OFF
+  - _GLOSSYREFLECTIONS_OFF
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -59,6 +61,34 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DitherCustom:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DoorShader02:
+        m_Texture: {fileID: 2800000, guid: c81e5c51fcb6ab54381a3b902a0f1886, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Door_Door01_BaseMap:
+        m_Texture: {fileID: 2800000, guid: a57489fbda1ab7b40b4d411819b530eb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Door_Door01_Emissive:
+        m_Texture: {fileID: 2800000, guid: a9c89f60f9f8bc24aa0c8e30a9102c7d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Door_Door01_MaskMap:
+        m_Texture: {fileID: 2800000, guid: 692df5f7c20746148bb86e4155991a1c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Door_Door01_Normal:
+        m_Texture: {fileID: 2800000, guid: aa6e7733ea80ee448832467dc3cb1fc0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -83,6 +113,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 9e05c035d0335eb4487471e6b81a62b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -97,12 +139,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AdvancedCat: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _AxisHeight: 0.01
+    - _Banner: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BlendOp: 0
     - _BumpScale: 1
+    - _CFXR_DITHERED_SHADOWS: 0
     - _CameraFadingEnabled: 0
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
@@ -113,6 +159,10 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DirectionalCat: 1
+    - _DirectionalFalloff: 2
+    - _DirectionalIntensity: 1
+    - _DissolveSmooth: 0.1
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
@@ -122,33 +172,85 @@ Material:
     - _EmissionEnabled: 0
     - _EnvironmentReflections: 1
     - _FlipbookMode: 0
+    - _FogAxisMode: 1
+    - _FogCat: 1
+    - _FogColorDuo: 1
+    - _FogDistanceEnd: 200
+    - _FogDistanceFalloff: 2
+    - _FogDistanceStart: -200
+    - _FogHeightEnd: 200
+    - _FogHeightFalloff: 2
+    - _FogHeightStart: 0
+    - _FogIntensity: 1
+    - _FogLayersMode: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _GlowingEdgeProcess: 0
+    - _HdrMultiply: 2
+    - _HeightFogStandalone: 1
+    - _InvertDissolveTex: 0
+    - _IsHeightFogShader: 1
     - _LightingEnabled: 0
     - _Metallic: 0
     - _Mode: 2
+    - _NoiseCat: 1
+    - _NoiseDistanceEnd: 10
+    - _NoiseIntensity: 1
+    - _NoiseScale: 30
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RingTopOffset: 0.05
+    - _ShadowStrength: 1
+    - _SingleChannel: 0
+    - _SkyboxCat: 1
+    - _SkyboxFogBottom: 0
+    - _SkyboxFogFalloff: 2
+    - _SkyboxFogFill: 0
+    - _SkyboxFogHeight: 1
+    - _SkyboxFogIntensity: 0
+    - _SkyboxFogOffset: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0
+    - _SoftParticlesFadeDistanceFar: 1
+    - _SoftParticlesFadeDistanceNear: 0
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _TextureBrightness: 0.87
+    - _UVSec: 0
+    - _UseDissolve: 0
+    - _UseRadialUV: 0
+    - _UseSP: 0
+    - _WholeBrightness: 0.15
+    - _WindQuality: 0
     - _WorkflowMode: 1
+    - _WorldSpaceRing: 0
     - _ZWrite: 0
+    - __dirty: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 4, g: 4, b: 4, a: 1}
+    - _Color0: {r: 0.8553459, g: 0.519125, b: 0.519125, a: 0}
     - _ColorAddSubDiff: {r: -1, g: 1, b: 0, a: 0}
+    - _DirectionalColor: {r: 1, g: 0.8280286, b: 0.6084906, a: 0}
+    - _DirectionalDir: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FogAxisOption: {r: 0, g: 0, b: 0, a: 0}
+    - _FogColorEnd: {r: 0.4411765, g: 0.722515, b: 1, a: 0}
+    - _FogColorStart: {r: 0.4411765, g: 0.722515, b: 1, a: 0}
+    - _Glowingedge: {r: 0.9308176, g: 0.8833435, b: 0.4185751, a: 0}
+    - _HueVariation: {r: 1, g: 0.5, b: 0, a: 0.1}
+    - _MeltingColor: {r: 1, g: 1, b: 1, a: 0}
+    - _NoiseSpeed: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
