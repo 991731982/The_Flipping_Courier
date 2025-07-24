@@ -7,7 +7,7 @@ public class Hazard : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(collision.gameObject);
-            Debug.Log("Enemy destroyed by hazard!");
+            //Debug.Log("Enemy destroyed by hazard!");
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
@@ -15,7 +15,7 @@ public class Hazard : MonoBehaviour
             if (player != null)
             {
                 player.RespawnAtCheckpoint();
-                Debug.Log("Player respawned at checkpoint due to hazard!");
+                //Debug.Log("Player respawned at checkpoint due to hazard!");
             }
         }
     }

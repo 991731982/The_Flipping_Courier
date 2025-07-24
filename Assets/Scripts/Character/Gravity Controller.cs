@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class GravityController : MonoBehaviour
 {
@@ -9,9 +10,13 @@ public class GravityController : MonoBehaviour
     public float rotationSpeed = 2.0f;            // Rotation smoothing speed
 
     private bool canFlipAgain = true;             // Prevent multiple flips in mid-air
+    private bool justFlipped = false;
+    private Vector3 expectedLandingNormal;
 
     [Header("Gravity Flip Settings")]
-    public bool useSingleKeyToggle = false;       // 🔁 Toggle this in the Inspector
+    public bool useSingleKeyToggle = false;       // Toggle this in the Inspector
+
+    public MMF_Player PlayerFlipFeedback;
 
     [HideInInspector]
     public float CurrentZRotation => transform.eulerAngles.z;
@@ -36,12 +41,12 @@ public class GravityController : MonoBehaviour
                 if (flipUp && HasSpaceToFlip(true))
                 {
                     FlipGravity(true);
-                    Debug.Log("Gravity flipped up (toggle mode).");
+                    //Debug.Log("Gravity flipped up (toggle mode).");
                 }
                 else if (!flipUp && HasSpaceToFlip(false))
                 {
                     FlipGravity(false);
-                    Debug.Log("Gravity flipped down (toggle mode).");
+                    //Debug.Log("Gravity flipped down (toggle mode).");
                 }
             }
         }
@@ -52,14 +57,14 @@ public class GravityController : MonoBehaviour
                 !gravityFlipped && HasSpaceToFlip(true))
             {
                 FlipGravity(true);
-                Debug.Log("Gravity flipped up.");
+                //Debug.Log("Gravity flipped up.");
             }
 
             if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) &&
                 gravityFlipped && HasSpaceToFlip(false))
             {
                 FlipGravity(false);
-                Debug.Log("Gravity flipped down.");
+                //Debug.Log("Gravity flipped down.");
             }
         }
     }
@@ -75,10 +80,13 @@ public class GravityController : MonoBehaviour
     {
         gravityFlipped = flipUp;
         canFlipAgain = false;
+        justFlipped = true;
+        expectedLandingNormal = flipUp ? Vector3.down : Vector3.up;
 
         Physics.gravity = gravityFlipped ? new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
-
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, rb.linearVelocity.z);
+
+        // The post-processing effect will automatically detect the state change
 
         float targetZRotation = gravityFlipped ? 180f : 0f;
         StartCoroutine(SmoothRotateZ(targetZRotation));
@@ -126,20 +134,35 @@ public class GravityController : MonoBehaviour
         Vector3 currentRotation = transform.eulerAngles;
         transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
 
-        Debug.Log("Forcefully reset gravity and rotation to normal.");
+        //Debug.Log("Forcefully reset gravity and rotation to normal.");
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-            if ((!gravityFlipped && contact.normal.y > 0.5f) ||
-                (gravityFlipped && contact.normal.y < -0.5f))
+            // Must match the expected surface from the last flip
+            if (justFlipped && Vector3.Dot(contact.normal, expectedLandingNormal) > 0.5f)
             {
                 canFlipAgain = true;
-                Debug.Log("Player landed — flip re-enabled.");
+
+                if (PlayerFlipFeedback != null)
+                {
+                    PlayerFlipFeedback.PlayFeedbacks();
+                }
+
+                justFlipped = false; // Reset
                 break;
+            }
+
+            // Even if we didn’t flip, still allow regular grounded movement
+            if (!justFlipped &&
+                ((!gravityFlipped && contact.normal.y > 0.5f) ||
+                 (gravityFlipped && contact.normal.y < -0.5f)))
+            {
+                canFlipAgain = true;
             }
         }
     }
+
 }

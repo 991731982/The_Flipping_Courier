@@ -1020,11 +1020,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: ac4ded99-9e1f-442e-9a06-a8ad0e231eb3
+  cloudProjectId: 4ac7405a-a03a-4561-91bd-e4780516e8d1
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: GravityChaneg_2
-  organizationId: ashleyyyyyyyyyyyy
+  organizationId: tmax007
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
