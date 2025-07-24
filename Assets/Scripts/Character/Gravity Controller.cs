@@ -84,8 +84,9 @@ public class GravityController : MonoBehaviour
         expectedLandingNormal = flipUp ? Vector3.down : Vector3.up;
 
         Physics.gravity = gravityFlipped ? new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
-
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, rb.linearVelocity.z);
+
+        // The post-processing effect will automatically detect the state change
 
         float targetZRotation = gravityFlipped ? 180f : 0f;
         StartCoroutine(SmoothRotateZ(targetZRotation));
