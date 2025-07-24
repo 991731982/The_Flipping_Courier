@@ -1,26 +1,41 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Detector : MonoBehaviour
 {
-    public DoorLever doorLever; // DoorLever ½Å±¾µÄÒıÓÃ
-    public string boxTag = "Box"; // ÓÃÓÚ±êÊ¶Ïä×ÓµÄ±êÇ©
+    public DoorLever doorLever; // DoorLever Â½Ã…Â±Â¾ÂµÃ„Ã’Ã½Ã“Ãƒ
+    public string boxTag = "Box"; // Ã“ÃƒÃ“ÃšÂ±ÃªÃŠÂ¶ÃÃ¤Ã—Ã“ÂµÃ„Â±ÃªÃ‡Â©
 
-    // µ±Ïä×Ó½øÈë´¥·¢ÇøÓòÊ±
+    // ÂµÂ±ÃÃ¤Ã—Ã“Â½Ã¸ÃˆÃ«Â´Â¥Â·Â¢Ã‡Ã¸Ã“Ã²ÃŠÂ±
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(boxTag))
         {
-            doorLever.OpenDoor(); // ´ò¿ªÃÅ
+            doorLever.OpenDoor(); // æ‰“å¼€é—¨
             Debug.Log("Box entered, door is opening!");
+
+            // è§¦å‘ EyeballMovement
+            EyeballMovement eyeball = other.GetComponent<EyeballMovement>();
+            if (eyeball != null)
+            {
+                eyeball.BeginSlither();
+            }
+
+            // ç¦ç”¨ç©å®¶æ‹–åŠ¨æ§åˆ¶
+            DragObject drag = other.GetComponent<DragObject>();
+            if (drag != null)
+            {
+                drag.enabled = false;
+            }
         }
     }
 
-    // µ±Ïä×ÓÀë¿ª´¥·¢ÇøÓòÊ±
+
+    // ÂµÂ±ÃÃ¤Ã—Ã“Ã€Ã«Â¿ÂªÂ´Â¥Â·Â¢Ã‡Ã¸Ã“Ã²ÃŠÂ±
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(boxTag))
         {
-            doorLever.CloseDoor(); // ¹Ø±ÕÃÅ
+            doorLever.CloseDoor(); // Â¹Ã˜Â±Ã•ÃƒÃ…
             Debug.Log("Box exited, door is closing!");
         }
     }

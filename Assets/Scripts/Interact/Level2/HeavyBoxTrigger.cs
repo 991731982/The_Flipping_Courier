@@ -1,33 +1,34 @@
-﻿using System.Diagnostics;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HeavyBoxTrigger : MonoBehaviour
 {
-    public float massThreshold = 400f; // ÔO¶¨Ù|Á¿éT™‘£¬´óì¶ß@‚€Öµ²ÅÓ|°lÏÂ½µ
-    public float dropDistance = 10f; // ÏÂ½µ¾àëx
-    public float dropSpeed = 5f; // ÏÂ½µËÙ¶È£¨¿ÉÕ{Õû£¬ÔOžé 0 ×ƒË²égÏÂ½µ£©
-
-    //private FracturedObject fracturedObject;
-
-    //public Vector3 explodingObject;
+    public float massThreshold = 400f;            // 触发爆炸的质量阈值
+    public float dropDistance = 10f;              // 向下移动的距离
+    public float dropSpeed = 5f;                  // 向下移动速度
+    public FracturedObject fracturedObject;       // 要爆炸的FracturedObject对象
 
     private bool shouldDrop = false;
     private Vector3 targetPosition;
 
     void Start()
     {
-        targetPosition = transform.position + Vector3.down * dropDistance; // Ó‹ËãÏÂ½µááµÄÎ»ÖÃ
+        targetPosition = transform.position + Vector3.down * dropDistance;
     }
 
     void OnCollisionEnter(Collision collision)
     {
         Rigidbody rb = collision.rigidbody;
 
-        // ™z²éÊÇ·ñÊÇ Box£¬KÇÒÆäÙ|Á¿ÊÇ·ñ³¬ß^éT™‘
         if (collision.gameObject.CompareTag("Box") && rb != null && rb.mass >= massThreshold)
         {
-            UnityEngine.Debug.Log("ÖØÎï Box ×²“ô£¡°×É«ºÐ×Óé_Ê¼ÏÂ½µ£¡");
+            Debug.Log("重物 Box 碰撞触发！");
             shouldDrop = true;
+
+            if (fracturedObject != null)
+            {
+                Vector3 explosionPosition = transform.position;
+                fracturedObject.Explode(explosionPosition, 20f); // 触发爆炸，20为爆炸力大小
+            }
         }
     }
 
@@ -35,17 +36,12 @@ public class HeavyBoxTrigger : MonoBehaviour
     {
         if (shouldDrop)
         {
-            // ×Œ°×É«ºÐ×Ó¾ÂýÏÂ½µ
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, dropSpeed * Time.deltaTime);
 
-            // ™z²éÊÇ·ñµ½ß_Ä¿˜ËÎ»ÖÃ
             if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
             {
-                shouldDrop = false; // Í£Ö¹ÒÆ„Ó
+                shouldDrop = false;
             }
         }
-
-        //fracturedObject.Explode(explodingObject,20);
     }
-
 }

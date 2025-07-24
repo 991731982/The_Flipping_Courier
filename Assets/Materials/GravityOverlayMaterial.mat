@@ -62,7 +62,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _ArrowOpacity: 0.3
-    - _ArrowScale: 0.71
+    - _ArrowScale: 1
     - _ArrowSpeed: 0.8
     - _BreathingIntensity: 0.1
     - _BreathingSpeed: 0.3
@@ -74,8 +74,8 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GradientIntensity: 1
-    - _GradientWidth: 2
+    - _GradientIntensity: 0.6
+    - _GradientWidth: 1.2
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
