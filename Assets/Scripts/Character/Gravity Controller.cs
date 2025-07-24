@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class GravityController : MonoBehaviour
 {
@@ -9,9 +10,13 @@ public class GravityController : MonoBehaviour
     public float rotationSpeed = 2.0f;            // Rotation smoothing speed
 
     private bool canFlipAgain = true;             // Prevent multiple flips in mid-air
+    private bool justFlipped = false;
+    private Vector3 expectedLandingNormal;
 
     [Header("Gravity Flip Settings")]
-    public bool useSingleKeyToggle = false;       // 🔁 Toggle this in the Inspector
+    public bool useSingleKeyToggle = false;       // Toggle this in the Inspector
+
+    public MMF_Player PlayerFlipFeedback;
 
     [HideInInspector]
     public float CurrentZRotation => transform.eulerAngles.z;
@@ -75,6 +80,8 @@ public class GravityController : MonoBehaviour
     {
         gravityFlipped = flipUp;
         canFlipAgain = false;
+        justFlipped = true;
+        expectedLandingNormal = flipUp ? Vector3.down : Vector3.up;
 
         Physics.gravity = gravityFlipped ? new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
 
@@ -133,13 +140,28 @@ public class GravityController : MonoBehaviour
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-            if ((!gravityFlipped && contact.normal.y > 0.5f) ||
-                (gravityFlipped && contact.normal.y < -0.5f))
+            // Must match the expected surface from the last flip
+            if (justFlipped && Vector3.Dot(contact.normal, expectedLandingNormal) > 0.5f)
             {
                 canFlipAgain = true;
-                //Debug.Log("Player landed — flip re-enabled.");
+
+                if (PlayerFlipFeedback != null)
+                {
+                    PlayerFlipFeedback.PlayFeedbacks();
+                }
+
+                justFlipped = false; // Reset
                 break;
+            }
+
+            // Even if we didn’t flip, still allow regular grounded movement
+            if (!justFlipped &&
+                ((!gravityFlipped && contact.normal.y > 0.5f) ||
+                 (gravityFlipped && contact.normal.y < -0.5f)))
+            {
+                canFlipAgain = true;
             }
         }
     }
+
 }
