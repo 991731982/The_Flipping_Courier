@@ -7,14 +7,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Galaxy_G
+  m_Name: Galaxy_F
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_Parent: {fileID: 2100000, guid: d6938b912e9f2864fae95d7c177eac12, type: 2}
-  m_ModifiedSerializedProperties: 0
+  m_Parent: {fileID: -5545753773728640020, guid: 2c380d7cbee7f564d8581c70ccadfc6d, type: 3}
+  m_ModifiedSerializedProperties: 18
   m_ValidKeywords:
   - _EMISSION
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -23,13 +23,14 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 7bff280d954c7c043b6bbab46ca1a28b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - _DstBlend: 0
+    - _Mode: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 0, g: 0.5559749, b: 0.6415094, a: 0.5297619}
+    - _EmissionColor: {r: 0.19339621, g: 0.67086875, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
