@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/BOXOPHOBIC/Atmospheric Height Fog/Core/Pipelines/Built-in Pipeline.unitypackage.meta
 guid: 1782b72cd0e99a54fac09382c482e3db
+========
+guid: a90426cb320849449bf136cd413af058
+>>>>>>>> art-kaiwen:Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 14x.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
