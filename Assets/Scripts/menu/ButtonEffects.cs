@@ -6,6 +6,10 @@ using UnityEngine.Audio;
 [RequireComponent(typeof(Selectable))]
 public class ButtonEffects : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectHandler, IDeselectHandler
 {
+    [Header("Feature Toggles")]
+    public bool enableOutline = true;
+    public bool forceDefaultSize = true;
+
     [Header("Animation Settings")]
     public Vector3 hoverScale = new Vector3(2.7f, 2.7f, 1f);
     public float scaleSpeed = 10f;
@@ -25,6 +29,7 @@ public class ButtonEffects : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public AudioSource audioSource;
 
     private Vector3 originalScale;
+    private Vector3 sceneScale; // Store the original scale from scene
     private Vector3 targetScale;
     private Color targetColor;
     private Graphic graphic;
@@ -38,10 +43,20 @@ public class ButtonEffects : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     void Start()
     {
-        // Set smaller starting scale
-        //hoverScale = Vector3.one; // Final visual scale when active
-        originalScale = Vector3.one * 2f; // Smaller default scale
-        transform.localScale = originalScale;
+        // Store the original scale from the scene
+        sceneScale = transform.localScale;
+
+        // Set scale based on forceDefaultSize toggle
+        if (forceDefaultSize)
+        {
+            originalScale = Vector3.one * 2f; // Smaller default scale
+            transform.localScale = originalScale;
+        }
+        else
+        {
+            originalScale = sceneScale; // Use the scale set in scene
+        }
+
         targetScale = originalScale;
 
         graphic = GetComponent<Graphic>();
@@ -50,17 +65,21 @@ public class ButtonEffects : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         targetColor = normalColor;
 
-        // Add outline at runtime
-        if (GetComponent<Outline>() == null)
+        // Setup outline based on toggle
+        if (enableOutline)
         {
-            Outline outline = gameObject.AddComponent<Outline>();
-            outline.effectColor = Color.white;
-            outline.effectDistance = new Vector2(2, -2);
-            outline.useGraphicAlpha = true;
-            outline.enabled = false;
+            SetupOutline();
+        }
+        else
+        {
+            // Remove outline if it exists and toggle is off
+            Outline existingOutline = GetComponent<Outline>();
+            if (existingOutline != null)
+            {
+                DestroyImmediate(existingOutline);
+            }
         }
     }
-
 
     void Update()
     {
@@ -144,8 +163,10 @@ public class ButtonEffects : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         targetScale = hoverScale;
         targetColor = hoverColor;
 
-        Outline outline = GetComponent<Outline>();
-        if (outline) outline.enabled = true;
+        if (enableOutline)
+        {
+            EnableOutline();
+        }
     }
 
     private void ResetVisual()
@@ -153,8 +174,10 @@ public class ButtonEffects : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         targetScale = originalScale;
         targetColor = normalColor;
 
-        Outline outline = GetComponent<Outline>();
-        if (outline) outline.enabled = false;
+        if (enableOutline)
+        {
+            DisableOutline();
+        }
     }
 
     private void ClearEffects()
@@ -196,8 +219,9 @@ public class ButtonEffects : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
 
         outline.effectColor = outlineHoverColor;
-        outline.effectDistance = new Vector2(outlineWidth, outlineWidth);
+        outline.effectDistance = new Vector2(outlineWidth, -outlineWidth);
         outline.useGraphicAlpha = true;
+        outline.enabled = false; // Start disabled
     }
 
     private void EnableOutline()
@@ -213,6 +237,48 @@ public class ButtonEffects : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (outline != null)
         {
             outline.enabled = false;
+        }
+    }
+
+    // Public methods to toggle features at runtime
+    public void ToggleOutline(bool enable)
+    {
+        enableOutline = enable;
+
+        if (enableOutline)
+        {
+            SetupOutline();
+            if (isHovered || isSelected)
+                EnableOutline();
+        }
+        else
+        {
+            DisableOutline();
+            if (outline != null)
+            {
+                DestroyImmediate(outline);
+                outline = null;
+            }
+        }
+    }
+
+    public void ToggleForceDefaultSize(bool force)
+    {
+        forceDefaultSize = force;
+
+        if (forceDefaultSize)
+        {
+            originalScale = Vector3.one * 2f;
+        }
+        else
+        {
+            originalScale = sceneScale;
+        }
+
+        // Update current scale if not active
+        if (!isHovered && !isSelected)
+        {
+            targetScale = originalScale;
         }
     }
 }
