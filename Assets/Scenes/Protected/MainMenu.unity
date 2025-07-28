@@ -3831,6 +3831,7 @@ GameObject:
   - component: {fileID: 1352566190}
   - component: {fileID: 1352566189}
   - component: {fileID: 1352566188}
+  - component: {fileID: 1352566191}
   m_Layer: 0
   m_Name: StartButton
   m_TagString: Untagged
@@ -3952,6 +3953,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352566186}
   m_CullTransparentMesh: 1
+--- !u!114 &1352566191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352566186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628c3dc0c996b7848914c05d6f13b5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: {x: 3, y: 3, z: 1}
+  scaleSpeed: 10
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  colorLerpSpeed: 10
+  outlineHoverColor: {r: 0.16977562, g: 0.94716984, b: 0.82067525, a: 1}
+  outlineWidth: 1.5
+  hoverSFX: {fileID: 0}
+  clickSFX: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &1377243201
 GameObject:
   m_ObjectHideFlags: 0
@@ -4002,7 +4025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1352566186}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1377243204
@@ -5681,6 +5704,7 @@ GameObject:
   - component: {fileID: 2034960367}
   - component: {fileID: 2034960366}
   - component: {fileID: 2034960365}
+  - component: {fileID: 2034960368}
   m_Layer: 0
   m_Name: QuitButton
   m_TagString: Untagged
@@ -5802,6 +5826,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034960363}
   m_CullTransparentMesh: 1
+--- !u!114 &2034960368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034960363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628c3dc0c996b7848914c05d6f13b5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: {x: 3, y: 3, z: 1}
+  scaleSpeed: 10
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  colorLerpSpeed: 10
+  outlineHoverColor: {r: 0.16977562, g: 0.94716984, b: 0.82067525, a: 1}
+  outlineWidth: 1.5
+  hoverSFX: {fileID: 0}
+  clickSFX: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &2047106242
 GameObject:
   m_ObjectHideFlags: 0
