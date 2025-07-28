@@ -134,7 +134,19 @@ public class GravityController : MonoBehaviour
         Vector3 currentRotation = transform.eulerAngles;
         transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
 
+        // Reset flip control variables to allow flipping again
+        ResetFlipState();
+
         //Debug.Log("Forcefully reset gravity and rotation to normal.");
+    }
+
+    // NEW METHOD: Reset flip control state
+    public void ResetFlipState()
+    {
+        canFlipAgain = true;
+        justFlipped = false;
+        expectedLandingNormal = Vector3.up;
+        //Debug.Log("Flip state reset - player can flip again.");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -155,7 +167,7 @@ public class GravityController : MonoBehaviour
                 break;
             }
 
-            // Even if we didn’t flip, still allow regular grounded movement
+            // Even if we didn't flip, still allow regular grounded movement
             if (!justFlipped &&
                 ((!gravityFlipped && contact.normal.y > 0.5f) ||
                  (gravityFlipped && contact.normal.y < -0.5f)))
@@ -164,5 +176,4 @@ public class GravityController : MonoBehaviour
             }
         }
     }
-
 }
