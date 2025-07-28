@@ -148476,7 +148476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 168.97992, y: -0.000061035156}
+  m_AnchoredPosition: {x: 168.97986, y: 0}
   m_SizeDelta: {x: 256.09998, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1361577707
@@ -178898,7 +178898,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -3047.2766}
+  m_AnchoredPosition: {x: 0, y: -3081.3982}
   m_SizeDelta: {x: 0, y: 6432.787}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1557570897
@@ -223575,7 +223575,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 169.02002, y: -0.000061035156}
+  m_AnchoredPosition: {x: 169.02002, y: 0}
   m_SizeDelta: {x: 256.03, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2015176686
@@ -232735,7 +232735,7 @@ MonoBehaviour:
         Active: 1
         UniqueID: -1688001858
         Label: AudioSource
-        OriginalLabel: 
+        OriginalLabel: AudioSource
         ChannelMode: 0
         Channel: 0
         MMChannelDefinition: {fileID: 0}
@@ -232817,7 +232817,7 @@ MonoBehaviour:
         Active: 1
         UniqueID: -958314969
         Label: Fog
-        OriginalLabel: 
+        OriginalLabel: Fog
         ChannelMode: 0
         Channel: 0
         MMChannelDefinition: {fileID: 0}
@@ -239382,7 +239382,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1015468896}
   m_Direction: 2
   m_Value: 0.96840584
-  m_Size: 0.16788991
+  m_Size: 0.33577982
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
