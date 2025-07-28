@@ -7,23 +7,19 @@ public class Antigravity : MonoBehaviour
 {
     // Rigidbody component of the GameObject
     private Rigidbody rb;
-
     // Reference to the GravityController script, which manages the gravity state
     public GravityController gravityController;
-
     // Start is called before the first frame update
     void Start()
     {
         // Get the Rigidbody component attached to this GameObject
         rb = GetComponent<Rigidbody>();
-
         // If no gravity controller is assigned in the inspector, try to find one in the scene
         if (gravityController == null)
         {
-            gravityController = FindObjectOfType<GravityController>();
+            gravityController = GravityController.FindFirstObjectByType<GravityController>();
         }
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -33,16 +29,13 @@ public class Antigravity : MonoBehaviour
             ApplyOppositeGravity();
         }
     }
-
     // Applies an anti-gravity force based on the gravity controller's state
     private void ApplyOppositeGravity()
     {
         // Disable Unity's built-in gravity
         rb.useGravity = false;
-
         // Reset any existing velocity to prevent unwanted movement
         rb.linearVelocity = Vector3.zero;
-
         // If gravity is flipped, apply a downward force; otherwise, apply an upward force
         if (gravityController.gravityFlipped)
         {
