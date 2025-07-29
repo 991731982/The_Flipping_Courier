@@ -27,7 +27,7 @@ public class Antigravity : MonoBehaviour
         // If no gravity controller is assigned in the inspector, try to find one in the scene
         if (gravityController == null)
         {
-            gravityController = GravityController.FindFirstObjectByType<GravityController>();
+            gravityController = FindObjectOfType<GravityController>();
         }
 
         // Initialize previous state
