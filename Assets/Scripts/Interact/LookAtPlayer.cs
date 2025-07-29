@@ -16,19 +16,17 @@ public class LookAtPlayer : MonoBehaviour
 
     void Start()
     {
-        if (player == null)
+        // Always find the player by tag, even if one is assigned
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                player = playerObj.transform;
-            }
-            else
-            {
-                Debug.LogError("Player not found! Tag your player as 'Player'");
-                enabled = false;
-                return;
-            }
+            player = playerObj.transform;
+        }
+        else
+        {
+            Debug.LogError("Player not found! Make sure your player GameObject has the 'Player' tag");
+            enabled = false;
+            return;
         }
     }
 
