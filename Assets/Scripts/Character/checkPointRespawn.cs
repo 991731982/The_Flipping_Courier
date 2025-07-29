@@ -8,7 +8,6 @@ public class checkPointRespawn : MonoBehaviour
     private float storedZRotation = 0f;
     private bool wasGroundedAtCheckpoint = true;
     private bool wasGroundedOnDeath = true; // Track grounded state at time of death
-
     public Vector3 respawnOffset = new Vector3(0, 2, 0);
     private GravityController gravityController;
     private Rigidbody rb;
@@ -21,7 +20,6 @@ public class checkPointRespawn : MonoBehaviour
         gravityController = GetComponent<GravityController>();
         playerHealth = GetComponent<PlayerHealthDisplay>();
         playerController = GetComponent<CubeCharacterController>();
-
         checkpointPosition = transform.position;
         storedZRotation = transform.eulerAngles.z;
         wasGroundedAtCheckpoint = true;
@@ -41,7 +39,6 @@ public class checkPointRespawn : MonoBehaviour
     public void SetCheckpoint(Vector3 newCheckpointPosition)
     {
         checkpointPosition = newCheckpointPosition;
-
         // If grounded, record Z rotation
         if (playerController != null && playerController.isGrounded)
         {
@@ -62,7 +59,6 @@ public class checkPointRespawn : MonoBehaviour
         Vector3 respawnPosition = checkpointPosition + respawnOffset;
         transform.position = respawnPosition;
         rb.linearVelocity = Vector3.zero;
-
         float currentY = transform.eulerAngles.y;
 
         // Stop any ongoing rotation coroutines in GravityController
@@ -83,6 +79,9 @@ public class checkPointRespawn : MonoBehaviour
                 new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
             // Set rotation to match the gravity state
             transform.rotation = Quaternion.Euler(0f, currentY, storedZRotation);
+
+            // CRITICAL FIX: Reset flip state to allow flipping again
+            gravityController.ResetFlipState();
         }
 
         if (playerHealth != null)

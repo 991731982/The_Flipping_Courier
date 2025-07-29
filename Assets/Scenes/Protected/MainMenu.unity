@@ -1880,6 +1880,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 710756970469833223, guid: 6d804e78e99fe9b4cbe149e7cdaea98e, type: 3}
   m_PrefabInstance: {fileID: 1306414633}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &677122213
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.27076912
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.6249886
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.0969918
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2895896665581326831, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486464963439771538, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
+      propertyPath: m_Name
+      value: MMSoundManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c108911be7a8b2e49af063e8c74964a6, type: 3}
 --- !u!1001 &687309710
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3774,6 +3831,7 @@ GameObject:
   - component: {fileID: 1352566190}
   - component: {fileID: 1352566189}
   - component: {fileID: 1352566188}
+  - component: {fileID: 1352566191}
   m_Layer: 0
   m_Name: StartButton
   m_TagString: Untagged
@@ -3895,6 +3953,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352566186}
   m_CullTransparentMesh: 1
+--- !u!114 &1352566191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352566186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628c3dc0c996b7848914c05d6f13b5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: {x: 3, y: 3, z: 1}
+  scaleSpeed: 10
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  colorLerpSpeed: 10
+  outlineHoverColor: {r: 0.16977562, g: 0.94716984, b: 0.82067525, a: 1}
+  outlineWidth: 1.5
+  hoverSFX: {fileID: 0}
+  clickSFX: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &1377243201
 GameObject:
   m_ObjectHideFlags: 0
@@ -3945,7 +4025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1352566186}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1377243204
@@ -4989,6 +5069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneName: PanelMenu
+  playerTag: Player
 --- !u!1001 &1765863674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5623,6 +5704,7 @@ GameObject:
   - component: {fileID: 2034960367}
   - component: {fileID: 2034960366}
   - component: {fileID: 2034960365}
+  - component: {fileID: 2034960368}
   m_Layer: 0
   m_Name: QuitButton
   m_TagString: Untagged
@@ -5744,6 +5826,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034960363}
   m_CullTransparentMesh: 1
+--- !u!114 &2034960368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034960363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628c3dc0c996b7848914c05d6f13b5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: {x: 3, y: 3, z: 1}
+  scaleSpeed: 10
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  colorLerpSpeed: 10
+  outlineHoverColor: {r: 0.16977562, g: 0.94716984, b: 0.82067525, a: 1}
+  outlineWidth: 1.5
+  hoverSFX: {fileID: 0}
+  clickSFX: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &2047106242
 GameObject:
   m_ObjectHideFlags: 0
@@ -6199,3 +6303,4 @@ SceneRoots:
   - {fileID: 1377243204}
   - {fileID: 687309710}
   - {fileID: 79825068}
+  - {fileID: 677122213}
