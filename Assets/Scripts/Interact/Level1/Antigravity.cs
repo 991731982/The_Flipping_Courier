@@ -9,7 +9,6 @@ public class Antigravity : MonoBehaviour
     private Rigidbody rb;
     // Reference to the GravityController script, which manages the gravity state
     public GravityController gravityController;
-<<<<<<< HEAD
 
     [Header("Antigravity Settings")]
     [SerializeField] private float antigravityForce = 20.0f; // Reduced from 90.0f
@@ -20,17 +19,15 @@ public class Antigravity : MonoBehaviour
     private bool previousGravityState;
     private Vector3 storedHorizontalVelocity;
 
-=======
-    // Start is called before the first frame update
->>>>>>> parent of 8f0b05d0 (Revert "Merge branch 'main' into Ashley-Art-and-Design")
     void Start()
     {
         // Get the Rigidbody component attached to this GameObject
         rb = GetComponent<Rigidbody>();
+
         // If no gravity controller is assigned in the inspector, try to find one in the scene
         if (gravityController == null)
         {
-            gravityController = GravityController.FindFirstObjectByType<GravityController>();
+            gravityController = FindObjectOfType<GravityController>();
         }
 
         // Initialize previous state
@@ -39,13 +36,8 @@ public class Antigravity : MonoBehaviour
             previousGravityState = gravityController.gravityFlipped;
         }
     }
-<<<<<<< HEAD
 
     void FixedUpdate() // Use FixedUpdate for physics
-=======
-    // Update is called once per frame
-    void Update()
->>>>>>> parent of 8f0b05d0 (Revert "Merge branch 'main' into Ashley-Art-and-Design")
     {
         // Check if the gravity controller exists, then apply the opposite gravity effect
         if (gravityController != null)
@@ -53,12 +45,12 @@ public class Antigravity : MonoBehaviour
             ApplyOppositeGravity();
         }
     }
+
     // Applies an anti-gravity force based on the gravity controller's state
     private void ApplyOppositeGravity()
     {
         // Disable Unity's built-in gravity
         rb.useGravity = false;
-<<<<<<< HEAD
 
         // Store horizontal velocity if we want to preserve it
         if (preserveHorizontalMovement)
@@ -78,11 +70,6 @@ public class Antigravity : MonoBehaviour
         Vector3 forceDirection;
         float currentVerticalSpeed = rb.linearVelocity.y;
 
-=======
-        // Reset any existing velocity to prevent unwanted movement
-        rb.linearVelocity = Vector3.zero;
-        // If gravity is flipped, apply a downward force; otherwise, apply an upward force
->>>>>>> parent of 8f0b05d0 (Revert "Merge branch 'main' into Ashley-Art-and-Design")
         if (gravityController.gravityFlipped)
         {
             // Gravity is up, so apply downward antigravity
@@ -113,7 +100,6 @@ public class Antigravity : MonoBehaviour
             rb.linearVelocity = new Vector3(storedHorizontalVelocity.x, currentVelocity.y, storedHorizontalVelocity.z);
         }
     }
-<<<<<<< HEAD
 
     // Optional: Method to reset the platform's state
     public void ResetAntigravity()
@@ -134,6 +120,4 @@ public class Antigravity : MonoBehaviour
             rb.useGravity = true;
         }
     }
-=======
->>>>>>> parent of 8f0b05d0 (Revert "Merge branch 'main' into Ashley-Art-and-Design")
 }

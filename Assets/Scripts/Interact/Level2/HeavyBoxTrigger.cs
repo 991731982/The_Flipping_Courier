@@ -3,41 +3,91 @@
 public class HeavyBoxTrigger : MonoBehaviour
 {
     [Header("Trigger Settings")]
-    public float massThreshold = 25f;                       // Lowered threshold to work with your setup
     public string triggerTag = "Box";                       // Tag to check for collision
     public bool debugMode = true;                           // Enable detailed debug logs
+    public bool requireHeavyState = true;                   // Require the box to be in Heavy state
 
-    [Header("Drop Animation")]
-    public float dropDistance = 10f;                        // Distance to move down
-    public float dropSpeed = 5f;                           // Speed of downward movement
+    [Header("Fracture Settings")]
+    public float explosionForce = 20f;                      // Explosion force when fracturing
+    public bool disableAfterFracture = true;               // Disable this component after fracturing
 
-    [Header("Fracture Target")]
-    public StaticFracturedObject staticFracturedObject;     // The static fractured object to trigger
-
-    // Alternative: if you want to keep using FracturedObject directly
-    [Header("Alternative: Direct FracturedObject (Legacy)")]
-    public FracturedObject fracturedObject;                 // Direct reference (not recommended)
-    public float explosionForce = 20f;                      // Explosion force for direct method
-
-    private bool shouldDrop = false;
+    private FracturedObject fracturedObject;
+    private Collider objectCollider;
+    private Rigidbody objectRigidbody;
     private bool hasTriggered = false;
-    private Vector3 targetPosition;
-    private Vector3 originalPosition;
 
     void Start()
     {
-        originalPosition = transform.position;
-        targetPosition = transform.position + Vector3.down * dropDistance;
+        // Get the FracturedObject component
+        fracturedObject = GetComponent<FracturedObject>();
+        objectCollider = GetComponent<Collider>();
+        objectRigidbody = GetComponent<Rigidbody>();
 
-        // Validate setup
-        if (staticFracturedObject == null && fracturedObject == null)
+        if (fracturedObject == null)
         {
-            Debug.LogWarning("HeavyBoxTrigger: No target fractured object assigned!");
+            Debug.LogError("SimpleFractureTrigger: No FracturedObject component found on " + gameObject.name);
+            return;
         }
+
+        // Ensure the object starts in a stable state
+        SetupInitialState();
 
         if (debugMode)
         {
-            Debug.Log($"HeavyBoxTrigger initialized - Threshold: {massThreshold}, Tag: {triggerTag}");
+            Debug.Log($"SimpleFractureTrigger initialized on {gameObject.name}");
+        }
+    }
+
+    private void SetupInitialState()
+    {
+        // Make sure the main object is stable initially
+        if (objectRigidbody != null)
+        {
+            objectRigidbody.isKinematic = true;
+        }
+
+        // Ensure the main collider is enabled
+        if (objectCollider != null)
+        {
+            objectCollider.enabled = true;
+        }
+
+        // Make sure single mesh visibility is enabled (unfractured appearance)
+        fracturedObject.SetSingleMeshVisibility(true);
+
+        // Remove CheckDynamicCollision component if it exists to prevent auto-fracturing
+        CheckDynamicCollision dynamicCollision = GetComponent<CheckDynamicCollision>();
+        if (dynamicCollision != null)
+        {
+            DestroyImmediate(dynamicCollision);
+        }
+
+        // Disable chunk colliders initially but ensure they have rigidbodies
+        SetupInitialChunkPhysics();
+        DisableChunkColliders();
+    }
+
+    private void SetupInitialChunkPhysics()
+    {
+        if (fracturedObject?.ListFracturedChunks == null) return;
+
+        foreach (FracturedChunk chunk in fracturedObject.ListFracturedChunks)
+        {
+            if (chunk != null)
+            {
+                // Ensure chunk has a rigidbody but keep it kinematic initially
+                Rigidbody chunkRb = chunk.GetComponent<Rigidbody>();
+                if (chunkRb == null)
+                {
+                    chunkRb = chunk.gameObject.AddComponent<Rigidbody>();
+                }
+
+                // Keep chunks kinematic and without gravity initially
+                chunkRb.isKinematic = true;
+                chunkRb.useGravity = false;
+
+                if (debugMode) Debug.Log($"Initial setup for chunk: {chunk.name}");
+            }
         }
     }
 
@@ -45,27 +95,31 @@ public class HeavyBoxTrigger : MonoBehaviour
     {
         if (debugMode)
         {
-            Debug.Log($"HeavyBoxTrigger: Collision detected with {collision.gameObject.name}");
+            Debug.Log($"SimpleFractureTrigger: Collision detected with {collision.gameObject.name}");
         }
 
         // Prevent multiple triggers
         if (hasTriggered)
         {
-            if (debugMode) Debug.Log("HeavyBoxTrigger: Already triggered, ignoring collision");
+            if (debugMode) Debug.Log("SimpleFractureTrigger: Already triggered, ignoring collision");
             return;
         }
 
         // Check if the collision meets our criteria
         if (!IsValidTriggerCollision(collision)) return;
 
-        Debug.Log($"Heavy Box collision TRIGGERED! Object: {collision.gameObject.name}, Mass: {collision.rigidbody.mass}");
+        Debug.Log($"FRACTURE TRIGGERED! Object: {collision.gameObject.name} collided with {gameObject.name}");
 
         // Mark as triggered
         hasTriggered = true;
-        shouldDrop = true;
+
+        // Get collision point for explosion position
+        Vector3 explosionPosition = collision.contacts.Length > 0 ?
+            collision.contacts[0].point :
+            transform.position;
 
         // Trigger the fracture
-        TriggerFracture(collision);
+        TriggerFracture(explosionPosition);
     }
 
     private bool IsValidTriggerCollision(Collision collision)
@@ -73,115 +127,219 @@ public class HeavyBoxTrigger : MonoBehaviour
         // Check if collision object has the required tag
         if (!collision.gameObject.CompareTag(triggerTag))
         {
-            if (debugMode) Debug.Log($"HeavyBoxTrigger: Object {collision.gameObject.name} doesn't have tag '{triggerTag}' (has '{collision.gameObject.tag}')");
+            if (debugMode) Debug.Log($"SimpleFractureTrigger: Object {collision.gameObject.name} doesn't have tag '{triggerTag}' (has '{collision.gameObject.tag}')");
             return false;
         }
 
-        // Check if it has a rigidbody
-        Rigidbody rb = collision.rigidbody;
-        if (rb == null)
+        // If we require heavy state, check for it
+        if (requireHeavyState)
         {
-            if (debugMode) Debug.Log($"HeavyBoxTrigger: Object {collision.gameObject.name} has no rigidbody");
-            return false;
+            GravState gravState = collision.gameObject.GetComponent<GravState>();
+            if (gravState == null)
+            {
+                if (debugMode) Debug.Log($"SimpleFractureTrigger: Object {collision.gameObject.name} has no GravState component");
+                return false;
+            }
+
+            if (gravState.CurrentState != GravState.GravityState.Heavy)
+            {
+                if (debugMode) Debug.Log($"SimpleFractureTrigger: Object {collision.gameObject.name} is not in Heavy state (current: {gravState.CurrentState})");
+                return false;
+            }
+
+            if (debugMode) Debug.Log($"SimpleFractureTrigger: Object {collision.gameObject.name} is in Heavy state - criteria met!");
         }
 
-        // Get the actual mass (could be modified by GravState)
-        float actualMass = rb.mass;
-
-        // Also check for GravState component to get the effective mass
-        GravState gravState = collision.gameObject.GetComponent<GravState>();
-        if (gravState != null && gravState.CurrentState == GravState.GravityState.Heavy)
-        {
-            if (debugMode) Debug.Log($"HeavyBoxTrigger: Object {collision.gameObject.name} is in Heavy state");
-        }
-
-        // Check if mass meets threshold
-        if (actualMass < massThreshold)
-        {
-            if (debugMode) Debug.Log($"HeavyBoxTrigger: Box mass ({actualMass}) below threshold ({massThreshold})");
-            return false;
-        }
-
-        if (debugMode) Debug.Log($"HeavyBoxTrigger: Valid collision - Mass: {actualMass}, Threshold: {massThreshold}");
         return true;
     }
 
-    private void TriggerFracture(Collision collision)
+    private void TriggerFracture(Vector3 explosionPosition)
     {
-        Vector3 explosionPosition = collision.contacts.Length > 0 ? collision.contacts[0].point : transform.position;
+        if (fracturedObject == null) return;
 
-        if (debugMode) Debug.Log($"HeavyBoxTrigger: Triggering fracture at position {explosionPosition}");
+        if (debugMode) Debug.Log($"SimpleFractureTrigger: Triggering fracture at position {explosionPosition}");
 
-        // Use StaticFracturedObject if available (recommended)
-        if (staticFracturedObject != null)
+        // First, disable the main object's collider and rigidbody
+        if (objectCollider != null)
         {
-            staticFracturedObject.TriggerFracture(explosionPosition);
+            objectCollider.enabled = false;
         }
-        // Fallback to direct FracturedObject method (legacy)
-        else if (fracturedObject != null)
+
+        if (objectRigidbody != null)
         {
-            // Disable the main collider and enable chunk colliders manually
-            Collider mainCollider = fracturedObject.GetComponent<Collider>();
-            if (mainCollider != null)
+            objectRigidbody.isKinematic = true;
+        }
+
+        // CRITICAL: Hide the original mesh BEFORE showing chunks
+        HideOriginalMesh();
+
+        // Disable single mesh visibility to show individual chunks
+        fracturedObject.SetSingleMeshVisibility(false);
+
+        // Ensure all chunks have proper rigidbodies and colliders
+        SetupChunkPhysics();
+
+        // Enable chunk colliders and make them non-kinematic
+        EnableChunkColliders();
+
+        // IMPORTANT: Add a small delay before explosion to ensure physics setup is complete
+        StartCoroutine(DelayedExplosion(explosionPosition, 0.1f));
+
+        if (debugMode) Debug.Log($"SimpleFractureTrigger: Fracture setup completed for {gameObject.name}");
+    }
+
+    private void HideOriginalMesh()
+    {
+        // Hide the main mesh renderer
+        Renderer mainRenderer = GetComponent<Renderer>();
+        if (mainRenderer != null)
+        {
+            mainRenderer.enabled = false;
+            if (debugMode) Debug.Log($"Hidden main renderer on {gameObject.name}");
+        }
+
+        // Also hide any mesh renderers on child objects that might be part of the original mesh
+        Renderer[] childRenderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in childRenderers)
+        {
+            // Only hide renderers that are not part of fractured chunks
+            if (!IsFracturedChunkRenderer(renderer))
             {
-                mainCollider.enabled = false;
+                renderer.enabled = false;
+                if (debugMode) Debug.Log($"Hidden child renderer on {renderer.gameObject.name}");
             }
-
-            Rigidbody mainRigidbody = fracturedObject.GetComponent<Rigidbody>();
-            if (mainRigidbody != null)
-            {
-                mainRigidbody.isKinematic = true;
-            }
-
-            // Enable chunk colliders
-            EnableFracturedObjectChunkColliders(fracturedObject, true);
-
-            // Trigger explosion
-            fracturedObject.Explode(explosionPosition, explosionForce);
         }
     }
 
-    private void EnableFracturedObjectChunkColliders(FracturedObject fracObj, bool enable)
+    private bool IsFracturedChunkRenderer(Renderer renderer)
     {
-        foreach (FracturedChunk chunk in fracObj.ListFracturedChunks)
+        // Check if this renderer belongs to a fractured chunk
+        FracturedChunk chunk = renderer.GetComponent<FracturedChunk>();
+        if (chunk != null) return true;
+
+        // Also check parent objects for FracturedChunk component
+        Transform parent = renderer.transform.parent;
+        while (parent != null && parent != transform)
+        {
+            if (parent.GetComponent<FracturedChunk>() != null)
+                return true;
+            parent = parent.parent;
+        }
+
+        return false;
+    }
+
+    private System.Collections.IEnumerator DelayedExplosion(Vector3 explosionPosition, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (debugMode) Debug.Log($"SimpleFractureTrigger: Executing delayed explosion at {explosionPosition}");
+
+        // Trigger the explosion using the FracturedObject's built-in method
+        fracturedObject.Explode(explosionPosition, explosionForce);
+
+        // Optionally disable this component after fracturing
+        if (disableAfterFracture)
+        {
+            this.enabled = false;
+        }
+
+        if (debugMode) Debug.Log($"SimpleFractureTrigger: Explosion completed for {gameObject.name}");
+    }
+
+    private void SetupChunkPhysics()
+    {
+        if (fracturedObject?.ListFracturedChunks == null) return;
+
+        foreach (FracturedChunk chunk in fracturedObject.ListFracturedChunks)
         {
             if (chunk != null)
             {
-                EnableChunkCollidersRecursive(chunk.gameObject, enable);
+                // Ensure chunk has a rigidbody
+                Rigidbody chunkRb = chunk.GetComponent<Rigidbody>();
+                if (chunkRb == null)
+                {
+                    chunkRb = chunk.gameObject.AddComponent<Rigidbody>();
+                }
+
+                // Initially keep chunks kinematic until explosion
+                chunkRb.isKinematic = false;
+                chunkRb.useGravity = true;
+
+                // Set physics material if main object has one
+                if (fracturedObject.ChunkPhysicMaterial != null)
+                {
+                    Collider chunkCollider = chunk.GetComponent<Collider>();
+                    if (chunkCollider != null)
+                    {
+                        chunkCollider.material = fracturedObject.ChunkPhysicMaterial;
+                    }
+                }
+
+                if (debugMode) Debug.Log($"Setup physics for chunk: {chunk.name}");
+            }
+        }
+
+        // Compute masses for all chunks
+        fracturedObject.ComputeChunksRelativeVolume();
+        fracturedObject.ComputeChunksMass(fracturedObject.TotalMass);
+    }
+
+    private void DisableChunkColliders()
+    {
+        if (fracturedObject?.ListFracturedChunks == null) return;
+
+        foreach (FracturedChunk chunk in fracturedObject.ListFracturedChunks)
+        {
+            if (chunk != null)
+            {
+                SetChunkCollidersRecursive(chunk.gameObject, false);
             }
         }
     }
 
-    private void EnableChunkCollidersRecursive(GameObject obj, bool enable)
+    private void EnableChunkColliders()
     {
+        if (fracturedObject?.ListFracturedChunks == null) return;
+
+        foreach (FracturedChunk chunk in fracturedObject.ListFracturedChunks)
+        {
+            if (chunk != null)
+            {
+                SetChunkCollidersRecursive(chunk.gameObject, true);
+            }
+        }
+    }
+
+    private void SetChunkCollidersRecursive(GameObject obj, bool enable)
+    {
+        // Enable/disable collider on current object
         Collider collider = obj.GetComponent<Collider>();
         if (collider != null)
         {
             collider.enabled = enable;
             if (enable)
             {
-                collider.isTrigger = false;
+                collider.isTrigger = false; // Ensure it's not a trigger when enabled
+
+                // Make sure the collider is properly configured
+                if (fracturedObject.ChunkColliderType == FracturedObject.ColliderType.Collider)
+                {
+                    collider.isTrigger = false;
+                }
+                else
+                {
+                    collider.isTrigger = true;
+                }
             }
+
+            if (debugMode && enable) Debug.Log($"Enabled collider on: {obj.name}, IsTrigger: {collider.isTrigger}");
         }
 
+        // Recursively handle children
         for (int i = 0; i < obj.transform.childCount; i++)
         {
-            EnableChunkCollidersRecursive(obj.transform.GetChild(i).gameObject, enable);
-        }
-    }
-
-    void Update()
-    {
-        // Handle drop animation
-        if (shouldDrop)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, dropSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
-            {
-                shouldDrop = false;
-                if (debugMode) Debug.Log("HeavyBoxTrigger: Drop animation completed");
-            }
+            SetChunkCollidersRecursive(obj.transform.GetChild(i).gameObject, enable);
         }
     }
 
@@ -191,16 +349,17 @@ public class HeavyBoxTrigger : MonoBehaviour
     [ContextMenu("Reset Trigger")]
     public void ResetTrigger()
     {
-        hasTriggered = false;
-        shouldDrop = false;
-        transform.position = originalPosition;
-
-        if (staticFracturedObject != null)
+        if (fracturedObject != null && fracturedObject.ResetChunks())
         {
-            staticFracturedObject.ResetToStatic();
+            hasTriggered = false;
+            SetupInitialState();
+            this.enabled = true;
+            Debug.Log($"SimpleFractureTrigger: {gameObject.name} reset successfully");
         }
-
-        Debug.Log("HeavyBoxTrigger: Trigger reset");
+        else
+        {
+            Debug.LogWarning($"SimpleFractureTrigger: Failed to reset {gameObject.name}");
+        }
     }
 
     /// <summary>
@@ -209,56 +368,31 @@ public class HeavyBoxTrigger : MonoBehaviour
     [ContextMenu("Manual Trigger")]
     public void ManualTrigger()
     {
-        if (!hasTriggered)
+        if (!hasTriggered && fracturedObject != null)
         {
-            Debug.Log("HeavyBoxTrigger: Manual trigger activated");
+            Debug.Log("SimpleFractureTrigger: Manual trigger activated");
             hasTriggered = true;
-            shouldDrop = true;
-
-            if (staticFracturedObject != null)
-            {
-                staticFracturedObject.TriggerFracture(transform.position);
-            }
-            else if (fracturedObject != null)
-            {
-                fracturedObject.Explode(transform.position, explosionForce);
-            }
+            TriggerFracture(transform.position);
         }
     }
 
     void OnValidate()
     {
-        // Ensure mass threshold is not negative
-        if (massThreshold < 0)
+        // Ensure explosion force is not negative
+        if (explosionForce < 0)
         {
-            massThreshold = 0;
-        }
-
-        // Ensure drop distance is not negative
-        if (dropDistance < 0)
-        {
-            dropDistance = 0;
-        }
-
-        // Ensure drop speed is positive
-        if (dropSpeed <= 0)
-        {
-            dropSpeed = 1f;
+            explosionForce = 0;
         }
     }
 
     void OnDrawGizmosSelected()
     {
-        // Draw the drop path in the scene view
-        Gizmos.color = Color.yellow;
-        Vector3 start = Application.isPlaying ? originalPosition : transform.position;
-        Vector3 end = start + Vector3.down * dropDistance;
-
-        Gizmos.DrawLine(start, end);
-        Gizmos.DrawWireSphere(end, 0.5f);
-
-        // Draw mass threshold info
-        Gizmos.color = Color.red;
+        // Visual indicator in scene view
+        Gizmos.color = hasTriggered ? Color.red : Color.green;
         Gizmos.DrawWireSphere(transform.position, 1f);
+
+        // Show explosion force as a wireframe
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, explosionForce * 0.1f);
     }
 }
