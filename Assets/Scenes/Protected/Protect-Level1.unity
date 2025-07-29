@@ -576,7 +576,6 @@ MonoBehaviour:
   movementspeed: 9
   movementSmoothing: 10
   maxSlopeAngle: 45
-  speedThreshold: 0.5
 --- !u!114 &10340400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,8 +590,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityFlipped: 0
   rotationSpeed: 6
-  useSingleKeyToggle: 0
-  PlayerFlipFeedback: {fileID: 0}
 --- !u!95 &10340401
 Animator:
   serializedVersion: 7
@@ -15202,12 +15199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
-  dragType: 0
   localDragOffset: {x: 1, y: 1, z: 1}
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
-  currentProgress: 0
-  showConstraintGizmos: 1
   swayAmount: 0.1
   swayFrequency: 4
   dragDistance: 4
@@ -15215,10 +15207,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   checkBoxSize: {x: 1, y: 1, z: 1}
-  promptSprite: {fileID: 0}
-  promptOffset: {x: -1, y: 1, z: 0}
-  jiggleAmount: 10
-  jiggleSpeed: 3
 --- !u!54 &573263740
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24752,12 +24740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
-  dragType: 0
   localDragOffset: {x: 1, y: 1, z: 1}
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
-  currentProgress: 0
-  showConstraintGizmos: 1
   swayAmount: 0.1
   swayFrequency: 4
   dragDistance: 8
@@ -24765,10 +24748,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   checkBoxSize: {x: 1, y: 1, z: 1}
-  promptSprite: {fileID: 0}
-  promptOffset: {x: -1, y: 1, z: 0}
-  jiggleAmount: 10
-  jiggleSpeed: 3
 --- !u!54 &858054336
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25418,12 +25397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
-  dragType: 0
   localDragOffset: {x: 1, y: 1, z: 1}
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
-  currentProgress: 0
-  showConstraintGizmos: 1
   swayAmount: 0.1
   swayFrequency: 4
   dragDistance: 8
@@ -25431,10 +25405,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   checkBoxSize: {x: 1, y: 1, z: 1}
-  promptSprite: {fileID: 0}
-  promptOffset: {x: -1, y: 1, z: 0}
-  jiggleAmount: 10
-  jiggleSpeed: 3
 --- !u!54 &899518937
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -36317,12 +36287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
-  dragType: 0
   localDragOffset: {x: 1, y: 1, z: 1}
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
-  currentProgress: 0
-  showConstraintGizmos: 1
   swayAmount: 0.1
   swayFrequency: 4
   dragDistance: 5
@@ -36330,10 +36295,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   checkBoxSize: {x: 1, y: 1, z: 1}
-  promptSprite: {fileID: 0}
-  promptOffset: {x: -1, y: 1, z: 0}
-  jiggleAmount: 10
-  jiggleSpeed: 3
 --- !u!54 &1324516065
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -38308,12 +38269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 10340395}
-  dragType: 0
   localDragOffset: {x: 1, y: 1, z: 1}
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
-  currentProgress: 0
-  showConstraintGizmos: 1
   swayAmount: 0.1
   swayFrequency: 4
   dragDistance: 9
@@ -38321,10 +38277,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   checkBoxSize: {x: 1, y: 1, z: 1}
-  promptSprite: {fileID: 0}
-  promptOffset: {x: -1, y: 1, z: 0}
-  jiggleAmount: 10
-  jiggleSpeed: 3
 --- !u!54 &1388603895
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -41444,7 +41396,6 @@ MonoBehaviour:
   movementspeed: 5
   movementSmoothing: 10
   maxSlopeAngle: 45
-  speedThreshold: 0.5
 --- !u!23 &1519928916
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41554,8 +41505,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityFlipped: 0
   rotationSpeed: 2
-  useSingleKeyToggle: 0
-  PlayerFlipFeedback: {fileID: 0}
 --- !u!114 &1519928921
 MonoBehaviour:
   m_ObjectHideFlags: 0

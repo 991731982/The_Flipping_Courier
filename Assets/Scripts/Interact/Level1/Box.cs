@@ -46,6 +46,45 @@ public class Box : MonoBehaviour
         }
     }
 
+    /*
+    // Original full-body collision logic (now disabled)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!canRegisterHit || !collision.gameObject.CompareTag("Weight"))
+            return;
+
+        // TEMP: Allow hits from any direction for testing
+        currentHits++;
+        Debug.Log("Box was hit by Weight. Current hits: " + currentHits);
+
+        // Visually sink the box slightly to indicate impact
+        transform.position -= new Vector3(0, fallAmount, 0);
+
+        if (currentHits >= hitsToDestroy)
+        {
+            TriggerEyeballSlither();
+            // SpawnSmallCube(); // Disabled for now
+            DisableColliders();
+            Destroy(gameObject);
+        }
+        else
+        {
+            StartCoroutine(HitCooldown());
+        }
+    }
+    */
+
+    /*
+    private void SpawnSmallCube()
+    {
+        if (smallCubePrefab == null) return;
+
+        Vector3 spawnPosition = transform.position + spawnOffset;
+        Instantiate(smallCubePrefab, spawnPosition, Quaternion.identity);
+        Debug.Log("Small cube spawned!");
+    }
+    */
+
     private void DisableColliders()
     {
         foreach (Collider col in GetComponents<Collider>())

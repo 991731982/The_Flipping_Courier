@@ -43,10 +43,6 @@ public class WindFan : MonoBehaviour
 
         foreach (Collider col in colliders)
         {
-            // Ignore objects tagged as "Bullet"
-            if (col.CompareTag("Bullet"))
-                continue;
-
             Rigidbody rb = col.GetComponent<Rigidbody>();
             if (rb != null && rb.mass < massThreshold)
             {
@@ -54,16 +50,15 @@ public class WindFan : MonoBehaviour
             }
         }
 
-        // Update visualization box position and rotation
+        // 更新風的可視化區域位置
         windEffect.transform.position = windOrigin;
         windEffect.transform.rotation = transform.rotation;
     }
 
-
-    /*void OnDrawGizmos()
-     {
-        // Gizmos.color = new Color(0f, 0.5f, 1f, 0.3f);
-         Gizmos.matrix = Matrix4x4.TRS(transform.position + transform.right * (boxSize.x / 2), transform.rotation, Vector3.one);
-         Gizmos.DrawWireCube(Vector3.zero, boxSize);
-     }*/
+   /*void OnDrawGizmos()
+    {
+       // Gizmos.color = new Color(0f, 0.5f, 1f, 0.3f);
+        Gizmos.matrix = Matrix4x4.TRS(transform.position + transform.right * (boxSize.x / 2), transform.rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, boxSize);
+    }*/
 }
