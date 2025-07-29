@@ -1,23 +1,30 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CheckPoint : MonoBehaviour
 {
-    public Color activatedColor = Color.green; // Checkpoint激活后的颜色
-    public AudioClip checkpointSound; // Checkpoint激活时的音效
-    public GameObject uiNotification; // 用于显示UI提示的对象
+    public Color activatedColor = Color.green; // Color after checkpoint activation
+    public AudioClip checkpointSound; // Sound effect when checkpoint is activated
+    public GameObject uiNotification; // Object used to display UI notification
+
+    [Header("Scale Shake Settings")]
+    [Tooltip("Enable scale shake effect when checkpoint is reached")]
+    public bool enableScaleShake = true;
 
     private Renderer checkpointRenderer;
     private AudioSource audioSource;
-    private bool isActivated = false; // 防止重复触发
+    private MMScaleShaker scaleShaker; // Reference to the MMScaleShaker component
+    private bool isActivated = false; // Prevent repeated triggering
 
     private void Start()
     {
-        // 获取Renderer和AudioSource组件
+        // Get Renderer and AudioSource components
         checkpointRenderer = GetComponent<Renderer>();
         audioSource = GetComponent<AudioSource>();
+        scaleShaker = GetComponent<MMScaleShaker>(); // Get the MMScaleShaker component
 
-        // 如果UI对象已设置，则默认隐藏
+        // If UI object is set, hide it by default
         if (uiNotification != null)
         {
             uiNotification.SetActive(false);
@@ -28,7 +35,7 @@ public class CheckPoint : MonoBehaviour
             Debug.LogWarning("UI Notification is not assigned!");
         }
 
-        // 检查是否存在 AudioSource
+        // Check if AudioSource exists
         if (audioSource == null)
         {
             Debug.LogError("AudioSource component is missing on the CheckPoint object!");
@@ -37,14 +44,24 @@ public class CheckPoint : MonoBehaviour
         {
             Debug.Log("AudioSource component found on CheckPoint object.");
         }
+
+        // Check if MMScaleShaker exists
+        if (scaleShaker == null)
+        {
+            Debug.LogWarning("MMScaleShaker component is missing on the CheckPoint object!");
+        }
+        else
+        {
+            Debug.Log("MMScaleShaker component found on CheckPoint object.");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // 检查是否是玩家并且Checkpoint尚未被激活
+        // Check if it's the player and the checkpoint hasn't been activated yet
         if (other.CompareTag("Player") && !isActivated)
         {
-            isActivated = true; // 设置激活状态
+            isActivated = true; // Set activation state
             checkPointRespawn player = other.GetComponent<checkPointRespawn>();
 
             if (player != null)
@@ -52,23 +69,39 @@ public class CheckPoint : MonoBehaviour
                 player.SetCheckpoint(transform.position);
                 Debug.Log("Checkpoint reached at position: " + transform.position);
 
-                // 重置所有可重置的物体
+                // Reset all resettable objects
                 ResetAllObjects();
 
-                // 显示提示UI
+                // Show notification UI
                 ShowNotification();
 
-                // 改变物品颜色
+                // Change checkpoint color
                 ChangeCheckpointColor();
 
-                // 播放音效
+                // Play sound effect
                 PlayCheckpointSound();
+
+                // Trigger scale shake effect
+                TriggerScaleShake();
             }
             else
             {
                 Debug.LogWarning("Player object does not have a checkPointRespawn component!");
             }
         }
+    }
+
+    private void TriggerScaleShake()
+    {
+        if (!enableScaleShake || scaleShaker == null)
+        {
+            return;
+        }
+
+        // Simply start the shake using the MMScaleShaker's configured settings
+        scaleShaker.StartShaking();
+
+        Debug.Log("Scale shake effect triggered on checkpoint activation!");
     }
 
     private void ResetAllObjects()
@@ -86,9 +119,9 @@ public class CheckPoint : MonoBehaviour
     {
         if (uiNotification != null)
         {
-            uiNotification.SetActive(true); // 显示UI提示
+            uiNotification.SetActive(true); // Show UI notification
             Debug.Log("UI Notification is displayed.");
-            Invoke("HideNotification", 2f); // 2秒后隐藏UI
+            Invoke("HideNotification", 2f); // Hide UI after 2 seconds
         }
         else
         {
@@ -109,7 +142,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (checkpointRenderer != null)
         {
-            checkpointRenderer.material.color = activatedColor; // 设置为激活颜色
+            checkpointRenderer.material.color = activatedColor; // Set to activation color
             Debug.Log("Checkpoint color changed to activatedColor.");
         }
         else
@@ -122,7 +155,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (checkpointSound != null && audioSource != null)
         {
-            audioSource.PlayOneShot(checkpointSound); // 播放音效
+            audioSource.PlayOneShot(checkpointSound); // Play sound effect
             Debug.Log("Checkpoint sound played!");
         }
         else
@@ -131,6 +164,24 @@ public class CheckPoint : MonoBehaviour
                 Debug.LogWarning("AudioClip is missing! Please assign a valid AudioClip.");
             if (audioSource == null)
                 Debug.LogWarning("AudioSource is missing! Please ensure the object has an AudioSource component.");
+        }
+    }
+
+    // Method to manually trigger shake (for testing or external calls)
+    public void ManualTriggerShake()
+    {
+        if (scaleShaker != null)
+        {
+            TriggerScaleShake();
+        }
+    }
+
+    // Method to stop the shake effect
+    public void StopShake()
+    {
+        if (scaleShaker != null)
+        {
+            scaleShaker.Stop();
         }
     }
 }
