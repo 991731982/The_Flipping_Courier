@@ -91,18 +91,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   rotationSpeed: 5
-  maxHorizontalAngle: 45
-  maxVerticalAngle: 30
-  maxRollAngle: 15
-  centerRotation: {x: 0, y: 0, z: 0}
-  autoFindCenterRotation: 0
-  calibrateKey: 99
-  debugInfo: Position player in front of eye and press C to auto-calibrate center
-    rotation
-  deadZoneRadius: 0.8
-  minDistanceForRotation: 0.2
-  adaptToPlayerGravity: 1
-  playerGravityController: {fileID: 0}
+  maxZRotation: 45
+  centerAngle: 180
+  leftAngle: 225
+  rightAngle: 135
 --- !u!4 &4411918281689887174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3204062268403045222, guid: 52e69f55665976d4e80e4008100485a0, type: 3}
@@ -175,6 +167,10 @@ PrefabInstance:
     - target: {fileID: 6441873369525384307, guid: 0f3d407feb92ebb49b98d0157de5008a, type: 3}
       propertyPath: m_Name
       value: vfx_Implosion_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441873369525384307, guid: 0f3d407feb92ebb49b98d0157de5008a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
