@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Storyboard/Materials/energySupply.mat.meta
 guid: 298b2e02f8b066640b98d912ea2ee4c6
 NativeFormatImporter:
+========
+guid: 8553e88a44eba5b4bb20243499267d13
+DefaultImporter:
+>>>>>>>> main:Assets/Scenes/Adii/TestAssets 1.unity.meta
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 
