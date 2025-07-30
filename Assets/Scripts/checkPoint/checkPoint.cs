@@ -2,6 +2,7 @@ using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 public class CheckPoint : MonoBehaviour
 {
     public Color activatedColor = Color.green; // Color after checkpoint activation
@@ -83,8 +84,12 @@ public class CheckPoint : MonoBehaviour
 
             if (player != null)
             {
-                player.SetCheckpoint(transform.position);
-                Debug.Log("Checkpoint reached at position: " + transform.position);
+                // Store player's current position (X and Z) but keep checkpoint's Y for customization
+                Vector3 playerPosition = other.transform.position;
+                Vector3 checkpointSafePosition = new Vector3(playerPosition.x, transform.position.y, playerPosition.z);
+
+                player.SetCheckpoint(checkpointSafePosition);
+                Debug.Log("Checkpoint reached. Player X,Z saved: " + playerPosition.x + ", " + playerPosition.z + " with checkpoint Y: " + transform.position.y);
 
                 // Reset all resettable objects
                 ResetAllObjects();
