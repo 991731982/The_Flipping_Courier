@@ -77,9 +77,13 @@ public class Hazard : MonoBehaviour
     {
         UnityEngine.Debug.Log($"Updating life UI: lives left = {livesLeft}");
 
-        for (int i = 0; i < lifeIcons.Length; i++)
+        int totalIcons = lifeIcons.Length;
+
+        for (int i = 0; i < totalIcons; i++)
         {
-            lifeIcons[i].SetActive(i < livesLeft);
+            // Reverse the index so icons disappear from right to left
+            int reversedIndex = totalIcons - 1 - i;
+            lifeIcons[reversedIndex].SetActive(i < livesLeft);
         }
     }
 }

@@ -121,6 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c6c5f4da50c19c418cb932c560ec24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeIcons: []
+  hitParticleEffect: {fileID: 0}
 --- !u!1001 &4470310580093740453
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -275,6 +277,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c6c5f4da50c19c418cb932c560ec24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  hitParticleEffect: {fileID: 0}
 --- !u!4 &4144159057660674638 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 79f44e7835a6c82478d0723cea0b7349, type: 3}

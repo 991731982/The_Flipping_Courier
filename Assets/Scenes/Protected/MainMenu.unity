@@ -341,7 +341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3019694180757424309, guid: 0af8eb16f071a324e940b4a8ff54bd3f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8136584557342826862, guid: 0af8eb16f071a324e940b4a8ff54bd3f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3903,9 +3903,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1744800316}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadNextScene
+      - m_Target: {fileID: 1744800317}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: LoadGameScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3965,6 +3965,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628c3dc0c996b7848914c05d6f13b5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableOutline: 1
+  forceDefaultSize: 1
   hoverScale: {x: 3, y: 3, z: 1}
   scaleSpeed: 10
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -4043,6 +4045,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1379269493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5226075923622866968, guid: 0af8eb16f071a324e940b4a8ff54bd3f, type: 3}
+  m_PrefabInstance: {fileID: 79825068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1417710884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4964,6 +4971,7 @@ GameObject:
   - component: {fileID: 1744800314}
   - component: {fileID: 1744800313}
   - component: {fileID: 1744800316}
+  - component: {fileID: 1744800317}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -5063,13 +5071,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744800310}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4544f58af873c4e41a29bd8c9b86063a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneName: PanelMenu
   playerTag: Player
+--- !u!114 &1744800317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744800310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b11ab85c723143d40a7186d15de5bb61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuScene: MainMenu
+  gameScene: PanelMenu
+  mainMenuUI: {fileID: 1379269493}
+  startGameSound: {fileID: 8300000, guid: ffaa6e3abe07708488f2e81316e8f7bf, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 93f81efbdad4ade4c9c4b6b83eae7e4b, type: 3}
+  panelManager: {fileID: 1855625311}
 --- !u!1001 &1765863674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5305,6 +5331,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4673612198529529615, guid: c8d104e8cc86ab540871e7c8a9d01224, type: 3}
   m_PrefabInstance: {fileID: 131346399}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1855625311 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1289618614652318370, guid: 0af8eb16f071a324e940b4a8ff54bd3f, type: 3}
+  m_PrefabInstance: {fileID: 79825068}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f316e51ff94704db05e68b66aa8680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1915286687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5489,6 +5526,15 @@ MonoBehaviour:
   activatedColor: {r: 0, g: 1, b: 0, a: 1}
   checkpointSound: {fileID: 0}
   uiNotification: {fileID: 0}
+  particleEffect: {fileID: 0}
+  uiShowDuration: 3
+  particleEffectDuration: 3
+  useWorldSpaceUI: 1
+  uiOffset: {x: 0, y: 2, z: 0}
+  worldCanvasScale: 0.01
+  setCustomRenderQueue: 1
+  renderQueue: 3002
+  enableScaleShake: 1
 --- !u!65 &1944237149
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5788,6 +5834,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1744800317}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2034960366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5838,6 +5896,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628c3dc0c996b7848914c05d6f13b5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableOutline: 1
+  forceDefaultSize: 1
   hoverScale: {x: 3, y: 3, z: 1}
   scaleSpeed: 10
   normalColor: {r: 1, g: 1, b: 1, a: 1}
