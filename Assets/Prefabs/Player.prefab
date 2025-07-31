@@ -6111,7 +6111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundjump: {x: 0, y: 0, z: 0}
   roofjump: {x: 0, y: 0, z: 0}
-  jumpForce: 9.5
+  jumpForce: 12
   isGrounded: 0
   movementspeed: 9
   movementSmoothing: 10
@@ -6327,7 +6327,7 @@ MonoBehaviour:
   rimLightIntensity: 2
   rimLightDuration: 15
   enableScreenEffects: 0
-  normalGravityColor: {r: 1, g: 0.41960785, b: 0.21176471, a: 1}
+  normalGravityColor: {r: 0, g: 0.18620045, b: 0.9622642, a: 1}
   flippedGravityColor: {r: 0.2901961, g: 0.56078434, b: 0.8901961, a: 1}
   arrowPrefab: {fileID: 0}
   arrowMoveDistance: 3
