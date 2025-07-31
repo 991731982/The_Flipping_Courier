@@ -21,9 +21,18 @@ public class GravityController : MonoBehaviour
     [HideInInspector]
     public float CurrentZRotation => transform.eulerAngles.z;
 
+    private GravityFlipFeedback feedbackSystem;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        feedbackSystem = GetComponent<GravityFlipFeedback>();
+
+        // Add GravityFlipFeedback component if it doesn't exist
+        if (feedbackSystem == null)
+        {
+            feedbackSystem = gameObject.AddComponent<GravityFlipFeedback>();
+        }
     }
 
     private void Update()
@@ -86,7 +95,11 @@ public class GravityController : MonoBehaviour
         Physics.gravity = gravityFlipped ? new Vector3(0, 20.0f, 0) : new Vector3(0, -20.0f, 0);
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, rb.linearVelocity.z);
 
-        // The post-processing effect will automatically detect the state change
+        // Trigger code-based feedback
+        if (feedbackSystem != null)
+        {
+            feedbackSystem.TriggerGravityFlipFeedback(flipUp);
+        }
 
         float targetZRotation = gravityFlipped ? 180f : 0f;
         StartCoroutine(SmoothRotateZ(targetZRotation));
