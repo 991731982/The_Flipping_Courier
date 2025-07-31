@@ -1,12 +1,24 @@
 using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections;
+using System.Collections.Generic;
 public class CheckPoint : MonoBehaviour
 {
     public Color activatedColor = Color.green; // Color after checkpoint activation
     public AudioClip checkpointSound; // Sound effect when checkpoint is activated
     public GameObject uiNotification; // Object used to display UI notification
+    public ParticleSystem particleEffect; // Particle effect to play with shake
+    public float uiShowDuration = 3f; // Duration to show UI notification
+    public float particleEffectDuration = 3f; // Duration for particle effect
+
+    [Header("UI Settings")]
+    [Tooltip("If true, UI will be positioned at checkpoint. If false, UI should be Screen Space")]
+    public bool useWorldSpaceUI = true;
+    public Vector3 uiOffset = Vector3.up * 2f; // Offset from checkpoint position for UI
+    public float worldCanvasScale = 0.01f; // Scale for world space canvas (try 0.001f to 0.1f)
+    public bool setCustomRenderQueue = true; // Enable custom render queue for UI
+    public int renderQueue = 3002; // Render queue value for UI elements
 
     [Header("Scale Shake Settings")]
     [Tooltip("Enable scale shake effect when checkpoint is reached")]
@@ -33,6 +45,12 @@ public class CheckPoint : MonoBehaviour
         else
         {
             Debug.LogWarning("UI Notification is not assigned!");
+        }
+
+        // Check if particle effect is assigned
+        if (particleEffect == null)
+        {
+            Debug.LogWarning("Particle Effect is not assigned!");
         }
 
         // Check if AudioSource exists
@@ -66,14 +84,15 @@ public class CheckPoint : MonoBehaviour
 
             if (player != null)
             {
-                player.SetCheckpoint(transform.position);
-                Debug.Log("Checkpoint reached at position: " + transform.position);
+                // Store player's current position (X and Z) but keep checkpoint's Y for customization
+                Vector3 playerPosition = other.transform.position;
+                Vector3 checkpointSafePosition = new Vector3(playerPosition.x, transform.position.y, playerPosition.z);
+
+                player.SetCheckpoint(checkpointSafePosition);
+                Debug.Log("Checkpoint reached. Player X,Z saved: " + playerPosition.x + ", " + playerPosition.z + " with checkpoint Y: " + transform.position.y);
 
                 // Reset all resettable objects
                 ResetAllObjects();
-
-                // Show notification UI
-                ShowNotification();
 
                 // Change checkpoint color
                 ChangeCheckpointColor();
@@ -81,8 +100,10 @@ public class CheckPoint : MonoBehaviour
                 // Play sound effect
                 PlayCheckpointSound();
 
-                // Trigger scale shake effect
+                // Trigger all effects independently
                 TriggerScaleShake();
+                ShowNotification();
+                TriggerParticleEffect();
             }
             else
             {
@@ -119,9 +140,34 @@ public class CheckPoint : MonoBehaviour
     {
         if (uiNotification != null)
         {
+            // Position UI at checkpoint location if using world space
+            if (useWorldSpaceUI)
+            {
+                // Set position
+                uiNotification.transform.position = transform.position + uiOffset;
+
+                // Set proper scale for world space canvas
+                uiNotification.transform.localScale = Vector3.one * worldCanvasScale;
+
+                // Make UI face the camera
+                if (Camera.main != null)
+                {
+                    Vector3 directionToCamera = Camera.main.transform.position - uiNotification.transform.position;
+                    uiNotification.transform.rotation = Quaternion.LookRotation(-directionToCamera);
+                }
+
+                Debug.Log($"UI positioned at: {uiNotification.transform.position} with scale: {worldCanvasScale}");
+            }
+
+            // Set custom render queue for UI materials
+            if (setCustomRenderQueue)
+            {
+                SetUIRenderQueue();
+            }
+
             uiNotification.SetActive(true); // Show UI notification
-            Debug.Log("UI Notification is displayed.");
-            Invoke("HideNotification", 2f); // Hide UI after 2 seconds
+            Debug.Log("UI Notification is displayed at checkpoint position.");
+            StartCoroutine(HideNotificationAfterDelay());
         }
         else
         {
@@ -129,12 +175,81 @@ public class CheckPoint : MonoBehaviour
         }
     }
 
-    private void HideNotification()
+    private void SetUIRenderQueue()
     {
+        // Get all Image and RawImage components in the UI notification
+        UnityEngine.UI.Image[] images = uiNotification.GetComponentsInChildren<UnityEngine.UI.Image>();
+        UnityEngine.UI.RawImage[] rawImages = uiNotification.GetComponentsInChildren<UnityEngine.UI.RawImage>();
+        UnityEngine.UI.Text[] texts = uiNotification.GetComponentsInChildren<UnityEngine.UI.Text>();
+
+        // Set render queue for Image components
+        foreach (UnityEngine.UI.Image img in images)
+        {
+            if (img.material != null)
+            {
+                Material materialCopy = new Material(img.material);
+                materialCopy.renderQueue = renderQueue;
+                img.material = materialCopy;
+                Debug.Log($"Set render queue {renderQueue} for Image: {img.name}");
+            }
+        }
+
+        // Set render queue for RawImage components
+        foreach (UnityEngine.UI.RawImage rawImg in rawImages)
+        {
+            if (rawImg.material != null)
+            {
+                Material materialCopy = new Material(rawImg.material);
+                materialCopy.renderQueue = renderQueue;
+                rawImg.material = materialCopy;
+                Debug.Log($"Set render queue {renderQueue} for RawImage: {rawImg.name}");
+            }
+        }
+
+        // Set render queue for Text components
+        foreach (UnityEngine.UI.Text txt in texts)
+        {
+            if (txt.material != null)
+            {
+                Material materialCopy = new Material(txt.material);
+                materialCopy.renderQueue = renderQueue;
+                txt.material = materialCopy;
+                Debug.Log($"Set render queue {renderQueue} for Text: {txt.name}");
+            }
+        }
+    }
+
+    private IEnumerator HideNotificationAfterDelay()
+    {
+        yield return new WaitForSeconds(uiShowDuration);
         if (uiNotification != null)
         {
             uiNotification.SetActive(false);
             Debug.Log("UI Notification is hidden.");
+        }
+    }
+
+    private void TriggerParticleEffect()
+    {
+        if (particleEffect != null)
+        {
+            particleEffect.Play();
+            Debug.Log("Particle effect triggered with shake!");
+            StartCoroutine(StopParticleAfterDelay());
+        }
+        else
+        {
+            Debug.LogWarning("Particle Effect is not assigned!");
+        }
+    }
+
+    private IEnumerator StopParticleAfterDelay()
+    {
+        yield return new WaitForSeconds(particleEffectDuration);
+        if (particleEffect != null)
+        {
+            particleEffect.Stop();
+            Debug.Log("Particle effect stopped.");
         }
     }
 
@@ -174,6 +289,14 @@ public class CheckPoint : MonoBehaviour
         {
             TriggerScaleShake();
         }
+    }
+
+    // Method to manually trigger all effects
+    public void ManualTriggerAllEffects()
+    {
+        TriggerScaleShake();
+        ShowNotification();
+        TriggerParticleEffect();
     }
 
     // Method to stop the shake effect
