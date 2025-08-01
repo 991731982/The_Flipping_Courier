@@ -1,10 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 public class Box : MonoBehaviour
 {
     [Header("Box Settings")]
     public int hitsToDestroy = 3;             // Number of hits needed to destroy the box
     public float fallAmount = 0.1f;           // How much the box drops per hit
+
+    [Header("Audio Settings")]
+    public AudioClip breakSound;    
+    private AudioSource audioSource;
 
     [Header("Fracture Settings")]
     public float explosionForce = 15f;                      // Base explosion force when fracturing
@@ -37,7 +41,6 @@ public class Box : MonoBehaviour
 
     private void Start()
     {
-        // Get the FracturedObject component
         fracturedObject = GetComponent<FracturedObject>();
         objectCollider = GetComponent<Collider>();
         objectRigidbody = GetComponent<Rigidbody>();
@@ -48,12 +51,14 @@ public class Box : MonoBehaviour
             return;
         }
 
-        // Ensure Rigidbody exists and is kinematic
         if (objectRigidbody == null)
             objectRigidbody = gameObject.AddComponent<Rigidbody>();
         objectRigidbody.isKinematic = true;
 
-        // Setup initial state
+       
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+
         SetupInitialState();
 
         if (debugMode)
@@ -61,6 +66,7 @@ public class Box : MonoBehaviour
             Debug.Log($"Box initialized: {gameObject.name}");
         }
     }
+
 
     private void SetupInitialState()
     {
@@ -151,12 +157,19 @@ public class Box : MonoBehaviour
             Debug.Log($"Breaking box: {gameObject.name}");
         }
 
-        // Trigger the enhanced fracture explosion
+        // 播放音效
+        if (breakSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(breakSound);
+        }
+
+        // 触发爆炸破碎
         TriggerEnhancedFracture(transform.position);
 
-        // Trigger eyeball after a short delay to let explosion start
+        // 激活 eyeball 动画
         StartCoroutine(DelayedEyeballTrigger(0.2f));
     }
+
 
     private void TriggerEnhancedFracture(Vector3 explosionPosition)
     {

@@ -4,7 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Hazard : MonoBehaviour
+
+
 {
+
+    [Header("Audio Settings")]
+    public AudioClip hitSoundEffect;            // 拖入音效 clip
+    private AudioSource audioSource;
+
+
     [Header("UI Settings")]
     public GameObject[] lifeIcons;              // UI life icons
 
@@ -32,6 +40,26 @@ public class Hazard : MonoBehaviour
     private Dictionary<GameObject, bool> playerInTrigger = new Dictionary<GameObject, bool>();
     private Dictionary<GameObject, float> playerLastHitTime = new Dictionary<GameObject, float>();
     private const int maxHits = 3;
+
+    //public int health
+    //{
+    //    get
+    //    {
+    //        return _health;
+    //    }
+    //    set
+    //    {
+    //        Debug.Log("Changing the health - " + value.ToString());
+    //        Debug.Log("Triggered from object[]");
+    //        _health = value;
+    //    }
+    //}
+    //private int _health = 3;
+    private void Start()
+    {
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+    }
 
     private void Update()
     {
@@ -148,6 +176,16 @@ public class Hazard : MonoBehaviour
         else
         {
             UnityEngine.Debug.Log("hitParticleEffect prefab not assigned!");
+        }
+
+        if (hitSoundEffect != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(hitSoundEffect);
+            UnityEngine.Debug.Log("Hit sound effect played.");
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Hit sound not assigned or AudioSource missing.");
         }
     }
 

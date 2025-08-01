@@ -48,6 +48,6 @@ Material:
     - _Maskrange: 1
     m_Colors:
     - _EdgeColor: {r: 8.3522, g: 9.368564, b: 32, a: 0}
-    - _MainColor: {r: 0.9779874, g: 0.97867036, b: 1, a: 1}
+    - _MainColor: {r: 0.97798735, g: 0.9786703, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
