@@ -8,6 +8,9 @@ public class DragObject : MonoBehaviour
     [Header("Drag Type")]
     public DragType dragType = DragType.Free;
 
+    [Header("Object Connector (Optional)")]
+    public GameObject connectorObject;
+
     [Header("Free Drag Settings")]
     public Vector3 localDragOffset = new Vector3(1f, 1.5f, -2f); // Base offset relative to player
 
@@ -141,6 +144,11 @@ public class DragObject : MonoBehaviour
         rb.isKinematic = true;
         Physics.IgnoreCollision(col, player.GetComponent<Collider>(), true);
 
+        if (connectorObject != null)
+        {
+            connectorObject.SetActive(true); // 👈 拖拽开始时激活
+        }
+
         if (dragType == DragType.Free)
         {
             StartFreeDrag();
@@ -237,6 +245,11 @@ public class DragObject : MonoBehaviour
         if (dragType == DragType.Free)
         {
             transform.SetParent(originalParent);
+        }
+
+        if (connectorObject != null)
+        {
+            connectorObject.SetActive(false); // 👈 拖拽停止时关闭
         }
 
         // Re-enable physics for both drag types
