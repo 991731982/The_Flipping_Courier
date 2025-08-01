@@ -1,10 +1,11 @@
-
+﻿
 using UnityEngine;
 using System.Collections.Generic;
 
 [System.Serializable]
 public class SnapPair
 {
+
     [Header("Snap Configuration")]
     public Collider boxCollider;          // The collider on this box
     public List<Collider> targetColliders = new List<Collider>(); // Which target colliders it can snap to
@@ -15,6 +16,10 @@ public class BoxSnappingSystem : MonoBehaviour
 {
     [Header("Snap Pairs Configuration")]
     public List<SnapPair> snapPairs = new List<SnapPair>();
+
+    [Header("Audio")]
+    public AudioClip snapSoundEffect;
+    private AudioSource audioSource;
 
     [Header("Snap Settings")]
     public float snapDistance = 2f;       // Distance to start snapping
@@ -32,6 +37,14 @@ public class BoxSnappingSystem : MonoBehaviour
 
     void Start()
     {
+
+        rb = GetComponent<Rigidbody>();
+        SetupSnapColliders();
+
+       
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+
         rb = GetComponent<Rigidbody>();
         SetupSnapColliders();
     }
@@ -81,7 +94,13 @@ public class BoxSnappingSystem : MonoBehaviour
     {
         if (isSnapping || isSnapped) return;
 
-        // Calculate snap position (align the colliders)
+       
+        if (snapSoundEffect != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(snapSoundEffect);
+        }
+
+      
         Vector3 offset = boxCollider.transform.position - transform.position;
         targetSnapPosition = targetCollider.transform.position - offset;
         targetSnapRotation = targetCollider.transform.rotation;
@@ -89,17 +108,16 @@ public class BoxSnappingSystem : MonoBehaviour
         if (smoothSnapping)
         {
             isSnapping = true;
-            // Disable physics during smooth snap
             rb.isKinematic = true;
         }
         else
         {
-            // Instant snap
             transform.position = targetSnapPosition;
             transform.rotation = targetSnapRotation;
-            SnapComplete();
+            SnapComplete();  
         }
     }
+
 
     void Update()
     {
@@ -130,7 +148,14 @@ public class BoxSnappingSystem : MonoBehaviour
         rb.isKinematic = true;
 
         Debug.Log("Box snapped successfully!");
+
+  
+        if (snapSoundEffect != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(snapSoundEffect);
+        }
     }
+
 
     public void ReleaseSnap()
     {

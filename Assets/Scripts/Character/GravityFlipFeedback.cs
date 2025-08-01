@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using MoreMountains.Feedbacks;
 
@@ -12,6 +12,11 @@ public class GravityFlipFeedback : MonoBehaviour
 
     [Header("Screen Effects")]
     public bool enableScreenEffects = true;
+
+    [Header("Audio Feedback")]
+    public AudioClip flipUpSound;     // W键触发
+    public AudioClip flipDownSound;   // S键触发
+    private AudioSource audioSource;
 
     [Header("Colors")]
     public Color normalGravityColor = new Color(1f, 0.42f, 0.21f, 1f);     // Orange
@@ -41,6 +46,18 @@ public class GravityFlipFeedback : MonoBehaviour
         SetupRimLight();
         SetupRingEffect();
         SetupTrailParticles();
+
+
+        mainCamera = Camera.main;
+        gravityController = GetComponent<GravityController>();
+
+        SetupRimLight();
+        SetupRingEffect();
+        SetupTrailParticles();
+
+        // 添加 AudioSource
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
 
     void SetupRimLight()
@@ -131,7 +148,18 @@ public class GravityFlipFeedback : MonoBehaviour
         }
 
         SpawnArrows(isFlippedUp);
+
+        // 播放音效
+        if (audioSource != null)
+        {
+            AudioClip selectedClip = isFlippedUp ? flipUpSound : flipDownSound;
+            if (selectedClip != null)
+            {
+                audioSource.PlayOneShot(selectedClip);
+            }
+        }
     }
+
 
     IEnumerator RingExpansionEffect()
     {
