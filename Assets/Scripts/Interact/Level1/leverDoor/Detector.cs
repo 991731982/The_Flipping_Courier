@@ -2,40 +2,44 @@
 
 public class Detector : MonoBehaviour
 {
-    public DoorLever doorLever; // DoorLever ½Å±¾µÄÒýÓÃ
-    public string boxTag = "Box"; // ÓÃÓÚ±êÊ¶Ïä×ÓµÄ±êÇ©
+    public DoorLever doorLever;
+    public string boxTag = "Box";
 
-    // µ±Ïä×Ó½øÈë´¥·¢ÇøÓòÊ±
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(boxTag))
         {
-            doorLever.OpenDoor(); // 打开门
+            doorLever.OpenDoor();
             Debug.Log("Box entered, door is opening!");
 
-            // 触发 EyeballMovement
+            // ✅ 触发 eyeball 动画
             EyeballMovement eyeball = other.GetComponent<EyeballMovement>();
             if (eyeball != null)
             {
                 eyeball.BeginSlither();
             }
 
-            // 禁用玩家拖动控制
+            // ✅ 禁用玩家拖拽 + 关闭连接线
             DragObject drag = other.GetComponent<DragObject>();
             if (drag != null)
             {
-                drag.enabled = false;
+                if (drag.connectorObject != null)
+                {
+                    drag.connectorObject.SetActive(false); // 关闭连线物体
+                    Debug.Log("Connector object deactivated.");
+                }
+
+                drag.enabled = false; // 禁用拖拽功能
+                Debug.Log("DragObject disabled.");
             }
         }
     }
 
-
-    // µ±Ïä×ÓÀë¿ª´¥·¢ÇøÓòÊ±
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(boxTag))
         {
-            doorLever.CloseDoor(); // ¹Ø±ÕÃÅ
+            doorLever.CloseDoor();
             Debug.Log("Box exited, door is closing!");
         }
     }
