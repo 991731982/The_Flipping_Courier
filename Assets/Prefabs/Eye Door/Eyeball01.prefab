@@ -154,9 +154,104 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPoint: {fileID: 6358187626412252262}
   endPoint: {fileID: 0}
-  moveSpeed: 0.3
-  slitherAmplitude: 0.5
-  slitherFrequency: 5
+  playerTransform: {fileID: 0}
+  upperEyelid: {fileID: 0}
+  lowerEyelid: {fileID: 0}
+  riseDelay: 0.5
+  riseDuration: 2
+  lookAtPlayerDuration: 1.5
+  moveToSocketDuration: 2.5
+  eyeCloseDuration: 1
+  riseEasing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  moveToSocketEasing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  eyeCloseEasing:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  riseHeight: 8
+  floatAmplitude: 0.3
+  floatFrequency: 2
+  lookRotationSpeed: 3
+  menacingBobAmplitude: 0.2
+  menacingBobFrequency: 3
+  eyelidOpenAmount: 0.8
+  eyelidBlinkSpeed: 2
+  upperEyelidClosedRotation: {x: 45, y: 0, z: 0}
+  lowerEyelidClosedRotation: {x: -45, y: 0, z: 0}
+  audioSource: {fileID: 0}
+  riseSound: {fileID: 0}
+  attachSound: {fileID: 0}
+  menacingSound: {fileID: 0}
+  dustParticles: {fileID: 0}
+  attachParticles: {fileID: 0}
+  debugMode: 1
+  showGizmos: 1
 --- !u!4 &3204062268403045222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c7cfc11bcfb01fa4f9139856f79ad064, type: 3}

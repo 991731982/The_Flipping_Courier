@@ -2,14 +2,19 @@ using UnityEngine;
 
 public class MeltTrigger : MonoBehaviour
 {
-    public DoorMelt doorController;
+    
+    public DissolveDoorController doorController;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Eyeball"))
         {
-            // play door anim
-            doorController.TriggerDissolve();
+            
+            if (doorController != null)
+            {
+                
+                doorController.TriggerDissolve();
+            }
 
             // remove collider
             Collider myCollider = GetComponent<Collider>();

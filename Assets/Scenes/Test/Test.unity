@@ -856,13 +856,66 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8053848978600288569, guid: aeb4fbcf50a6bcf4a9d138b7a0aa0bbc, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7105001218177629276, guid: aeb4fbcf50a6bcf4a9d138b7a0aa0bbc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1347392523}
+      addedObject: {fileID: 692610824}
+    - targetCorrespondingSourceObject: {fileID: 7105001218177629276, guid: aeb4fbcf50a6bcf4a9d138b7a0aa0bbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 692610823}
     - targetCorrespondingSourceObject: {fileID: 8053848978600288569, guid: aeb4fbcf50a6bcf4a9d138b7a0aa0bbc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1347392522}
   m_SourcePrefab: {fileID: 100100000, guid: aeb4fbcf50a6bcf4a9d138b7a0aa0bbc, type: 3}
+--- !u!65 &692610821 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 3007990688810989567, guid: aeb4fbcf50a6bcf4a9d138b7a0aa0bbc, type: 3}
+  m_PrefabInstance: {fileID: 692610820}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &692610822 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7105001218177629276, guid: aeb4fbcf50a6bcf4a9d138b7a0aa0bbc, type: 3}
+  m_PrefabInstance: {fileID: 692610820}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &692610823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692610822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b36030933506fc42bf2f99796ea7dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorController: {fileID: 1347392522}
+--- !u!54 &692610824
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692610822}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &910397521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,30 +1132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorRenderer: {fileID: 1347392520}
-  doorCollider: {fileID: 1347392523}
+  doorCollider: {fileID: 692610821}
   dissolveProperty: DoorDisappear
   dissolveDuration: 2
---- !u!65 &1347392523
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347392518}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 23.999998, y: 41.999996, z: 1.0010033}
-  m_Center: {x: -30.35949, y: 21.000002, z: -7.0788636}
 --- !u!1 &1393411099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,6 +1584,7 @@ MonoBehaviour:
   movementspeed: 5
   movementSmoothing: 10
   maxSlopeAngle: 45
+  speedThreshold: 0.5
 --- !u!136 &1990403703
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1621,6 +1654,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityFlipped: 0
   rotationSpeed: 2
+  useSingleKeyToggle: 0
+  PlayerFlipFeedback: {fileID: 0}
 --- !u!114 &1990403709
 MonoBehaviour:
   m_ObjectHideFlags: 0

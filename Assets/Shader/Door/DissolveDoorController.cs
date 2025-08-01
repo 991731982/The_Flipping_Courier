@@ -1,10 +1,11 @@
 using UnityEngine;
 
+
 public class DissolveDoorController : MonoBehaviour
 {
-    public Renderer doorRenderer; 
-    public Collider doorCollider; 
-    public string dissolveProperty = "DoorDisappear"; 
+    public Renderer doorRenderer;
+    public Collider doorCollider;
+    public string dissolveProperty = "DoorDisappear";
     public float dissolveDuration = 2f;
 
     private Material doorMaterial;
@@ -14,13 +15,14 @@ public class DissolveDoorController : MonoBehaviour
     void Start()
     {
         doorMaterial = doorRenderer.material;
-        doorMaterial.SetFloat(dissolveProperty, 0f); 
+        doorMaterial.SetFloat(dissolveProperty, 0f);
     }
 
     void Update()
     {
         if (isDissolving)
         {
+           
             dissolveTimer += Time.deltaTime;
             float t = dissolveTimer / dissolveDuration;
             float dissolveValue = Mathf.Clamp01(t);
