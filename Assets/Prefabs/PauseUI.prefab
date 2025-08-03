@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6670573211919077744
 RectTransform:
   m_ObjectHideFlags: 0
@@ -133,7 +133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &499247398714479092
 RectTransform:
   m_ObjectHideFlags: 0
@@ -229,7 +229,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -325, y: 412}
+  m_AnchoredPosition: {x: -291, y: 399}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &888914691684027025
@@ -262,8 +262,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Game Paused
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: f2dcf029949142e28b974630369c8b4e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ac4cff5bf6dee4489c3d778ed3a1bde, type: 2}
+  m_sharedMaterial: {fileID: -4642798968531156367, guid: 5ac4cff5bf6dee4489c3d778ed3a1bde, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -342,6 +342,14 @@ PrefabInstance:
     - target: {fileID: 408777441942010587, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
       propertyPath: m_Text
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 408777441942010587, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d10992bce964f7d4d8366b19174ba3ff, type: 3}
+    - target: {fileID: 408777441942010587, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 413440910208028884, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
       propertyPath: m_Type
@@ -517,6 +525,14 @@ PrefabInstance:
       propertyPath: m_Text
       value: menu
       objectReference: {fileID: 0}
+    - target: {fileID: 408777441942010587, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d10992bce964f7d4d8366b19174ba3ff, type: 3}
+    - target: {fileID: 408777441942010587, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 754599282528294078, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
       propertyPath: m_Name
       value: MenuButton
@@ -634,6 +650,14 @@ PrefabInstance:
     - target: {fileID: 408777441942010587, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
       propertyPath: m_Text
       value: Resume
+      objectReference: {fileID: 0}
+    - target: {fileID: 408777441942010587, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: d10992bce964f7d4d8366b19174ba3ff, type: 3}
+    - target: {fileID: 408777441942010587, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 754599282528294078, guid: c9a13d494b9ec6146aedd26bbd458e81, type: 3}
       propertyPath: m_Name
