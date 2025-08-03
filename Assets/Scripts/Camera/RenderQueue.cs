@@ -3,23 +3,41 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-[ExecuteInEditMode]
+[ExecuteAlways]
 public class RenderQueue : MonoBehaviour
 {
-    public string layerName = "NoFog";
+    public string layerName = "NoFog";         // Still optional if needed
     public int customRenderQueue = 3002;
     public bool applyOnStart = true;
+    public bool applyToThisObjectOnly = true;  //Apply directly to this GameObject & children
 
     void Start()
     {
+#if UNITY_EDITOR
+        if (!EditorApplication.isPlaying && !applyOnStart) return;
+#endif
+
         if (applyOnStart)
         {
-            ApplyToScene();
+            ApplyRenderQueue();
         }
     }
 
-    [ContextMenu("Apply Render Queue to Layer Objects")]
-    public void ApplyToScene()
+    [ContextMenu("Apply Render Queue")]
+    public void ApplyRenderQueue()
+    {
+        if (applyToThisObjectOnly)
+        {
+            ApplyRenderQueueToAllChildren(gameObject);
+            Debug.Log($"Applied renderQueue {customRenderQueue} to this GameObject and its children.");
+        }
+        else
+        {
+            ApplyToLayerObjects();
+        }
+    }
+
+    private void ApplyToLayerObjects()
     {
         int targetLayer = LayerMask.NameToLayer(layerName);
 
@@ -30,7 +48,6 @@ public class RenderQueue : MonoBehaviour
         }
 
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
-
         foreach (GameObject obj in allObjects)
         {
             if (obj.layer == targetLayer)
@@ -42,7 +59,7 @@ public class RenderQueue : MonoBehaviour
         Debug.Log($"Applied renderQueue {customRenderQueue} to all objects on layer \"{layerName}\".");
     }
 
-    void ApplyRenderQueueToAllChildren(GameObject root)
+    private void ApplyRenderQueueToAllChildren(GameObject root)
     {
         Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
 
@@ -57,7 +74,6 @@ public class RenderQueue : MonoBehaviour
             {
                 if (renderer.sharedMaterials[i] != null)
                 {
-                    // Clone the material to avoid shared instance edits
                     newMats[i] = new Material(renderer.sharedMaterials[i]);
                     newMats[i].renderQueue = customRenderQueue;
                 }

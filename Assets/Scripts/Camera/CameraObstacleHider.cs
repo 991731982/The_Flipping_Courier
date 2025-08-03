@@ -3,25 +3,25 @@ using System.Collections.Generic;
 
 public class CameraObstacleHandler : MonoBehaviour
 {
-    public Transform player;              // 玩家对象
-    public LayerMask obstacleLayer;       // 障碍物的层级，用于射线检测
+    public Transform player;              // Reference to the player object
+    public LayerMask obstacleLayer;       // LayerMask used to detect obstacles with raycast
 
     private Dictionary<GameObject, Material> originalMaterials = new Dictionary<GameObject, Material>();
     private List<GameObject> currentObstacles = new List<GameObject>();
 
     void Update()
     {
-        // 从摄像机到玩家发射射线
+        // Cast a ray from the camera to the player
         Vector3 direction = player.position - transform.position;
         Ray ray = new Ray(transform.position, direction);
         RaycastHit[] hits = Physics.RaycastAll(ray, direction.magnitude, obstacleLayer);
 
-        // 恢复之前设置为透明的物体
+        // Restore previously transparent obstacles to their original state
         for (int i = currentObstacles.Count - 1; i >= 0; i--)
         {
             GameObject obstacle = currentObstacles[i];
 
-            // 检查是否为 null，如果是 null，直接从列表中移除
+            // If the object no longer exists, remove it from the list
             if (obstacle == null)
             {
                 currentObstacles.RemoveAt(i);
@@ -31,12 +31,12 @@ public class CameraObstacleHandler : MonoBehaviour
             ResetObstacle(obstacle);
         }
 
-        // 处理当前检测到的障碍物
+        // Process all obstacles currently between the camera and the player
         foreach (RaycastHit hit in hits)
         {
             GameObject obstacle = hit.collider.gameObject;
 
-            // 避免重复设置透明
+            // Avoid applying transparency more than once
             if (!currentObstacles.Contains(obstacle))
             {
                 SetObstacleTransparent(obstacle);
@@ -45,49 +45,52 @@ public class CameraObstacleHandler : MonoBehaviour
         }
     }
 
-    // 设置物体为半透明
+    // Makes the obstacle semi-transparent
     void SetObstacleTransparent(GameObject obstacle)
     {
         Renderer renderer = obstacle.GetComponent<Renderer>();
         if (renderer != null)
         {
-            // 保存原始材质（仅保存一次）
+            // Save the original material (only once)
             if (!originalMaterials.ContainsKey(obstacle))
             {
                 originalMaterials[obstacle] = renderer.material;
             }
 
-            // 创建材质副本用于透明化处理
+            // Create a new material instance for transparency
             Material transparentMaterial = new Material(renderer.material);
-            transparentMaterial.SetFloat("_Mode", 2); // 设置为透明模式
+
+            // Set rendering mode to transparent
+            transparentMaterial.SetFloat("_Mode", 2);
             transparentMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
             transparentMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            transparentMaterial.SetInt("_ZWrite", 1); // 启用深度写入，避免透明物体影响射线检测
+            transparentMaterial.SetInt("_ZWrite", 1); // Depth writing enabled to avoid weird overlaps
             transparentMaterial.DisableKeyword("_ALPHATEST_ON");
             transparentMaterial.EnableKeyword("_ALPHABLEND_ON");
             transparentMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
             transparentMaterial.renderQueue = 3000;
 
-            // 设置透明度
+            // Set alpha to 30% transparency
             Color color = transparentMaterial.color;
-            color.a = 0.3f; // 半透明
+            color.a = 0.3f;
             transparentMaterial.color = color;
 
-            // 应用修改后的透明材质
+            // Apply the transparent material
             renderer.material = transparentMaterial;
         }
     }
 
-    // 恢复物体的原始材质
+    // Restores the obstacle抯 original material
     void ResetObstacle(GameObject obstacle)
     {
-        if (obstacle == null) return; // 检查是否为 null
+        if (obstacle == null) return;
 
         Renderer renderer = obstacle.GetComponent<Renderer>();
         if (renderer != null && originalMaterials.ContainsKey(obstacle))
         {
-            renderer.material = originalMaterials[obstacle]; // 恢复原始材质
-            originalMaterials.Remove(obstacle); // 从字典中移除
+            // Restore original material
+            renderer.material = originalMaterials[obstacle];
+            originalMaterials.Remove(obstacle); // Remove from dictionary
         }
     }
 }
