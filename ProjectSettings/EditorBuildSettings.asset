@@ -12,10 +12,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Protected/PanelMenu.unity
     guid: 0bfc69b0009a5fe4d838b199d4f82ff2
   - enabled: 1
-    path: Assets/Scenes/LevelDesign/TestAssets.unity
+    path: Assets/Scenes/Protected/TestAssets.unity
     guid: 23439b415ad9a5a468583023f4985201
   - enabled: 1
-    path: Assets/Scenes/LevelDesign/Level2-AddArt.unity
+    path: Assets/Scenes/Protected/Level2-AddArt.unity
     guid: 4f9327de71d21304b90aebe169138553
+  - enabled: 1
+    path: Assets/Scenes/Protected/Cover_Planet01.unity
+    guid: e4db8bae797cb9d4db93bac4a96c881c
+  - enabled: 1
+    path: Assets/Scenes/Protected/AITalkStory.unity
+    guid: 330e20c8ae28f8746b5cdae3777d4557
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
