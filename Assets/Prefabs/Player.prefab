@@ -6327,6 +6327,8 @@ MonoBehaviour:
   rimLightIntensity: 2
   rimLightDuration: 15
   enableScreenEffects: 0
+  flipUpSound: {fileID: 0}
+  flipDownSound: {fileID: 0}
   normalGravityColor: {r: 0, g: 0.18620045, b: 0.9622642, a: 1}
   flippedGravityColor: {r: 0.2901961, g: 0.56078434, b: 0.8901961, a: 1}
   arrowPrefab: {fileID: 0}
@@ -6501,6 +6503,18 @@ PrefabInstance:
     - target: {fileID: -2084811680363313996, guid: e6076449d27c233478aa567249c1a45a, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: -1923379926177342266, guid: e6076449d27c233478aa567249c1a45a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 8.46
+      objectReference: {fileID: 0}
+    - target: {fileID: -1923379926177342266, guid: e6076449d27c233478aa567249c1a45a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 8.46
+      objectReference: {fileID: 0}
+    - target: {fileID: -1923379926177342266, guid: e6076449d27c233478aa567249c1a45a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 8.46
       objectReference: {fileID: 0}
     - target: {fileID: -1781356600409242780, guid: e6076449d27c233478aa567249c1a45a, type: 3}
       propertyPath: m_Layer

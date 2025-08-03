@@ -33,7 +33,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
         m_Texture: {fileID: 2800000, guid: c81e5c51fcb6ab54381a3b902a0f1886, type: 3}
-        m_Scale: {x: 3, y: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
@@ -41,13 +41,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DoorDisappear: 0.094717376
-    - _Doordisappear: 0
-    - _EdgeWidth: 0.5
-    - _Float2: 0
+    - _DoorDisappear: 0
+    - _EdgeWidth: 0.2436928
     - _Maskrange: 1
     m_Colors:
-    - _EdgeColor: {r: 8.3522, g: 9.368564, b: 32, a: 0}
-    - _MainColor: {r: 0.9779874, g: 0.97867036, b: 1, a: 1}
+    - _EdgeColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

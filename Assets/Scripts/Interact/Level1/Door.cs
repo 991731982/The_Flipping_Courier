@@ -1,25 +1,27 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MonoBehaviour
 {
     [Header("Eyeball Reference")]
-    public EyeballMovement eyeball;          // Eyeball movement script
+    public EyeballMovement eyeball;
 
     [Header("Door Movement")]
-    public Vector3 moveDirection = new Vector3(0f, 5f, 0f); // How far / which way to move
-    public float moveSpeed = 2f;                      // Slide speed
-    public float triggerRange = 0.02f;                   // Distance considered "arrived"
+    public Vector3 moveDirection = new Vector3(0f, 5f, 0f);
+    public float moveSpeed = 2f;
+    public float triggerRange = 0.02f;
 
-    private bool doorOpened = false;                        // Ensures one time open
+    [Header("Sound")]
+    public AudioSource doorOpenSound;  // ✅ 拖音效的 AudioSource
+
+    private bool doorOpened = false;
 
     private void Update()
     {
         if (doorOpened || eyeball == null)
             return;
 
-        // When eyeball is close enough to its end socket, open door
         if (Vector3.Distance(eyeball.transform.position, eyeball.endPoint.position) <= triggerRange)
         {
             StartCoroutine(OpenDoor());
@@ -32,6 +34,17 @@ public class Door : MonoBehaviour
         Vector3 startPos = transform.position;
         Vector3 targetPos = startPos + moveDirection;
 
+        // ✅ 播放开门音效（如果存在）
+        if (doorOpenSound != null)
+        {
+            doorOpenSound.Play();
+            Debug.Log("🔊 Door opening sound played!");
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ doorOpenSound 未设置，无法播放开门音效！");
+        }
+
         while (Vector3.Distance(transform.position, targetPos) > 0.01f)
         {
             transform.position = Vector3.MoveTowards(
@@ -39,10 +52,10 @@ public class Door : MonoBehaviour
                 targetPos,
                 moveSpeed * Time.deltaTime
             );
-            yield return null; // wait for next frame
+            yield return null;
         }
 
-        transform.position = targetPos; // snap exactly
+        transform.position = targetPos;
         Debug.Log("Door opened!");
     }
 }

@@ -1,22 +1,22 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 using System.Collections;
 
 public class DoorLever : MonoBehaviour
 {
-    public Vector3 moveDirection = new Vector3(0, 5, 0); // 门移动的方向
-    public float moveSpeed = 2.0f; // 门移动的速度
+    public Vector3 moveDirection = new Vector3(0, 5, 0); // 脙脜脪脝露炉碌脛路陆脧貌
+    public float moveSpeed = 2.0f; // 脙脜脪脝露炉碌脛脣脵露脠
 
-    private Vector3 initialPosition; // 门的初始位置
-    private bool isMoving = false;   // 防止同时进行多个移动操作
-    private bool isOpen = false;     // 门的状态（是否已打开）
+    private Vector3 initialPosition; // 脙脜碌脛鲁玫脢录脦禄脰脙
+    private bool isMoving = false;   // 路脌脰鹿脥卢脢卤陆酶脨脨露脿赂枚脪脝露炉虏脵脳梅
+    private bool isOpen = false;     // 脙脜碌脛脳麓脤卢拢篓脢脟路帽脪脩麓貌驴陋拢漏
 
-    // 初始化
+    // 鲁玫脢录禄炉
     void Start()
     {
-        initialPosition = transform.position; // 保存初始位置
+        initialPosition = transform.position; // 卤拢麓忙鲁玫脢录脦禄脰脙
     }
 
-    // 打开门
+    // 麓貌驴陋脙脜
     public void OpenDoor()
     {
         if (!isMoving && !isOpen)
@@ -25,7 +25,7 @@ public class DoorLever : MonoBehaviour
         }
     }
 
-    // 关闭门
+    // 鹿脴卤脮脙脜
     public void CloseDoor()
     {
         if (!isMoving && isOpen)
@@ -34,11 +34,11 @@ public class DoorLever : MonoBehaviour
         }
     }
 
-    // 控制门打开的动画
+    // 驴脴脰脝脙脜麓貌驴陋碌脛露炉禄颅
     private IEnumerator OpenDoorRoutine()
     {
         isMoving = true;
-        Vector3 targetPosition = initialPosition + moveDirection; // 基于初始位置计算目标位置
+        Vector3 targetPosition = initialPosition + moveDirection; // 禄霉脫脷鲁玫脢录脦禄脰脙录脝脣茫脛驴卤锚脦禄脰脙
 
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
@@ -46,17 +46,17 @@ public class DoorLever : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetPosition; // 确保最终位置精准
+        transform.position = targetPosition; // 脠路卤拢脳卯脰脮脦禄脰脙戮芦脳录
         isMoving = false;
-        isOpen = true; // 更新状态
+        isOpen = true; // 赂眉脨脗脳麓脤卢
         Debug.Log("Door opened!");
     }
 
-    // 控制门关闭的动画
+    // 驴脴脰脝脙脜鹿脴卤脮碌脛露炉禄颅
     private IEnumerator CloseDoorRoutine()
     {
         isMoving = true;
-        Vector3 targetPosition = initialPosition; // 目标位置是初始位置
+        Vector3 targetPosition = initialPosition; // 脛驴卤锚脦禄脰脙脢脟鲁玫脢录脦禄脰脙
 
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
@@ -64,19 +64,19 @@ public class DoorLever : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetPosition; // 确保最终位置精准
+        transform.position = targetPosition; // 脠路卤拢脳卯脰脮脦禄脰脙戮芦脳录
         isMoving = false;
-        isOpen = false; // 更新状态
+        isOpen = false; // 赂眉脨脗脳麓脤卢
         Debug.Log("Door closed!");
     }
 
-    // 重置门的状态和位置（可选）
+    // 脰脴脰脙脙脜碌脛脳麓脤卢潞脥脦禄脰脙拢篓驴脡脩隆拢漏
     public void ResetDoor()
     {
-        StopAllCoroutines(); // 停止所有正在运行的协程
-        transform.position = initialPosition; // 恢复到初始位置
-        isMoving = false; // 重置移动状态
-        isOpen = false; // 重置门的状态
+        StopAllCoroutines(); // 脥拢脰鹿脣霉脫脨脮媒脭脷脭脣脨脨碌脛脨颅鲁脤
+        transform.position = initialPosition; // 禄脰赂麓碌陆鲁玫脢录脦禄脰脙
+        isMoving = false; // 脰脴脰脙脪脝露炉脳麓脤卢
+        isOpen = false; // 脰脴脰脙脙脜碌脛脳麓脤卢
         Debug.Log("Door reset to initial position.");
     }
 }

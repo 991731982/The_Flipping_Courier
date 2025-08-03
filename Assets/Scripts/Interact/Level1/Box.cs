@@ -157,16 +157,16 @@ public class Box : MonoBehaviour
             Debug.Log($"Breaking box: {gameObject.name}");
         }
 
-        // 播放音效
+     
         if (breakSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(breakSound);
         }
 
-        // 触发爆炸破碎
+    
         TriggerEnhancedFracture(transform.position);
 
-        // 激活 eyeball 动画
+       
         StartCoroutine(DelayedEyeballTrigger(0.2f));
     }
 

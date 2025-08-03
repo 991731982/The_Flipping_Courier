@@ -1,13 +1,23 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 using UnityEngine.UI;
 
 public class PlanetHover : MonoBehaviour
 {
+    [Header("Rotation Settings")]
+    public bool rotateByDefault = false;
+    public float defaultRotationSpeed = 15f;
+    public float hoverRotationSpeed = 30f;
+
+    [Header("Hover Scale")]
     public float scaleMultiplier = 1.2f;
-    public float rotationSpeed = 30f;
+
+    [Header("UI Settings")]
     public string planetDescription;
-    public GameObject uiPanel; // 要顯示的 UI Panel (含文字)
-    public Text uiText;        // 顯示介紹文字的 UI Text
+    public GameObject uiPanel;
+    public UnityEngine.UI.Text uiText;
+
+    [Header("Hover Image")]
+    public GameObject hoverImage; 
 
     private Vector3 originalScale;
     private bool isHovered = false;
@@ -15,15 +25,23 @@ public class PlanetHover : MonoBehaviour
     void Start()
     {
         originalScale = transform.localScale;
+
         if (uiPanel != null)
             uiPanel.SetActive(false);
+
+        if (hoverImage != null)
+            hoverImage.SetActive(false);
     }
 
     void Update()
     {
+        float currentRotationSpeed = rotateByDefault ? defaultRotationSpeed : 0f;
         if (isHovered)
+            currentRotationSpeed = hoverRotationSpeed;
+
+        if (currentRotationSpeed != 0f)
         {
-            transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.up * currentRotationSpeed * Time.deltaTime);
         }
     }
 
@@ -37,6 +55,9 @@ public class PlanetHover : MonoBehaviour
             uiPanel.SetActive(true);
             uiText.text = planetDescription;
         }
+
+        if (hoverImage != null)
+            hoverImage.SetActive(true); 
     }
 
     void OnMouseExit()
@@ -46,5 +67,8 @@ public class PlanetHover : MonoBehaviour
 
         if (uiPanel != null)
             uiPanel.SetActive(false);
+
+        if (hoverImage != null)
+            hoverImage.SetActive(false); 
     }
 }
