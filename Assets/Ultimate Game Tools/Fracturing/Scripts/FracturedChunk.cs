@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -470,37 +470,49 @@ public class FracturedChunk : MonoBehaviour
 
     public void DetachFromObject(bool bCheckStructureIntegrity = true)
     {
-        if(IsDestructibleChunk() && IsDetachedChunk == false && GetComponent<Rigidbody>())
+        if (IsDestructibleChunk() && IsDetachedChunk == false && GetComponent<Rigidbody>())
         {
             m_bNonSupportedChunkStored = IsNonSupportedChunk;
 
-            transform.parent      = null;
+            transform.parent = null;
             GetComponent<Rigidbody>().isKinematic = false;
-            GetComponent<Collider>().isTrigger    = false;
-            IsDetachedChunk       = true;
-            IsNonSupportedChunk   = true;
+            GetComponent<Collider>().isTrigger = false;
+            IsDetachedChunk = true;
+            IsNonSupportedChunk = true;
 
             RemoveConnectionInfo();
 
-            if(FracturedObjectSource)
+            if (FracturedObjectSource)
             {
                 FracturedObjectSource.NotifyChunkDetach(this);
 
-                if(bCheckStructureIntegrity)
+                if (bCheckStructureIntegrity)
                 {
                     // Check if we created isolated chunks in the air, not connected to any support chunks
                     FracturedObjectSource.CheckDetachNonSupportedChunks();
                 }
             }
 
-            // Check if we need to add a destruction timer
-            if(DontDeleteAfterBroken == false && FracturedObjectSource != null)
+           
+            Collider col = GetComponent<Collider>();
+            if (col != null)
+            {
+                col.enabled = false;
+                
+            }
+
+          
+            if (DontDeleteAfterBroken == false && FracturedObjectSource != null)
             {
                 DieTimer dieTimer = gameObject.AddComponent<DieTimer>();
-                dieTimer.SecondsToDie = UnityEngine.Random.Range(FracturedObjectSource.EventDetachedMinLifeTime, FracturedObjectSource.EventDetachedMaxLifeTime);
+                dieTimer.SecondsToDie = UnityEngine.Random.Range(
+                    FracturedObjectSource.EventDetachedMinLifeTime,
+                    FracturedObjectSource.EventDetachedMaxLifeTime
+                );
             }
         }
     }
+
 
     private void RemoveConnectionInfo()
     {
