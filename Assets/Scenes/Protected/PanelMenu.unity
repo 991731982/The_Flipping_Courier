@@ -14881,7 +14881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &264937383
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14891,7 +14891,7 @@ RectTransform:
   m_GameObject: {fileID: 264937382}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.1647186, y: 3.6940372, z: 3.5181308}
+  m_LocalScale: {x: 6.164719, y: 4.432106, z: 3.518131}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1481691139}
@@ -14921,7 +14921,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 46c348d9853087c4ea7ab8a380107e49, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d4e05c7791f85c5469f08f5f4e2f0cab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24924,6 +24924,81 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 91.348434
   m_Center: {x: 2.9165802, y: 2.219967, z: 0.39723206}
+--- !u!1 &584440461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 584440462}
+  - component: {fileID: 584440464}
+  - component: {fileID: 584440463}
+  m_Layer: 5
+  m_Name: StartJourney
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &584440462
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584440461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6.1647186, y: 4.432106, z: 3.5181308}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1481691139}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -596, y: -227}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &584440463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584440461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2fb09ad80e5ec0b4bb3d2455c64e4280, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &584440464
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584440461}
+  m_CullTransparentMesh: 1
 --- !u!1 &636646270
 GameObject:
   m_ObjectHideFlags: 0
@@ -40347,7 +40422,7 @@ MonoBehaviour:
   planetDescription: Blorbia Planet
   uiPanel: {fileID: 1687247561}
   uiText: {fileID: 1687247563}
-  hoverImage: {fileID: 0}
+  hoverImage: {fileID: 264937382}
 --- !u!135 &1029883050
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -50470,6 +50545,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 584440462}
   - {fileID: 264937383}
   - {fileID: 1748444736}
   - {fileID: 1687247562}
@@ -65619,7 +65695,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1748444736
 RectTransform:
   m_ObjectHideFlags: 0
@@ -65629,7 +65705,7 @@ RectTransform:
   m_GameObject: {fileID: 1748444735}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.1647186, y: 3.6940372, z: 3.5181308}
+  m_LocalScale: {x: 6.164719, y: 4.432106, z: 3.518131}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1481691139}

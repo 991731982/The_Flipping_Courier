@@ -20,8 +20,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Protected/Cover_Planet01.unity
     guid: e4db8bae797cb9d4db93bac4a96c881c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Protected/AITalkStory.unity
     guid: 330e20c8ae28f8746b5cdae3777d4557
+  - enabled: 1
+    path: Assets/Scenes/Protected/Credit.unity
+    guid: 2e297e1ff8694f34888bb5900391860f
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
