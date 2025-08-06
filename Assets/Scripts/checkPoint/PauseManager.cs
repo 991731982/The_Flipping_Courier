@@ -38,11 +38,11 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
 
-        // Optional: Restore cursor state
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+       
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
-        // will play all sounds
+       
         AudioListener.pause = false;
         MMSoundManagerAllSoundsControlEvent.Trigger(MMSoundManagerAllSoundsControlEventTypes.Play);
     }

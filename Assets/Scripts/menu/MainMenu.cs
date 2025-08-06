@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -35,19 +35,32 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        // Play background music
-        audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.loop = true;
-        audioSource.playOnAwake = false;
-        audioSource.volume = 0.5f;
 
-        if (backgroundMusic != null)
+        GameObject existingBGM = GameObject.Find("BackgroundMusic");
+        if (existingBGM == null)
         {
-            audioSource.clip = backgroundMusic;
-            audioSource.Play();
+
+            GameObject musicObject = new GameObject("BackgroundMusic");
+            DontDestroyOnLoad(musicObject);
+
+            audioSource = musicObject.AddComponent<AudioSource>();
+            audioSource.loop = true;
+            audioSource.playOnAwake = false;
+            audioSource.volume = 0.5f;
+
+            if (backgroundMusic != null)
+            {
+                audioSource.clip = backgroundMusic;
+                audioSource.Play();
+            }
+        }
+        else
+        {
+
+            audioSource = existingBGM.GetComponent<AudioSource>();
         }
 
-        // Bind buttons to scene loading
+
         foreach (var pair in buttonScenePairs)
         {
             if (pair.button != null && !string.IsNullOrEmpty(pair.sceneName))
@@ -66,6 +79,7 @@ public class MainMenu : MonoBehaviour
             }
         }
     }
+
 
     private IEnumerator PlayStoryboardThenLoadScene(string sceneName)
     {

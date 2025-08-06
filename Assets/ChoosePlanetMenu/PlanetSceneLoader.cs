@@ -1,21 +1,27 @@
-using System.Diagnostics;
-using UnityEngine;
+锘縰sing UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlanetClickToScene : MonoBehaviour
 {
-    [Tooltip("輸入或從下拉選擇想要切換的場景名稱")]
+    [Tooltip("鐐瑰嚮鍚庤鍒囨崲鐨勫満鏅悕")]
     public string targetSceneName;
 
     private void OnMouseDown()
     {
         if (!string.IsNullOrEmpty(targetSceneName))
         {
+          
+            GameObject bgm = GameObject.Find("BackgroundMusic");
+            if (bgm != null)
+            {
+                Destroy(bgm);
+            }
+
             SceneManager.LoadScene(targetSceneName);
         }
         else
         {
-            UnityEngine.Debug.LogWarning("未設定目標場景名稱！");
+            Debug.LogWarning("not assign scene name!");
         }
     }
 }
