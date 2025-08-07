@@ -77,8 +77,14 @@ public class EyeballMovement : MonoBehaviour
     {
         // Store initial rotations
         initialEyeballRotation = transform.eulerAngles;
-        if (upperEyelid != null) initialUpperEyelidRotation = upperEyelid.eulerAngles;
-        if (lowerEyelid != null) initialLowerEyelidRotation = lowerEyelid.eulerAngles;
+        if (upperEyelid != null)
+        {
+            initialUpperEyelidRotation = upperEyelid.eulerAngles;
+        }
+        if (lowerEyelid != null)
+        {
+            initialLowerEyelidRotation = lowerEyelid.eulerAngles;
+        }
 
         // Start at the hidden position inside the crate
         if (startPoint != null)
@@ -95,7 +101,7 @@ public class EyeballMovement : MonoBehaviour
         }
 
         // Initially close eyelids
-        CloseEyelids(true);
+        //CloseEyelids(true);
 
         if (debugMode)
         {
@@ -208,7 +214,7 @@ public class EyeballMovement : MonoBehaviour
                 float blinkFactor = Mathf.Sin(Time.time * eyelidBlinkSpeed);
                 if (blinkFactor > 0.7f)
                 {
-                    StartCoroutine(QuickBlink());
+                    //StartCoroutine(QuickBlink());
                 }
             }
 
@@ -250,7 +256,7 @@ public class EyeballMovement : MonoBehaviour
             // Random menacing blinks
             if (Random.Range(0f, 1f) < 0.02f) // 2% chance per frame
             {
-                StartCoroutine(MenacingBlink());
+                //StartCoroutine(MenacingBlink());
             }
 
             yield return null;
@@ -317,6 +323,7 @@ public class EyeballMovement : MonoBehaviour
 
     private IEnumerator OpenEyelids()
     {
+        Debug.Log("Open eyelids");
         if (upperEyelid == null || lowerEyelid == null) yield break;
 
         float timer = 0f;
@@ -326,6 +333,7 @@ public class EyeballMovement : MonoBehaviour
         Vector3 lowerStart = lowerEyelid.eulerAngles;
         Vector3 upperTarget = initialUpperEyelidRotation;
         Vector3 lowerTarget = initialLowerEyelidRotation;
+        Debug.Log("UpperStart[" + upperStart.ToString() + "] LowerStart[" + lowerStart.ToString() + "] UpperTarget[" + upperTarget.ToString() + "] LowerTarget["+lowerTarget.ToString()+"]");
 
         while (timer < duration)
         {
@@ -341,6 +349,7 @@ public class EyeballMovement : MonoBehaviour
 
     private IEnumerator CloseEyelidsSlowly()
     {
+        Debug.Log("Close eyelids slowly");
         if (upperEyelid == null || lowerEyelid == null) yield break;
 
         float timer = 0f;
@@ -365,6 +374,7 @@ public class EyeballMovement : MonoBehaviour
 
     private IEnumerator QuickBlink()
     {
+        Debug.Log("Quick blink");
         if (upperEyelid == null || lowerEyelid == null) yield break;
 
         Vector3 upperOpen = upperEyelid.eulerAngles;
@@ -411,6 +421,7 @@ public class EyeballMovement : MonoBehaviour
 
     private void CloseEyelids(bool immediate = false)
     {
+        Debug.Log("Close eyelids");
         if (upperEyelid == null || lowerEyelid == null) return;
 
         Vector3 upperTarget = initialUpperEyelidRotation + upperEyelidClosedRotation;

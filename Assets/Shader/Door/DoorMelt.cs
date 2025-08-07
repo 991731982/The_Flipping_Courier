@@ -14,13 +14,15 @@ public class DissolveDoorController : MonoBehaviour
     void Start()
     {
         doorMaterial = doorRenderer.material;
-        doorMaterial.SetFloat(dissolveProperty, 0f); 
+        doorMaterial.SetFloat(dissolveProperty, 0f);
+        TriggerDissolve();
     }
 
     void Update()
     {
         if (isDissolving)
         {
+            Debug.Log("Test");
             dissolveTimer += Time.deltaTime;
             float t = dissolveTimer / dissolveDuration;
             float dissolveValue = Mathf.Clamp01(t);
@@ -41,6 +43,7 @@ public class DissolveDoorController : MonoBehaviour
 
     public void TriggerDissolve()
     {
+        Debug.Log("TEST2");
         isDissolving = true;
         dissolveTimer = 0f;
     }
