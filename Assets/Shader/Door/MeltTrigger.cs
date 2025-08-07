@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MeltTrigger : MonoBehaviour
 {
-    public DoorMelt doorController;
+    public DissolveDoorController doorController;
 
     private void OnTriggerEnter(Collider other)
     {
