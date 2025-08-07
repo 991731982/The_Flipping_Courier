@@ -61,8 +61,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1507474, y: 1.0093503, z: 0.9231288}
-  m_Center: {x: 0.002806127, y: 0.02657485, z: 0.4564741}
+  m_Size: {x: 1.1507474, y: 1.0182611, z: 0.9231288}
+  m_Center: {x: 0.002806127, y: 0.031030178, z: 0.4564741}
 --- !u!114 &2799472472605311394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +75,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c6c5f4da50c19c418cb932c560ec24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSoundEffect: {fileID: 0}
+  lifeIcons: []
+  hitParticleEffect: {fileID: 0}
+  useTriggerForDamage: 1
+  invincibilityDuration: 1.5
+  flashRate: 8
+  flashOpacity: 0.3
 --- !u!1001 &8493115594963379337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140,7 +147,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c9af63794eb77d4e9d41e4d351062a4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5652969186217331572}
+      addedObject: {fileID: 6373032904929077455}
   m_SourcePrefab: {fileID: 100100000, guid: 6c9af63794eb77d4e9d41e4d351062a4, type: 3}
 --- !u!4 &8239092388306486114 stripped
 Transform:
@@ -152,8 +159,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c9af63794eb77d4e9d41e4d351062a4, type: 3}
   m_PrefabInstance: {fileID: 8493115594963379337}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &5652969186217331572
-MeshCollider:
+--- !u!65 &6373032904929077455
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -170,7 +177,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6537090451075903038, guid: 6c9af63794eb77d4e9d41e4d351062a4, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.1224929, y: 0.994124, z: 0.9101501}
+  m_Center: {x: 0.0032058358, y: 0.029724509, z: 0.44649628}
