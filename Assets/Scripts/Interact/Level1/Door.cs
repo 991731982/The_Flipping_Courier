@@ -31,6 +31,8 @@ public class Door : MonoBehaviour
 
     private IEnumerator OpenDoor()
     {
+        if(doorOpened)
+            yield break;
         Vector3 startPos = transform.position;
         Vector3 targetPos = startPos + moveDirection;
 
