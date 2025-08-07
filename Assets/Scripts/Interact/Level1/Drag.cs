@@ -96,6 +96,10 @@ public class DragObject : MonoBehaviour
                 }
                 // Update prompt position to follow this object
                 promptSprite.transform.position = transform.position + promptOffset;
+                //promptSprite.transform.position = new Vector3(transform.position.x + promptOffset.x, transform.position.y + promptOffset.y, 0);
+                //Vector3 uiPos = new Vector3(transform.position.x + promptOffset.x, transform.position.y + promptOffset.y, 0);
+                //promptSprite.transform.position = uiPos;
+                //promptSprite.transform.localPosition = new Vector3(promptSprite.transform.localPosition.x, promptSprite.transform.localPosition.y, 0);
 
                 // Add smooth rotation jiggle
                 float jiggleRotation = Mathf.Sin(Time.time * jiggleSpeed) * jiggleAmount;

@@ -34,7 +34,7 @@ public class Hazard : MonoBehaviour
     [Range(0f, 1f)]
     public float flashOpacity = 0.3f;
 
-    private Dictionary<GameObject, int> playerHitCounts = new Dictionary<GameObject, int>();
+    private static Dictionary<GameObject, int> playerHitCounts = new Dictionary<GameObject, int>();
     private Dictionary<GameObject, bool> playerInvincible = new Dictionary<GameObject, bool>();
     private Dictionary<GameObject, Coroutine> playerFlashCoroutines = new Dictionary<GameObject, Coroutine>();
     private Dictionary<GameObject, bool> playerInTrigger = new Dictionary<GameObject, bool>();
