@@ -12,24 +12,24 @@ public class Detector : MonoBehaviour
             doorLever.OpenDoor();
             Debug.Log("Box entered, door is opening!");
 
-            // ✅ 触发 eyeball 动画
+           
             EyeballMovement eyeball = other.GetComponent<EyeballMovement>();
             if (eyeball != null)
             {
                 eyeball.BeginSlither();
             }
 
-            // ✅ 禁用玩家拖拽 + 关闭连接线
+           
             DragObject drag = other.GetComponent<DragObject>();
             if (drag != null)
             {
                 if (drag.connectorObject != null)
                 {
-                    drag.connectorObject.SetActive(false); // 关闭连线物体
+                    drag.connectorObject.SetActive(false); 
                     Debug.Log("Connector object deactivated.");
                 }
 
-                drag.enabled = false; // 禁用拖拽功能
+                drag.enabled = false; 
                 Debug.Log("DragObject disabled.");
             }
         }
